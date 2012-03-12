@@ -1,3 +1,4 @@
+/*global define:false */
 define( ["exports"], function( exports ) {
     var a = 3;
     var b = 5;

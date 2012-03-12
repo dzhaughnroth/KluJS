@@ -1,3 +1,4 @@
+/*global define:false, describe:false, it:false, expect:false */
 define( ["aModule", "./testModule.js"], function( aMod, tMod ) {
     describe( "The A module", function() {
         it( "should add", function() {
