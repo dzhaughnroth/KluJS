@@ -1,0 +1,22 @@
+<html>
+<head>
+  <script type="text/javascript" >    
+    // or put the contents of that file here.
+    require = { baseUrl: "../../main/javascript" };
+    klujsConfig = {
+//    requireHome : "../../main/javascript" // could default this to requireBaseUrl
+//    klujsHome : "",
+      suites : { "specSuite" : [ "SomeSpec.js", "AnotherSpec.js" ] ,
+    "runnerSuite" : [ "ChildRunnerSpec.js" ],
+    "linjobSuite" : [ "LintJobSpec.js", "LintViewSpec.js", "UrlUtilSpec.js" ] },
+      specRunners : [ "SpecRunner.html" ],
+    noDefaultFilter : true,
+    lintFilter : function( src, el ) {
+                    return src && ! src.match( /KluJS\/lib/ );
+                 }
+    }  
+  </script>
+  <script type="text/javascript" src="../../main/javascript/KluJS/boot.js" ></script>
+</head>
+<body />
+</html>

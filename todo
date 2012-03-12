@@ -1,0 +1,11 @@
+Provide filters for modules and files.
+
+Minification process.
+
+phantomjs command line integration.
+
+clear jscoverage at start of specrunner no wait then they can't they run concurrently maybe that's okay how do we force it?
+
+Documentation
+
+Make the proxy restart process automatically.
