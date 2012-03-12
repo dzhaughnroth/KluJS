@@ -169,6 +169,7 @@ define( ["jquery",
             var lintCompletion = function(x) {
                 if ( jobFactory.isDone() ) {
                     lintDone = true;
+                    console.log( "lint done." );
                 }
             };
             var doLint = function() {
@@ -215,6 +216,7 @@ define( ["jquery",
                 }
                 else {
                     specsDone = true;
+                    console.log( "Specs done." );
                     doLint();
                     try {
                         $("#jscoverageContainer").remove();
@@ -225,7 +227,9 @@ define( ["jquery",
                         throw x;
                     }
                     coverageDone = true;
+                    console.log( "Coverage done." );
                 }
+
             };
             
             var setStatus = function( value ) {
