@@ -31,3 +31,4 @@ el.attributes.setNamedItem( attr );
 
 doc.getElementsByTagName( "head" )[0].appendChild( el );
 
+
