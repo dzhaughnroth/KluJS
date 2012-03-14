@@ -1,0 +1,18 @@
+<html>
+<head>
+  <script type="text/javascript" >
+    require = { baseUrl: "../main",
+       paths : { "KluJS": "../test/lib/KluJS"}
+    };
+    klujsConfig = {
+      requireHome : "rlib",
+      suites : { "xsuite" : [ "../../javascript/AnotherSpec.js" ], 
+                 "xsubsuite" : [ "subgloof/SubSomeSpec.js" ]  },
+      specRunners : ["GloofSpecRunner.html" ]
+    }
+  </script>
+  <script type="text/javascript" src="lib/KluJS/boot.js" ></script>
+</head>
+<body>
+<h1>This shows how you can put resources in different places.</h1>
+</html>
