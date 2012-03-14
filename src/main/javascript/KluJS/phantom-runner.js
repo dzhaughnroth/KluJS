@@ -20,8 +20,8 @@ var summary = function() {
 };
 var exit = function( ) {
     var result = summary();
-    page.render( "klugjs-image.png" );
-    fs.write( "klugjs-result.json", JSON.stringify( result ), "w" );    
+    page.render( "klujs-image.png" );
+    fs.write( "klujs-result.json", JSON.stringify( result ), "w" );    
     var code = 0;
     if ( result.finished !== true ) {
         code = code | 1;
