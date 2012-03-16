@@ -9,6 +9,16 @@
         }
         return obj;
     };
+
+    var computeKlujsPath = function() {
+        var depth = _klujs.main.match( /\//g ).length, 
+            i;
+        var result = "";
+        for( i = 0; i < depth + 1; i++ ) {
+            result += "../";
+        }
+        return result += "KluJS";
+    };
     
     setIfBlank( _klujs, "main", "src/main/javascript" );
     _klujs.main = "../" + _klujs.main;
@@ -25,7 +35,8 @@
     _require = _klujs.require;
     _require.baseUrl = _klujs.main;
     setIfBlank( _require, "paths", {} );
-    _require.paths.KluJS = "../../../KluJS"; // TODO compute from klujs.main
+
+    _require.paths.KluJS = computeKlujsPath();
 
     if ( !_klujs.requireHome.match( "/js$" ) ) {
         _klujs.requireHome += "/require-jquery.js";

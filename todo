@@ -12,3 +12,7 @@ Make the proxy restart process automatically.
 
 Remove jasmineGradle global, probably unused.
 Limit klujs global to configuration; use a module to access it.
+
+Report better on lint filtering. In particular, don't report KluJS
+being filtered out.
+

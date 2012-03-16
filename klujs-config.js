@@ -2,7 +2,7 @@
 klujs = {
     suites : { "specSuite" : [ "SomeSpec.js", "AnotherSpec.js" ],
                "runnerSuite" : [ "ChildRunnerSpec.js" ],
-               "linjobSuite" : [ "LintJobSpec.js", 
+               "lintjobSuite" : [ "LintJobSpec.js", 
                                  "LintViewSpec.js", 
                                  "UrlUtilSpec.js" ] },
     noDefaultFilter : true,
