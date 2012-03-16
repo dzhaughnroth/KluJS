@@ -20,9 +20,10 @@
         return result + "KluJS";
     };
     
-    setIfBlank( _klujs, "main", "src/main/javascript" );
+    setIfBlank( _klujs, "src", "src" );
+    setIfBlank( _klujs, "main", _klujs.src + "/main/javascript" );
     _klujs.main = "../" + _klujs.main;
-    setIfBlank( _klujs, "test", "src/test/javascript" );
+    setIfBlank( _klujs, "test", _klujs.src + "/test/javascript" );
     _klujs.test = "../" + _klujs.test;
     
     setIfBlank( _klujs, "require", {} );

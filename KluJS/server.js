@@ -60,13 +60,6 @@ var spawnCov = function( name, args ) {
 
     var procHolder = doSpawn(); 
 
-//on( 'error', function( code ) {
-//    util.log( name + ' errored with code ' + code);
-//    util.log( "I can't work like this. But I'll try." );
-//    p = spawn( command, args );
-//} );
-
-
     return {proc: function() { return p; } };
 };
 
@@ -93,7 +86,7 @@ util.log( "Args are " + args );
 
 jscov = spawnCov( "cov", args );
 
-nocov = spawnCov( "nocov", ["--no-instrument=src", "--no-instrument=klujs-config.js", "--no-instrument=KluJS", "--port=7002", "--verbose"] );
+nocov = spawnCov( "nocov", ["--no-instrument=" + klujs.src, "--no-instrument=klujs-config.js", "--no-instrument=KluJS", "--port=7002", "--verbose"] );
 
 var matchesLibDirs = function( url ) {
     for( i in klujs.libDirs ) {
@@ -114,8 +107,28 @@ var routeRequest = function( request ) {
     return [ targetPort, "localhost" ];
 };
 
+var vanillaResponse = [
+    "<html>",
+    "<head>",
+    "  <title>KluJS</title>",
+    "  <script type='text/javascript' src='klujs-config.js'></script>",
+    "  <script type='text/javascript' src='KluJS/boot.js' ></script>",
+    "</head>",
+    "<body />",
+    "</html>",
+    ""].join( "\n" );
+
+var handleRequest = function( req, res ) {
+    res.writeHead( 200, { "Content-Type": "text/html" });
+    res.write( vanillaResponse, "utf8" );
+    res.end();
+};
 
 http.createServer(function(request, response) {
+    if ( request.url === "/" || request.url.match( /\/\?/ ) ) {
+        handleRequest( request, response );
+        return;
+    }
     var dest = routeRequest( request );
     var proxy = http.createClient.apply( this, dest );
     util.log( request.method + " " + request.url + " " + dest + " " + request.headers.host);

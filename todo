@@ -16,3 +16,11 @@ Limit klujs global to configuration; use a module to access it.
 Report better on lint filtering. In particular, don't report KluJS
 being filtered out.
 
+"src" optional custome setting is probably unnecessary when we do not
+use jscoverage as the plain server.
+
+Overrides for main,test,libDirs should be relative to src and each
+other? Or templating like "${main}/lib"?
+
+Provide way to view settings on result page. That means shoulwing both
+supplied and computed settings.
