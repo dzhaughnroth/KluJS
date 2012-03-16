@@ -1,5 +1,5 @@
 /*globals define:false */
-define( [ "jquery", "./jasmine-klujs", "require"], function( $, jg, req ) {
+define( [ "jquery", "./jasmine-klujs", "require"], function( $, jk, req ) {
 
     var cssLink = function( name ) {
         return $("<link />", {rel:"stylesheet",
@@ -23,17 +23,17 @@ define( [ "jquery", "./jasmine-klujs", "require"], function( $, jg, req ) {
     };
     
     $.each( klujs.suites, function( i, suite ) {
-        jasmineGradle.add( window.location.href + "?suite=" + i, i );
+        jk.add( window.location.href + "?suite=" + i, i );
     } );
     if ( klujs.specRunners ) {
         $.each( klujs.specRunners, function( i, runner ) {
-            jasmineGradle.add( runner );
+            jk.add( runner );
         });
     }
 
     $(document).ready( function() {
         makeTemplate();
-        jasmineGradle.buildDivsForSpecRunners();
-        jasmineGradle.update();
+        jk.buildDivsForSpecRunners();
+        jk.update();
     } );
 } );

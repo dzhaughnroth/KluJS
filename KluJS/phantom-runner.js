@@ -45,10 +45,10 @@ window.setTimeout( function() {
 page.onConsoleMessage = function( msg ) {  
     console.log( "Msg: " + msg ); // pipe to log file instead.
     var status = page.evaluate( function() {
-        if ( typeof( jasmineGradle ) !== "undefined" ) {
-            return { tests:jasmineGradle.getStatus(),
-                     lintFailed:jasmineGradle.lintJobFactory.numFailed(),
-                     done:jasmineGradle.isDone() };
+        if ( typeof( jasmineKlujs ) !== "undefined" ) {
+            return { tests:jasmineKlujs.getStatus(),
+                     lintFailed:jasmineKlujs.lintJobFactory.numFailed(),
+                     done:jasmineKlujs.isDone() };
         }
         else {
             return { tests:"none",

@@ -256,8 +256,8 @@ define( ["jquery",
             };
             
             
-            jasmineGradle = { add:add,
-                              addSuite:addSuite,
+            jasmineKlujs = { add:add,
+//                              addSuite:addSuite,
                               buildDivsForSpecRunners:buildDivsForSpecRunners,
                               runAllSpecs:runAllSpecs,
                               getResults:getResults,
@@ -267,7 +267,7 @@ define( ["jquery",
                               lintJobFactory:jobFactory,
                               isDone:isDone
                             };
-            return jasmineGradle;
+            return jasmineKlujs;
             
 } );
 

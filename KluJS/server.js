@@ -95,9 +95,20 @@ jscov = spawnCov( "cov", args );
 
 nocov = spawnCov( "nocov", ["--no-instrument=src", "--no-instrument=klujs-config.js", "--no-instrument=KluJS", "--port=7002", "--verbose"] );
 
+var matchesLibDirs = function( url ) {
+    for( i in klujs.libDirs ) {
+        var pattern = klujs.libDirs[i];
+        if ( url.match( pattern ) ) {
+            return true;
+        }
+    }
+    return false;
+};
+
 var routeRequest = function( request ) {
     var targetPort = port + 1;
-    if ( request.url.match( /KluJSplain$/ ) ){
+    if ( request.url.match( /KluJSplain$/ ) 
+         || matchesLibDirs( request.url ) ){
         targetPort = port + 2;
     }
     return [ targetPort, "localhost" ];
