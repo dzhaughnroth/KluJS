@@ -1,6 +1,6 @@
 var page = require('webpage').create();
 var fs = require('fs');
-var url = "http://localhost:7000/KluJS/klujs.html";
+var url = "http://localhost:7000/";
 var maxMillis = 8000;
 
 var timedOut = false,
@@ -20,8 +20,8 @@ var summary = function() {
 };
 var exit = function( ) {
     var result = summary();
-    page.render( "klujs-image.png" );
-    fs.write( "klujs-result.json", JSON.stringify( result ), "w" );    
+    page.render( "phantom-klujs-image.png" );
+    fs.write( "phantom-klujs-result.json", JSON.stringify( result ), "w" );    
     var code = 0;
     if ( result.finished !== true ) {
         code = code | 1;

@@ -24,3 +24,5 @@ other? Or templating like "${main}/lib"?
 
 Provide way to view settings on result page. That means shoulwing both
 supplied and computed settings.
+
+Too many ".." in paths; compute to essence.
