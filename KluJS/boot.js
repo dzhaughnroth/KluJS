@@ -11,13 +11,13 @@
     };
 
     var computeKlujsPath = function() {
-        var depth = _klujs.main.match( /\//g ).length, 
-            i;
+        var depth = _klujs.main.match( /\//g ).length; 
+        var i;
         var result = "";
         for( i = 0; i < depth + 1; i++ ) {
             result += "../";
         }
-        return result += "KluJS";
+        return result + "KluJS";
     };
     
     setIfBlank( _klujs, "main", "src/main/javascript" );
