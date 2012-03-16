@@ -9,3 +9,6 @@ clear jscoverage at start of specrunner no wait then they can't they run concurr
 Documentation
 
 Make the proxy restart process automatically.
+
+Remove jasmineGradle global, probably unused.
+Limit klujs global to configuration; use a module to access it.

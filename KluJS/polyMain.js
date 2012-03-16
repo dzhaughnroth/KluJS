@@ -23,7 +23,6 @@ define( [ "jquery", "./jasmine-klujs", "require"], function( $, jg, req ) {
     };
     
     $.each( klujs.suites, function( i, suite ) {
-        console.log( "suite " + klujs.test + "/" + i );
         jasmineGradle.add( window.location.href + "?suite=" + i, i );
     } );
     if ( klujs.specRunners ) {

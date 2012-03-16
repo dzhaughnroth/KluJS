@@ -1,5 +1,5 @@
 /*globals define:false, jasmine:false, apiReporter:true, lintReporter:true, 
- require:false, $:false, klujsConfig:false */
+ require:false, $:false, klujs:false */
 define( [ "./lib/order!./lib/jasmine",
     "./lib/order!./lib/jasmine-html",
     "./lib/order!./jasmine-lintReporter", 

@@ -6,7 +6,7 @@
     var setIfBlank = function( obj, name, value ) {
         if ( typeof( obj[name] ) === "undefined" ) {
             obj[name] = value;
-        };
+        }
         return obj;
     };
     
@@ -25,7 +25,7 @@
     _require = _klujs.require;
     _require.baseUrl = _klujs.main;
     setIfBlank( _require, "paths", {} );
-    _require.paths["KluJS"] = "../../../KluJS"; // TODO compute from klujs.main
+    _require.paths.KluJS = "../../../KluJS"; // TODO compute from klujs.main
 
     if ( !_klujs.requireHome.match( "/js$" ) ) {
         _klujs.requireHome += "/require-jquery.js";
@@ -57,8 +57,6 @@
     if ( typeof( _klujs.noBoot ) === "undefined" ) {
         addBootScriptElement();
     }
-    else {
-        console.log( "No boot." );
-    }
+//    else { console.log( "No boot." );  }
     
 }() );

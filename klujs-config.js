@@ -1,3 +1,4 @@
+/*global klujs:true */
 klujs = {
     suites : { "specSuite" : [ "SomeSpec.js", "AnotherSpec.js" ],
                "runnerSuite" : [ "ChildRunnerSpec.js" ],
@@ -5,7 +6,7 @@ klujs = {
                                  "LintViewSpec.js", 
                                  "UrlUtilSpec.js" ] },
     noDefaultFilter : true,
-    libDirs : [ "KluJS\/lib", /aModule\.js$/ ],
+    libDirs : [ "KluJS\/lib", /aModule\.js$/, /require\-jquery\.js/ ],
 //    specRunners : [ "SpecRunner.html" ]
     "foo":"bar"
 };

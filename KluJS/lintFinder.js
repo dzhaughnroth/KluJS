@@ -7,10 +7,10 @@ define( [ "jquery" ],
                         return true;
                     }
                 }
-                if ( ! src ) return false;
-                if ( src === "boot.js" ) return false;
-                if ( src.match( /KluJS/ ) ) return false;
-                if ( src.match( /require\-jquery\.js$/ ) ) return false;
+                if ( ! src ) { return false; }
+                if ( src === "boot.js" ) { return false; }
+                if ( src.match( /KluJS/ ) ) { return false; }
+                if ( src.match( /require\-jquery\.js$/ ) ) { return false; }
                 return true;
             };
 
