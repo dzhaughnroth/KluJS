@@ -27,13 +27,8 @@ define( [ "./lib/order!./lib/jasmine",
           $("body").ready( function() {
               var suite = purl().param("suite");
               var relSpecs = [];
-              $.each( klujsConfig.suites[suite], function( i, spec ) {
-                  // FIXME html serves as test home, compute a relative url
-                  // Somehow this works.
-                  // This is how: KluJS is one deep from root. So we go up one and 
-                  // are using an absolute path. So that gets us to the webpages directory.
-                  relSpecs.push( "../" + spec );
-//                  relSpecs.push( spec );
+              $.each( klujs.suites[suite], function( i, spec ) {
+                  relSpecs.push( "../" + klujs.test + "/" + spec );
               });
               run( relSpecs );
           } );         

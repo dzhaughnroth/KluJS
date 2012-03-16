@@ -1,25 +1,37 @@
-/*globals define:false, klujsConfig:false */
+/*globals define:false, klujs:false */
 define( [ "jquery" ],
         function( $ ) {
             var defaultFilter = function( src ) {
-                return src && ! (src.match( /KluJS/ ) || src.match( /require\-jquery\.js$/ ));
+                if ( typeof( klujs.noDefaultFilter ) !== "undefined" ) {
+                    if ( klujs.noDefaultFilter === true ) {
+                        return true;
+                    }
+                }
+                if ( ! src ) return false;
+                if ( src === "boot.js" ) return false;
+                if ( src.match( /KluJS/ ) ) return false;
+                if ( src.match( /require\-jquery\.js$/ ) ) return false;
+                return true;
+            };
+
+            var libFilter = function( src ) {
+                var result = true;
+                $.each( klujs.libDirs, function( i, x ) {
+                    if ( src.match( x ) ) {
+                        result = false;
+                    }
+                } );
+                return result;
             };
 
             var lf = this;
-            // FIXME not a good default.
-            // Move to klujsConfig.
+
             lf.filter = function( scriptEl ) {
                 var src = scriptEl.attr( "src" );
                 var result = defaultFilter( src );
-                if ( typeof( klujsConfig ) !== "undefined" ) {
-                    if ( typeof( klujsConfig.noDefaultFilter ) !== "undefined" ) {
-                        if ( klujsConfig.noDefaultFilter ) {
-                            result = true;
-                        }
-                    }
-                    if ( typeof( klujsConfig.lintFilter ) === "function" ) {
-                        result = result && klujsConfig.lintFilter( src, scriptEl );
-                    }
+                result = result && libFilter( src );
+                if ( typeof( klujs.lintFilter ) === "function" ) {
+                    result = result && klujs.lintFilter( src, scriptEl );
                 }
                 return result;
             };

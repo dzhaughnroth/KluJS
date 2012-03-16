@@ -1,34 +1,64 @@
-/*globals window:false, klujsConfig:false, require:false */
-var _req = require;
-var _klujsConfig = klujsConfig;
-var doc = window.document;
-var el = doc.createElement( "script" );
-el.type = "text/javascript";
-// Infer and/or guess location of require
-if ( _req && _req.baseUrl ) {
-    el.src = _req.baseUrl;
-}
-if ( _klujsConfig && _klujsConfig.requireHome ) {
-    el.src = _klujsConfig.requireHome;
-}
-if ( ! el.src.match( /js$/ ) ) {
-    el.src = el.src + "/require-jquery.js";
-}
+/*globals window:false, klujs:false, require:true */
+(function() {
+    var _require = {};
+    var _klujs = klujs;
 
-var pathToParamSuite = "KluJS";
-var moduleName = "/paramSuite";
-if ( _klujsConfig && _klujsConfig.klujsHome ) {
-    pathToParamSuite = _klujsConfig.klujsHome;
-}
+    var setIfBlank = function( obj, name, value ) {
+        if ( typeof( obj[name] ) === "undefined" ) {
+            obj[name] = value;
+        };
+        return obj;
+    };
+    
+    setIfBlank( _klujs, "main", "src/main/javascript" );
+    _klujs.main = "../" + _klujs.main;
+    setIfBlank( _klujs, "test", "src/test/javascript" );
+    _klujs.test = "../" + _klujs.test;
+    
+    setIfBlank( _klujs, "require", {} );
+    setIfBlank( _klujs, "requireHome", _klujs.main );
+    setIfBlank( _klujs, "libDirs", 
+                [ "src/main/javascript/lib", 
+                  "src/test/javascript/lib" 
+                ] );
+    
+    _require = _klujs.require;
+    _require.baseUrl = _klujs.main;
+    setIfBlank( _require, "paths", {} );
+    _require.paths["KluJS"] = "../../../KluJS"; // TODO compute from klujs.main
 
-if ( ! window.location.search || ! window.location.search.toString().match( /suite=/ ) ) {
-    moduleName = "/polyMain";
-}
+    if ( !_klujs.requireHome.match( "/js$" ) ) {
+        _klujs.requireHome += "/require-jquery.js";
+    }
+    
+    var addBootScriptElement = function() {
+        var doc = window.document;
+        var el = doc.createElement( "script" );
+        el.type = "text/javascript";
+        // Infer and/or guess location of require
+        el.src = _klujs.requireHome;
+        var pathToParamSuite = "KluJS/";
+        var moduleName = "paramSuite";
+        
+        if ( ! window.location.search || ! window.location.search.toString().match( /suite=/ ) ) {
+            moduleName = "polyMain";
+        }
+        
+        var attr = doc.createAttribute( "data-main" );
+        attr.nodeValue = pathToParamSuite + moduleName;
+        el.attributes.setNamedItem( attr );
+        
+        doc.getElementsByTagName( "head" )[0].appendChild( el );
+    };
+    
 
-var attr = doc.createAttribute( "data-main" );
-attr.nodeValue = pathToParamSuite + moduleName;
-el.attributes.setNamedItem( attr );
+    require = _require;
 
-doc.getElementsByTagName( "head" )[0].appendChild( el );
-
-
+    if ( typeof( _klujs.noBoot ) === "undefined" ) {
+        addBootScriptElement();
+    }
+    else {
+        console.log( "No boot." );
+    }
+    
+}() );

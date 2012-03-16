@@ -14,9 +14,7 @@ define( [ "jquery", "./jasmine-klujs", "require"], function( $, jg, req ) {
         $("body")
             .append( $("<h1 />", {id:"headline"} )
                      .addClass( "running" )
-                     .append( $("<a />", { onclick: "jasmineGradle.runAllSpecs()",
-                                         title: "Reload all"} )
-                              .text( "Multi Spec Runner:" ))
+                     .text( "KluJS: " )
                      .append( $("<span />", {id: "subheadline"} )
                               .text( "Loading..." ))
                    )
@@ -24,11 +22,12 @@ define( [ "jquery", "./jasmine-klujs", "require"], function( $, jg, req ) {
                      .text( "Loading..." ) );
     };
     
-    $.each( klujsConfig.suites, function( i, suite ) {
+    $.each( klujs.suites, function( i, suite ) {
+        console.log( "suite " + klujs.test + "/" + i );
         jasmineGradle.add( window.location.href + "?suite=" + i, i );
     } );
-    if ( klujsConfig.specRunners ) {
-        $.each( klujsConfig.specRunners, function( i, runner ) {
+    if ( klujs.specRunners ) {
+        $.each( klujs.specRunners, function( i, runner ) {
             jasmineGradle.add( runner );
         });
     }
