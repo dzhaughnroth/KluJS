@@ -1,4 +1,0 @@
-{"srcDir":"example",
- "omit": [ "example/test/lib",
-           "example/test/rlib" ]
-}

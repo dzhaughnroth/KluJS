@@ -1,6 +1,6 @@
 var page = require('webpage').create();
 var fs = require('fs');
-var url = "http://localhost:7000/src/test/javascript/klujs.html";
+var url = "http://localhost:7000/KluJS/klujs.html";
 var maxMillis = 8000;
 
 var timedOut = false,
