@@ -46,6 +46,7 @@ define( ["KluJS/childRunner", "jquery"], function( crMod, $ ) {
             expect( cr.isPassed() ).toBe( false );
         } );
         it( "Returns result arrays", function() {
+            var astring = "Something/relevant/likeaSpec.js";
             var cr = new crMod.ChildRunner( 0, "bar");
             var mockApiReporter = { finished:false };
             cr.frame = { contentWindow: { apiReporter: mockApiReporter} }; 
@@ -54,14 +55,27 @@ define( ["KluJS/childRunner", "jquery"], function( crMod, $ ) {
             };
             mockApiReporter.resultsForSpecs = function(x) {
                 var result = {};
-                result[x] = { messages : [ { message:"zoot", passed: false, 
-                                           trace: {} } ] };
+
+                result[x] = { 
+                    messages : [ { 
+                        message:"zoot", 
+                        passed: false, 
+                        trace: { 
+                            stack : 
+                            ["Some/KluJS/"+astring,
+                             astring,
+                             "Some/KluJS/otherthing"].join("\n")
+                        }
+                    }
+                               ]
+                };
                 return result;
             };
             var results = cr.getResults();
             expect( results.length ).toBe( 1 );
             var result = results[0];
             expect( result.message ).toBe( "zoot" );
+            expect( result.stacktrace ).toBe( astring + "\n" );
         } );
     } );
 } );

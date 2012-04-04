@@ -250,7 +250,12 @@ define( ["jquery",
             var getResults = function() {
                 var result = [];
                 $.each( specRunners, function( i, x ) {
-                    result.concat( x.getResults() );
+                    result.push( {
+                        path:x.path,
+                        failedCount:x.failedCount,
+                        passedCount:x.passedCount,
+                        specs:x.getResults() }
+                               );
                 });
                 return result;
             };
@@ -270,5 +275,6 @@ define( ["jquery",
             return jasmineKlujs;
             
 } );
+
 
 

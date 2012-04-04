@@ -53,6 +53,8 @@ define( ["jquery"], function($) {
         var node = this.frame.contentWindow;
         var self = this;
         if ( node && node.apiReporter && node.apiReporter.finished ) {
+            self.failedCount = 0;
+            self.passedCount = 0;
             var results = [];
             $.each( node.apiReporter.results(), function( i, r ) {
                 results.push( r );
@@ -104,13 +106,24 @@ define( ["jquery"], function($) {
         var sps = this.specPaths( reporter );
         $.each( sps, function ( j, y ) {
             var specResult = reporter.resultsForSpecs( [y.specId] )[y.specId];
+
+
             $.each( specResult.messages, function( a, b ) {
+                var stack = "";
+                if ( b.trace.stack ) {
+                    var chomped = b.trace.stack.split( "\n" );
+                    $.each( chomped, function( i, x ) {
+                        if ( !x.match( /KluJS/ ) ) {
+                            stack += x + "\n";
+                        }
+                    } );
+                }
                 result.push( {
                     page: this.id,
-                    path: y.specId,
+                    path: y.path,
                     passed: b.passed,
                     message: b.message,
-                    stacktrace:b.trace.stack
+                    stacktrace:stack
                 } );
             });
         } );
