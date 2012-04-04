@@ -4,8 +4,10 @@ define( ["jquery"], function ($) {
     var workingCssClass = "jslintWorking";
     var cssClasses = ["jslintPassed", "jslintFailed"];
     var thisMod = this;
-    this.DivView = function( containingDiv, id, src ) {
-
+    this.DivView = function( containingDiv, lintJob, src ) {
+        var self = this;
+        this.lintJob = lintJob;
+        var id = lintJob.id;
         var sourceDisplay = function( path ) {
             if( !path ) {
                 return "No path";
@@ -25,8 +27,6 @@ define( ["jquery"], function ($) {
                           text: "JSlint for " + sourceDisplay(src) } )
                 .addClass( workingCssClass )
                 .appendTo( containingDiv );
-        var self = this;
-        this.lintJob = undefined;
         
         var adjustCss = function( passed ) {
             var baseIndex = passed ? 0 : 1;
@@ -36,7 +36,6 @@ define( ["jquery"], function ($) {
         };
 
         this.update = function( lintJob ) {
-            this.lintJob = lintJob;
             if ( lintJob.error ) {
                 this.updateForError( );
             }
@@ -45,7 +44,7 @@ define( ["jquery"], function ($) {
             }
         };
         
-        this.updateForError = function( ) {
+        this.updateForError = function( ) {            
             viewDiv.empty();
             viewDiv.text( this.errorText(self.lintJob));
             adjustCss( false );
@@ -76,6 +75,13 @@ define( ["jquery"], function ($) {
                 } )
                 .addClass( "jslintDetailOpener" )
                 .appendTo( viewDiv );
+            var reloader = $("<button />", {text:"Reload"} )
+                    .appendTo( viewDiv );
+            reloader.click( function( event ) {
+                reloader.text( "Reloading" );
+                viewDiv.addClass( workingCssClass );
+                self.lintJob.run();                
+            } );
             detail.appendTo( viewDiv );
             this.renderDetailDiv( lintData, detail );
         };
@@ -160,7 +166,7 @@ define( ["jquery"], function ($) {
         var self = this;
         var addJobDiv = function( lintJob ) {
             var divView = new thisMod.DivView( self.containingDiv, 
-                                               lintJob.id, lintJob.src );
+                                               lintJob, lintJob.src );
             self.divViews[lintJob.id] = divView;
             self.containingDiv.append( divView.div );
             lintJob.listeners.push( divView );

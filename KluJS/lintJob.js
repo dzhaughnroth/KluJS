@@ -1,15 +1,33 @@
 /*globals define:false, JSLINT:false*/
-define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,ilr) {
-    var ljModule = this;
-    this.LintJob = function() {
+define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,LintRunner) {
+
+     var ljModule = this;
+
+    this.LintJob = function( ilr ) {
         this.id = undefined;
         this.src = undefined;
-        this.done = false;
-        this.error = undefined;
-        this.message = undefined;
-        this.lintData = undefined;
         this.listeners = [];
+
         var self = this;
+        
+        var init = function() {
+            self.done = false;
+            self.error = undefined;
+            self.message = undefined;
+            self.lintData = undefined;            
+        };
+
+        init();
+
+        this.run = function() {
+            init();            
+            $.each( self.listeners, function( i, x ) {
+                if ( x.started ) {
+                    x.started( self );
+                }
+            });
+            ilr.runJob( self );
+        };
 
         var complete = function() {
             self.done = true;
@@ -47,7 +65,6 @@ define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,
     this.LintJob.prototype.issueCount = function() {
         var data = this.lintData;
         if ( ! data ) {
-//            return -1;
             throw( "No JSLINT data" );
         }
         var errCount = data.errors ? data.errors.length : 0;
@@ -66,7 +83,7 @@ define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,
      has a method createListener( id, src ) that returns a View for a
      generated id and uri to the javascript source. */
     this.LintJobFactory = function( ) {
-        this.runner = ilr;
+        this.runner = new LintRunner();
         this.lintJobs = {};
         this.jobsInProgress = {};
         this.jobsCompleted = {};
@@ -96,7 +113,7 @@ define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,
     this.LintJobFactory.prototype.numPassed = function() {
         var result = 0;
         $.each( this.jobsCompleted, function( i, x ) {
-            if ( x.issueCount() === 0 ) {
+            if ( x.lintData && x.issueCount() === 0 ) {
                 ++result;
             }
         } );
@@ -109,13 +126,18 @@ define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,
     this.LintJobFactory.prototype.numIssues = function() {
         var result = 0;
         $.each( this.jobsCompleted, function( i, x ) {
-            result += x.issueCount();
+            if ( x.lintData ) {
+                result += x.issueCount();
+            }
+            else {
+                result++;
+            }
         } );
         return result;
     };
 
     this.LintJobFactory.prototype.create = function( id, src ) {
-        var result = new ljModule.LintJob();
+        var result = new ljModule.LintJob( this.runner );
         this.lintJobs[id] = result;
         this.jobsInProgress[id] = result;
         var self = this;
@@ -131,7 +153,11 @@ define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,
                         l.completed( lintJob );
                     }
                 } );
-            } 
+            },
+            started: function( lintJob ) {
+                delete self.jobsCompleted[lintJob.id];
+                self.jobsInProgress[lintJob.id] = lintJob;
+            }
         };
         result.listeners.push( completionListener );
         $.each( self._listeners, function( i, l ) {
@@ -143,9 +169,8 @@ define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,
     };
 
     this.LintJobFactory.prototype.runAll = function() {
-        var ljfSelf = this;
         $.each( this.lintJobs, function( i, job ) {
-            ljfSelf.runner.runJob( job );
+            job.run();
         } );
     };
 

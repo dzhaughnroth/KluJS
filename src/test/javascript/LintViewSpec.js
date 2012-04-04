@@ -1,14 +1,13 @@
 /*globals define:false, describe:false, it:false, expect:false, JSLINT:false */
+
 define( ["KluJS/lintDivView", "KluJS/lintJob", "jquery"], 
+
         function( mod, jobMod, $ ) {
             var testingDiv = $( "<div />", { id: "testDiv" } )
                     .appendTo( "body" );
             testingDiv.css( "display", "none" );
             describe( "LintDivView", function() {
                 describe( "JobFactoryView", function() {                    
-//                    var myDiv = $( "<div />", 
-//                                   { id : "testDivContainer", text: "Test Div Contained" } )
-//                            .appendTo( testingDiv );
                     var jobFactory = new jobMod.LintJobFactory();
                     var factoryView = new mod.LintJobFactoryDivView( jobFactory );
                     var myDiv = factoryView.containingDiv;
@@ -17,10 +16,7 @@ define( ["KluJS/lintDivView", "KluJS/lintJob", "jquery"],
                         // The +1 is because of the headline.
                         return $( $(myDiv.children()[i+1] ));
                     };
-//                    var factory = { createView : function( id, path ) {
-//                        var x = new mod.DivView( myDiv, id, path );
-//                        return x;
-//                    }};
+
                     it ( "Should create views", function() {
                         jobFactory.create( 1, "Stuffupliness/hihi/h" );
                         jobFactory.create( 2, "nowthere/theretherethere" );
@@ -33,17 +29,31 @@ define( ["KluJS/lintDivView", "KluJS/lintJob", "jquery"],
 
                         expect( childDiv(0).text()).toMatch( /hihi\/h$/ );
                         expect( childDiv(1).text().match( /\.\.\.theretherethere/ )).toBeTruthy();
-                        view1.update( { src:"hi/hi", error:true, message:"foo" } );
+                        var j1 = jobFactory.lintJobs[1];
+                        // mocking
+                        j1.error = true;
+                        j1.message = "foo";
+                        view1.update( j1 );//{ src:"hi/hi", error:true, message:"foo" } );
                         expect( childDiv(0).text().match( /hi.*failed.*foo/ )).toBeTruthy();
                         expect( childDiv(0).hasClass( "jslintPassed" ) ).toBe( false );
-                        expect( childDiv(0).hasClass( "jslintFailed" ) ).toBe( true );                
-                        view2.update( {src:"nowthere/theretherethere", 
-                                       error:false, 
-                                       message:"goo", 
-                                       issueCount : function() { return 0; } } );
+                        expect( childDiv(0).hasClass( "jslintFailed" ) ).toBe( true );  
+                        var j2 = jobFactory.lintJobs[2];
+                        // mocking
+                        j2.error = false;
+                        j2.message = "goo";
+                        j2.issueCount = function() { return 0; };
+                        view2.update( j2 );
+
                         expect( childDiv(1).hasClass( "jslintPassed" ) ).toBe( true );
                         expect( childDiv(1).hasClass( "jslintFailed" ) ).toBe( false );
                         var subspan = $(childDiv(1).children("span")[0] );
+                        var reloadSpan = $(childDiv(1).children("button")[0] );
+                        expect( reloadSpan.text() ).toBe( "Reload" );
+                        reloadSpan.click();
+                        expect( reloadSpan.text() ).toBe( "Reloading" );
+                        // TODO
+//                        console.log( "goo" );
+
                         var detailDiv = $(childDiv(1).children("div")[0] );
                         expect( subspan.text()).toMatch( /\.\.\.there.*No issues/ ); 
                         expect( detailDiv.text()).toEqual( "Hi ho" );
