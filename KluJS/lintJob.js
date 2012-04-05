@@ -3,7 +3,7 @@ define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,
 
      var ljModule = this;
 
-    this.LintJob = function( ilr ) {
+    this.LintJob = function( lintRunner ) {
         this.id = undefined;
         this.src = undefined;
         this.listeners = [];
@@ -26,7 +26,7 @@ define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,
                     x.started( self );
                 }
             });
-            ilr.runJob( self );
+            lintRunner.runJob( self );
         };
 
         var complete = function() {
@@ -82,8 +82,8 @@ define( ["jquery", "./lib/webjslint", "./proxyLintRunner" ], function($,nothing,
     /** A Listener has a method( "update( lintJob )" ); A ViewFactory
      has a method createListener( id, src ) that returns a View for a
      generated id and uri to the javascript source. */
-    this.LintJobFactory = function( ) {
-        this.runner = new LintRunner();
+    this.LintJobFactory = function( lintRunner ) {
+        this.runner = lintRunner ? lintRunner : new LintRunner();
         this.lintJobs = {};
         this.jobsInProgress = {};
         this.jobsCompleted = {};

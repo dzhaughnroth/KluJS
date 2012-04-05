@@ -80,7 +80,7 @@ define( ["jquery"], function ($) {
             reloader.click( function( event ) {
                 reloader.text( "Reloading" );
                 viewDiv.addClass( workingCssClass );
-                self.lintJob.run();                
+                self.lintJob.run();
             } );
             detail.appendTo( viewDiv );
             this.renderDetailDiv( lintData, detail );

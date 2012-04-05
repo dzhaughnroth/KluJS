@@ -1,14 +1,15 @@
 /*globals define:false, describe:false, it:false, expect:false, JSLINT:false */
 
-define( ["KluJS/lintDivView", "KluJS/lintJob", "jquery"], 
+define( ["KluJS/lintDivView", "KluJS/lintJob", "KluJS/proxyLintRunner", "jquery"], 
 
-        function( mod, jobMod, $ ) {
+        function( mod, jobMod, LintRunner, $ ) {
+
             var testingDiv = $( "<div />", { id: "testDiv" } )
                     .appendTo( "body" );
             testingDiv.css( "display", "none" );
             describe( "LintDivView", function() {
                 describe( "JobFactoryView", function() {                    
-                    var jobFactory = new jobMod.LintJobFactory();
+                    var jobFactory = new jobMod.LintJobFactory( new LintRunner( true ));
                     var factoryView = new mod.LintJobFactoryDivView( jobFactory );
                     var myDiv = factoryView.containingDiv;
                     myDiv.appendTo( testingDiv );

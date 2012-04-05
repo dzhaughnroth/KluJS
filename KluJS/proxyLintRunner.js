@@ -1,7 +1,12 @@
 /*global define:false, window:false, document:false */
 define( ["jquery", "./urlUtil"], function( $, urlParser ) {
 
-    var ProxyLintRunner = function() {
+    var ProxyLintRunner = function( noParent ) {
+        var tryPosting = true;
+
+        if ( noParent === true ) {
+            tryPosting = false;
+        }
         
         var jobs = {};
         
@@ -48,7 +53,7 @@ define( ["jquery", "./urlUtil"], function( $, urlParser ) {
         };
         
         var postToParent = function( src ) {
-            if ( hasParent() ) {
+            if ( tryPosting && hasParent() ) {
                 var msg = { messageType : "jslint",
                             message: { src:src,
                                        type:"foo"}};
