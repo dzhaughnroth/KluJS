@@ -4,7 +4,9 @@ klujs = {
                "runnerSuite" : [ "ChildRunnerSpec.js" ],
                "lintjobSuite" : [ "LintJobSpec.js", 
                                  "LintViewSpec.js", 
-                                 "UrlUtilSpec.js" ] },
+                                 "UrlUtilSpec.js" ],
+               "utils": ["DotDotPrunerSpec.js"]
+             },
     noDefaultFilter : true,
     libDirs : [ "KluJS\/lib", /aModule\.js$/, /require\-jquery\.js/ ],
 //    specRunners : [ "SpecRunner.html" ]

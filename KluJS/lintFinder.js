@@ -1,6 +1,6 @@
 /*globals define:false, klujs:false */
-define( [ "jquery" ],
-        function( $ ) {
+define( [ "jquery", "./dotdotPruner" ],
+        function( $, pruner ) {
             var defaultFilter = function( src ) {
                 if ( typeof( klujs.noDefaultFilter ) !== "undefined" ) {
                     if ( klujs.noDefaultFilter === true ) {
@@ -30,11 +30,7 @@ define( [ "jquery" ],
             // return with result.
             lf.filter = function( scriptEl ) {
                 var src = scriptEl.attr( "src" );
-                // TODO This assumes KluJS is in a particular directory
-                // instead, replace dir/.. whenever possible.
-                if ( src.match( /^KluJS\/\.\.\// ) ) {
-                    src = src.substring( 9, src.length );
-                }
+                src = pruner( src );
                 var result = defaultFilter( src );
                 result = result && libFilter( src );
                 if ( typeof( klujs.lintFilter ) === "function" ) {
@@ -57,7 +53,7 @@ define( [ "jquery" ],
                 $.each( found, function( i, elArray ) {
                     var ir = [];
                     $.each( elArray, function( j, el ) {
-                        ir.push( el.attr("src") );
+                        ir.push( pruner(el.attr("src")) );
                     } );
                     result[i] = ir;
                 });
