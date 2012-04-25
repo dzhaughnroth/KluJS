@@ -46,14 +46,34 @@ define( ["jquery",
 
             var listeners = [];
             var lintSources = [];
+            var filteredLintSources = [];
             var runnersStarted = 0;
             var runnersFinished = 0;
-            var windowMessageHandler = function( msg ) { 
+            var windowMessageHandler = function( msg ) {                 
                 if ( msg.data ) {
                     if ( msg.data.messageType === "jslint" ) {
                         if ( lintSources.indexOf( msg.data.message.src ) < 0 ) {
                             lintSources.push( msg.data.message.src );
                         }
+                    }
+                    else if ( msg.data.messageType === "jslintb" ) {
+                        var found = msg.data.message.found;
+
+                        $.each( found.allModules, function( i, x ) {
+                            if ( lintSources.indexOf( x ) < 0 ) {
+                                lintSources.push( x );
+                                while( filteredLintSources.indexOf( x ) > 0 ) {
+                                    filteredLintSources.remove( x );
+                                };
+                            }
+                        } );
+                        $.each( found.filtered, function( i, x ) {
+                            if ( lintSources.indexOf( x ) < 0 ) {
+                                if ( filteredLintSources.indexOf( x ) < 0 ) {
+                                    filteredLintSources.push( x );
+                                }
+                            };
+                        } );
                     }
                     else if (msg.data.messageType === "Started" ) {
                         runnersStarted++;
@@ -173,7 +193,8 @@ define( ["jquery",
                 }
             };
             var doLint = function() {
-                var view = new lintView.LintJobFactoryDivView( jobFactory );
+                var view = new lintView.LintJobFactoryDivView( jobFactory, 
+                                                               { filtered : filteredLintSources } );
                 view.containingDiv.attr( "id", "jslintContainer" )
                     .appendTo( $("body" ) );
                 $.each( lintSources, function( i, src ) {

@@ -26,8 +26,15 @@ define( [ "jquery" ],
 
             var lf = this;
 
+            // TODO return value is enumeration "default" "lib" "custom"
+            // return with result.
             lf.filter = function( scriptEl ) {
                 var src = scriptEl.attr( "src" );
+                // TODO This assumes KluJS is in a particular directory
+                // instead, replace dir/.. whenever possible.
+                if ( src.match( /^KluJS\/\.\.\// ) ) {
+                    src = src.substring( 9, src.length );
+                }
                 var result = defaultFilter( src );
                 result = result && libFilter( src );
                 if ( typeof( klujs.lintFilter ) === "function" ) {

@@ -7,9 +7,10 @@ Use klujs-config to generate build process for projects.
 clear jscoverage at start of specrunner no wait then they can't they
 run concurrently maybe that's okay how do we force it?
 
-Document configuration.
+Document the configuration settings
 
-Make the proxy restart process automatically.
+Make the proxy restart jscoverage process automatically when it fails
+due to a bad javascript file.
 
 Remove jasmineGradle global, probably unused. Limit klujs global to
 configuration; use a module to access it.
@@ -18,26 +19,33 @@ Report better on lint filtering. And, in particular, don't report
 KluJS being filtered out, if it is.
 
 "src" optional custom setting is probably unnecessary if we do not use
-jscoverage as the server for uninstrumented files. So do that.
+jscoverage as the server for uninstrumented files. So don's use
+jscoverage for that, and fix that setting.
 
 Overrides for main,test,libDirs should be relative to src and each
 other? Or templating like "${main}/lib"?
 
-Provide way to view settings on result page. That means showing both
+Provide a way to view settings on result page. That means showing both
 supplied and computed settings.
 
-Too many ".." in paths; compute to essence.
+Remove dependency on console logging to detect completion. This is a
+phantomjs thingy at the moment.
 
-Remove dependency on console logging to detect completion.
-
-Provide way to rerun lint, but not tests.
+Provide way to rerun lint, but not tests. FIXED
 
 Provide way to measure coverage per-suite or per-spec. I think this
 is important at the moment, more important than speed.
 
-Oh and the UI stinks.
+Oh, and the UI display stinks.
+
+Remove noise of passing lint files. Perhaps sort by pass/fail, then
+alphabetically.
 
 Provide a way to specify coverage targets.
 
-fix bug where specs are filtered because path is KluJS/../../pathToTest...
+fix bug where specs are filtered because path is
+KluJS/../../pathToTest...  (FIXED by replacing KluJS/.. at start with
+blank. I'm not sure that's 100% robust.) See next item.
+
+Too many ".." in paths; compute to essence.
 

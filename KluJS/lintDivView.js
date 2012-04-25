@@ -142,17 +142,20 @@ define( ["jquery"], function ($) {
         this.summarySpan = $("<span />").addClass( "jslintSummary" ).text( "No files" )
             .appendTo( self.summaryDiv );
         var updateSummary = function( lintJob ) {
+            var title = "No filter info?";
             var text = ": " + self.jobFactory.numIssues() + " issues in " 
                                    + self.jobFactory.numFailed() + " files out of " 
                                    + self.jobFactory.numTotal();
             if( typeof( found ) !== "undefined" ) {
-                text += " (" +  found.filtered.length + " filtered.)";               
+                text += " (" +  found.filtered.length + " filtered.)";
+                title = "Filtered: " + found.filtered.join( "\n" );
             }
             else {
                 text += ".";
             }
            
             self.summarySpan.text( text );
+            self.summarySpan.attr( "title", title );
         };
         lintJobFactory.addListener( { created: updateSummary,
                                       completed: updateSummary } );

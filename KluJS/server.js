@@ -124,13 +124,17 @@ var handleRequest = function( req, res ) {
     res.end();
 };
 
-http.createServer(function(request, response) {
-    if ( request.url === "/" || request.url.match( /\/\?/ ) ) {
-        handleRequest( request, response );
+var startServer = function() {
+    return http.createServer(function(request, response) {
+        var self = this;
+        if ( request.url === "/" || request.url.match( /\/\?/ ) ) {
+            handleRequest( request, response );
         return;
     }
     var dest = routeRequest( request );
-    var proxy = http.createClient.apply( this, dest );
+    var makeProxy = function() { return http.createClient.apply( self, dest ); };
+
+    var proxy = makeProxy();
     util.log( request.method + " " + request.url + " " + dest + " " + request.headers.host);
     var proxy_request = proxy.request(request.method, request.url, request.headers);
     proxy_request.addListener('response', function (proxy_response) {
@@ -161,3 +165,6 @@ http.createServer(function(request, response) {
     });
 }).listen(port);
 
+}
+
+startServer();

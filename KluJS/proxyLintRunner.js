@@ -47,7 +47,7 @@ define( ["jquery", "./urlUtil"], function( $, urlParser ) {
             }
     };
         
-        var hasParent = function() {
+/*        var hasParent = function() {
             return window && window.parent && window.parent.postMessage 
                 && window.parent !== window; 
         };
@@ -64,15 +64,15 @@ define( ["jquery", "./urlUtil"], function( $, urlParser ) {
                 return false;
             }       
         };
-        
+*/        
         this.runJob = function( job ) {
             
             jobs[job.id] = job;
             if ( job.src ) {
-                var mySrc = urlParser.absolute( window.location.toString(), job.src );
-                if ( postToParent( mySrc )) {
-                    return;
-                }           
+//                var mySrc = urlParser.absolute( window.location.toString(), job.src );
+//                if ( postToParent( mySrc )) {
+//                    return;
+//                }           
                 getPlainText( job, processingCallback );           
             }
         };
