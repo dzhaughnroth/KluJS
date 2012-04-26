@@ -26,17 +26,25 @@ define( [ "jquery", "./dotdotPruner" ],
 
             var lf = this;
 
+            lf.filterNames = [ "custom", "lib", "default" ];
+
             // TODO return value is enumeration "default" "lib" "custom"
             // return with result.
             lf.filter = function( scriptEl ) {
                 var src = scriptEl.attr( "src" );
                 src = pruner( src );
-                var result = defaultFilter( src );
-                result = result && libFilter( src );
-                if ( typeof( klujs.lintFilter ) === "function" ) {
-                    result = result && klujs.lintFilter( src, scriptEl );
+                if ( ! defaultFilter( src ) ) {
+                    return "default";
                 }
-                return result;
+                if ( ! libFilter( src ) ) {
+                    return "lib";
+                }
+                if ( typeof( klujs.lintFilter ) === "function" ) {
+                    if ( !klujs.lintFilter( src, scriptEl ) ) {
+                        return "custom";
+                    }
+                }
+                return undefined;
             };
 
             lf.scriptTags = function() {
@@ -48,20 +56,34 @@ define( [ "jquery", "./dotdotPruner" ],
             };
 
             lf.find = function() {
+                // project scriptEls to their sources
                 var found = lf.findJQueryScriptEls();
                 var result = {};
                 $.each( found, function( i, elArray ) {
-                    var ir = [];
-                    $.each( elArray, function( j, el ) {
-                        ir.push( pruner(el.attr("src")) );
-                    } );
-                    result[i] = ir;
+                    if ( typeof( elArray.push ) === "function" ) {
+                        var ir = [];
+                        $.each( elArray, function( j, el ) {
+                            ir.push( pruner(el.attr("src")) );
+                        } );
+                        result[i] = ir;
+                    }
+                    else {
+                        var iObj = {};
+                        $.each( elArray, function( j, arr ) {
+                            iObj[j] = [];
+                            $.each( arr, function( k, el ) {
+                                iObj[j].push( pruner(el.attr("src")) );
+                            } );
+                        } );
+                        result[i] = iObj;
+                    }
                 });
                 return result;
             };
 
             lf.findJQueryScriptEls = function() {
                 var filtered = [],
+                    filterMap = {},
                     allModules = [],
                     mainModules = [],
                     otherModules = [],
@@ -70,8 +92,11 @@ define( [ "jquery", "./dotdotPruner" ],
                 $.each( lf.scriptTags(), function( i, scriptEl ) {
                     iEl = $(this);
                     iAttrVal = iEl.attr( "data-requiremodule" );
-                    if ( lf.filter && 
-                         lf.filter(iEl) ) {
+                    var filterVal;
+                    if ( lf.filter ) {
+                        filterVal = lf.filter( iEl );
+                    }
+                    if ( ! filterVal ) {
                         if ( iAttrVal ) {
                             if ( iAttrVal.match( /\.js$/ ) ) {
                                 otherModules.push( iEl );
@@ -86,6 +111,12 @@ define( [ "jquery", "./dotdotPruner" ],
                     }
                     else {
                         filtered.push( iEl );
+                        var x = filterMap[filterVal];
+                        if ( typeof( x ) === "undefined" ) {
+                            x = [];
+                            filterMap[filterVal] = x;
+                        }
+                        x.push( iEl );
                     }
 
                 } );
@@ -94,7 +125,8 @@ define( [ "jquery", "./dotdotPruner" ],
                          mainModules:mainModules,
                          otherModules:otherModules,
                          nonModules:nonModules,
-                         filtered:filtered };
+                         filtered:filtered,
+                         filterMap:filterMap };
             };
             return lf;
             

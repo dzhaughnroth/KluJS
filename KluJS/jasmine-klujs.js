@@ -47,6 +47,7 @@ define( ["jquery",
             var listeners = [];
             var lintSources = [];
             var filteredLintSources = [];
+            var filterMap = {};
             var runnersStarted = 0;
             var runnersFinished = 0;
             var windowMessageHandler = function( msg ) {                 
@@ -65,6 +66,11 @@ define( ["jquery",
                                 while( filteredLintSources.indexOf( x ) > 0 ) {
                                     filteredLintSources.remove( x );
                                 };
+                                $.each( filterMap, function( j, y ) {
+                                    while( y.indexOf( x ) > 0 ) {
+                                        y.remove( x );
+                                    }
+                                } );
                             }
                         } );
                         $.each( found.filtered, function( i, x ) {
@@ -73,6 +79,18 @@ define( ["jquery",
                                     filteredLintSources.push( x );
                                 }
                             };
+                        } );
+                        $.each( found.filterMap, function( i, x ) {
+                            if ( lintSources.indexOf( x ) < 0 ) {
+                                if ( ! filterMap[i] ) {
+                                    filterMap[i] = [];
+                                }
+                                $.each( x, function( y, j ) {
+                                    if ( filterMap[i].indexOf( j ) < 0 ) {
+                                        filterMap[i].push( j );
+                                    }
+                                } );
+                            }
                         } );
                     }
                     else if (msg.data.messageType === "Started" ) {
@@ -193,8 +211,11 @@ define( ["jquery",
                 }
             };
             var doLint = function() {
-                var view = new lintView.LintJobFactoryDivView( jobFactory, 
-                                                               { filtered : filteredLintSources } );
+                var view = new lintView.LintJobFactoryDivView
+                ( jobFactory, 
+                  { filtered: filteredLintSources,
+                    filterMap: filterMap 
+                  } );
                 view.containingDiv.attr( "id", "jslintContainer" )
                     .appendTo( $("body" ) );
                 $.each( lintSources, function( i, src ) {

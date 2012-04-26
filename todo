@@ -16,7 +16,8 @@ Remove jasmineGradle global, probably unused. Limit klujs global to
 configuration; use a module to access it.
 
 Report better on lint filtering. And, in particular, don't report
-KluJS being filtered out, if it is.
+KluJS being filtered out, if it is. FIXED filters are reported on
+in priority order, so not too much noise.
 
 "src" optional custom setting is probably unnecessary if we do not use
 jscoverage as the server for uninstrumented files. So don's use

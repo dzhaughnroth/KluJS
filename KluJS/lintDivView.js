@@ -1,6 +1,6 @@
 /** The usual View for the lintJob module. */
 /*globals define:false, DivView:true */
-define( ["jquery"], function ($) {
+define( ["jquery", "./lintFinder"], function ($, lintFinder) {
     var workingCssClass = "jslintWorking";
     var cssClasses = ["jslintPassed", "jslintFailed"];
     var thisMod = this;
@@ -148,7 +148,22 @@ define( ["jquery"], function ($) {
                                    + self.jobFactory.numTotal();
             if( typeof( found ) !== "undefined" ) {
                 text += " (" +  found.filtered.length + " filtered.)";
-                title = "Filtered: " + found.filtered.join( "\n" );
+                title = "Filtered:\n";
+                if ( found.filterMap ) {
+                    $.each( lintFinder.filterNames, function( i, x ) {
+                        if ( found.filterMap[x] ) {
+                            title += "  " + x + " filter (" + found.filterMap[x].length +"):\n";
+                            $.each( found.filterMap[x], function( j, s ) {
+                                title += "    " + s + "\n";
+                            } );
+                        };
+                    } );
+                }
+                else {
+                    $.each( found.filtered, function( j, s ) {
+                        title += "  " + s + "\n";
+                    } );
+                }
             }
             else {
                 text += ".";

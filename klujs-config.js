@@ -3,9 +3,9 @@ klujs = {
     suites : { "specSuite" : [ "SomeSpec.js", "AnotherSpec.js" ],
                "runnerSuite" : [ "ChildRunnerSpec.js" ],
                "lintjobSuite" : [ "LintJobSpec.js", 
-                                 "LintViewSpec.js", 
-                                 "UrlUtilSpec.js" ],
-               "utils": ["DotDotPrunerSpec.js"]
+                                 "LintViewSpec.js" ],
+               "utils": ["DotDotPrunerSpec.js", 
+                         "UrlUtilSpec.js"]
              },
     noDefaultFilter : true,
     libDirs : [ "KluJS\/lib", /aModule\.js$/, /require\-jquery\.js/ ],
