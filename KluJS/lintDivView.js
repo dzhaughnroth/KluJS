@@ -152,11 +152,12 @@ define( ["jquery", "./lintFinder"], function ($, lintFinder) {
                 if ( found.filterMap ) {
                     $.each( lintFinder.filterNames, function( i, x ) {
                         if ( found.filterMap[x] ) {
-                            title += "  " + x + " filter (" + found.filterMap[x].length +"):\n";
+                            title += "  " + x 
+                                + " filter (" + found.filterMap[x].length +"):\n";
                             $.each( found.filterMap[x], function( j, s ) {
                                 title += "    " + s + "\n";
                             } );
-                        };
+                        }
                     } );
                 }
                 else {
