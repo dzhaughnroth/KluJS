@@ -1,6 +1,6 @@
 /** The usual View for the lintJob module. */
 /*globals define:false, DivView:true */
-define( ["jquery", "./lintFinder"], function ($, lintFinder) {
+define( ["jquery", "./lintFinder", "./lib/jquery.rule-1.0.2-min" ], function ($, lintFinder) {
     var workingCssClass = "jslintWorking";
     var cssClasses = ["jslintPassed", "jslintFailed"];
     var thisMod = this;
@@ -133,7 +133,7 @@ define( ["jquery", "./lintFinder"], function ($, lintFinder) {
         
 
     };
-    var LintJobFactorySummaryView = function( lintJobFactory, found ) {
+    var LintJobFactorySummaryView = function( lintJobFactory, lintFinderFound ) {
         var self = this;
         this.jobFactory = lintJobFactory;
         this.summaryDiv = $( "<div />" ).addClass( "jslintBanner" );
@@ -141,27 +141,28 @@ define( ["jquery", "./lintFinder"], function ($, lintFinder) {
             .appendTo( self.summaryDiv );
         this.summarySpan = $("<span />").addClass( "jslintSummary" ).text( "No files" )
             .appendTo( self.summaryDiv );
+
         var updateSummary = function( lintJob ) {
             var title = "No filter info?";
             var text = ": " + self.jobFactory.numIssues() + " issues in " 
                                    + self.jobFactory.numFailed() + " files out of " 
                                    + self.jobFactory.numTotal();
-            if( typeof( found ) !== "undefined" ) {
-                text += " (" +  found.filtered.length + " filtered.)";
+            if( typeof( lintFinderFound ) !== "undefined" ) {
+                text += " (" +  lintFinderFound.filtered.length + " filtered.)";
                 title = "Filtered:\n";
-                if ( found.filterMap ) {
+                if ( lintFinderFound.filterMap ) {
                     $.each( lintFinder.filterNames, function( i, x ) {
-                        if ( found.filterMap[x] ) {
+                        if ( lintFinderFound.filterMap[x] ) {
                             title += "  " + x 
-                                + " filter (" + found.filterMap[x].length +"):\n";
-                            $.each( found.filterMap[x], function( j, s ) {
+                                + " filter (" + lintFinderFound.filterMap[x].length +"):\n";
+                            $.each( lintFinderFound.filterMap[x], function( j, s ) {
                                 title += "    " + s + "\n";
                             } );
                         }
                     } );
                 }
                 else {
-                    $.each( found.filtered, function( j, s ) {
+                    $.each( lintFinderFound.filtered, function( j, s ) {
                         title += "  " + s + "\n";
                     } );
                 }
@@ -178,7 +179,7 @@ define( ["jquery", "./lintFinder"], function ($, lintFinder) {
     };
     this.LintJobFactorySummaryView = LintJobFactorySummaryView;
 
-    this.LintJobFactoryDivView = function( lintJobFactory, found ) {
+    this.LintJobFactoryDivView = function( lintJobFactory, lintFinderFound ) {
         this.jobFactory = lintJobFactory;
         this.containingDiv = $( "<div />" );
         this.divViews = {};
@@ -192,8 +193,27 @@ define( ["jquery", "./lintFinder"], function ($, lintFinder) {
         };
         lintJobFactory.addListener( { created: addJobDiv } );
 
-        this.summaryView = new LintJobFactorySummaryView( self.jobFactory, found );
+        this.summaryView = new LintJobFactorySummaryView( self.jobFactory, lintFinderFound );
         this.summaryView.summaryDiv.appendTo( self.containingDiv );
+        var showing = false;
+        var button = $("<button />", { text:"Show passed" } )
+                .appendTo( this.summaryView.summaryDiv );
+        var updateVisibility = function() {
+            if ( showing ) {
+                $.rule( ".jslintPassed" ).css( "display", "block" );
+                button.text( "Hide passed" );
+            }
+            else {
+                $.rule( ".jslintPassed" ).css( "display", "none" );
+                button.text( "Show passed" );
+            }
+        };
+
+        button.click ( function(event) { 
+            showing = ! showing;
+            updateVisibility();
+        } );
+        updateVisibility();
     };
 
 
