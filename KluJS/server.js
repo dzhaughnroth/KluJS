@@ -8,7 +8,8 @@
  */
 var http = require('http');
 var util = require('util');
-var spawn = require('child_process').spawn;
+//var spawn = require('child_process').spawn;
+var perma = require( './permaProc.js' );
 var fs = require('fs');
 var vm = require('vm');
 var port = 7000;
@@ -35,36 +36,6 @@ catch( ex ) {
     throw( "Could not load KluJS/boot.js?!?: " + ex );
 }
 
-
-var spawnCov = function( name, args ) {
-    console.log( "Spawning " + name + " with " + args );
-    var command = "jscoverage-server";
-    var doSpawn = function() {
-        var p = spawn( command, args );    
-        p.stdout.on('data', function (data) {
-            util.log( name + ' out: ' + data);
-        });
-
-        p.stderr.on('data', function (data) {
-            util.log( name + ' err: ' + data);
-        });
-        
-        p.on('exit', function (code) {
-            util.log( name + ' Exited with code ' + code);
-            util.log( "I can't work like this. But I'll try." );
-            spawn( command, args );
-            util.log( "New pid " + p.pid );
-        });
-        return p;
-    };
-
-    var procHolder = doSpawn(); 
-
-    return {proc: function() { return p; } };
-};
-
-
-
 var jscov, nocov, i;
 
 var args = ["--verbose", "--port=" + (port+1)];
@@ -84,9 +55,12 @@ if ( true !== klujs.noDefaultFilter ) {
 
 util.log( "Args are " + args );
 
-jscov = spawnCov( "cov", args );
+jscov = new perma.ProcManager( "cov", "jscoverage-server", args );
 
-nocov = spawnCov( "nocov", ["--no-instrument=" + klujs.src, "--no-instrument=klujs-config.js", "--no-instrument=KluJS", "--port=7002", "--verbose"] );
+nocov = new perma.ProcManager( "noc", "jscoverage-server", ["--no-instrument=" + klujs.src, "--no-instrument=klujs-config.js", "--no-instrument=KluJS", "--port=7002", "--verbose"] );
+
+jscov.startNew();
+nocov.startNew();
 
 var matchesLibDirs = function( url ) {
     for( i in klujs.libDirs ) {
@@ -168,3 +142,10 @@ var startServer = function() {
 }
 
 startServer();
+
+process.on( 'exit', function() {
+    jscov.exit();
+    util.log( "jscov exit" );
+    nocov.exit();
+    util.log( "nocov exit" );
+} );
