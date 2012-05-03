@@ -10,6 +10,7 @@ var http = require('http');
 var util = require('util');
 //var spawn = require('child_process').spawn;
 var perma = require( './permaProc.js' );
+var phanto= require( './phantoProc.js' );
 var fs = require('fs');
 var vm = require('vm');
 var port = 7000;
@@ -139,13 +140,22 @@ var startServer = function() {
     });
 }).listen(port);
 
-}
+};
 
 startServer();
 
+if ( process.argv[2] === "phantom" ) {
+    phanto.runPhantom( function( result ) {
+        util.log( "Phantom result: " + result );
+        process.exit(0);
+    } );
+}
+
 process.on( 'exit', function() {
-    jscov.exit();
+    util.log( "Exiting." );
+    jscov.end();
     util.log( "jscov exit" );
-    nocov.exit();
+    nocov.end();
     util.log( "nocov exit" );
 } );
+

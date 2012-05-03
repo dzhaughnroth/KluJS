@@ -9,6 +9,7 @@ define( [ "./lib/order!./lib/jasmine",
     "require"
   ], 
   function( xj, xjhtml, duhLintReporter, parentReporter, coverageReporter, purl, req ) {
+      var unu;
       apiReporter = new jasmine.JsApiReporter();
       lintReporter = duhLintReporter;
       jasmine.getEnv().addReporter( apiReporter );
