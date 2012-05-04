@@ -13,14 +13,15 @@ var perma = require( './permaProc.js' );
 var phanto= require( './phantoProc.js' );
 var fs = require('fs');
 var vm = require('vm');
+var net = require('net');
 var port = 7000;
 var config;
 
-var setIfBlank = function( target, property, value ) {
-    if ( typeof( target[property] ) === "undefined" ) {
-        target[property] = value;
-    }
-};
+//var setIfBlank = function( target, property, value ) {
+//    if ( typeof( target[property] ) === "undefined" ) {
+//        target[property] = value;
+//    }
+//};
 try {
     var configString = fs.readFileSync( "klujs-config.js", "UTF8" );
     vm.runInThisContext( configString, "klujs-config.js" );    
@@ -35,6 +36,24 @@ try {
 }
 catch( ex ) {
     throw( "Could not load KluJS/boot.js?!?: " + ex );
+}
+
+var portArgIndex = process.argv.indexOf( "-port" );
+if ( portArgIndex > -1 ) {
+    var portArg = process.argv[portArgIndex + 1];
+    if ( portArg === "find" ) {
+        throw "Find a port is not supported yet.";
+    }
+    else {    
+        var portVal = parseInt( portArg );
+        if ( portVal > 1 ) {            
+            port = portVal;
+        }
+        else {
+            throw "Illegal port option value " + portArg;
+        }
+    }
+    util.log( "Using base port " + port );
 }
 
 var jscov, nocov, i;
@@ -58,7 +77,12 @@ util.log( "Args are " + args );
 
 jscov = new perma.ProcManager( "cov", "jscoverage-server", args );
 
-nocov = new perma.ProcManager( "noc", "jscoverage-server", ["--no-instrument=" + klujs.src, "--no-instrument=klujs-config.js", "--no-instrument=KluJS", "--port=7002", "--verbose"] );
+nocov = new perma.ProcManager( "noc", "jscoverage-server", 
+                               ["--no-instrument=" + klujs.src, 
+                                "--no-instrument=klujs-config.js", 
+                                "--no-instrument=KluJS", 
+                                "--port=" + (port+2), 
+                                "--verbose"] );
 
 jscov.startNew();
 nocov.startNew();
@@ -144,7 +168,7 @@ var startServer = function() {
 
 startServer();
 
-if ( process.argv[2] === "phantom" ) {
+if ( process.argv.indexOf( "-phantom" ) > -1 ) {
     phanto.runPhantom( function( result ) {
         util.log( "Phantom result: " + result );
         process.exit(0);

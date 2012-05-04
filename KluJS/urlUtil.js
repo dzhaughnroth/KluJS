@@ -1,5 +1,5 @@
 /*globals define:false, JSLINT:false*/
-define( ["jquery", "./lib/purl"], function($,purl) {
+define( ["jquery", "./lib/purl" ], function($,purl) {
 
     // FIXME use require.toURL instead.
     this.findScriptTags = function(regex) {

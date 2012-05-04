@@ -262,7 +262,7 @@ define( ["jquery",
                     doLint();
                     try {
                         $("#jscoverageContainer").remove();
-                        coverageView.showCoverage( );                
+                        coverageView.showCoverage( specRunners );                
                         results = getResults();
                     } catch (x) {
                         console.log( "showCoverage failed: " + x );
