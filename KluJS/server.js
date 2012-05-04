@@ -8,6 +8,18 @@
  */
 var http = require('http');
 var util = require('util');
+var express = require( 'express' );
+var argv = require('optimist')
+        .usage("Start a simple web server to instrument JS code.")
+	    .options("port", {
+		    "default" : "7000"
+	    })
+        .describe("port", "Base port to use" )
+        .options("phantom", { } )
+        .describe( "phantom", "Start server, run phantom-runner script, and exit." )
+	    .boolean("h").alias("h", "help")
+        .argv;
+
 //var spawn = require('child_process').spawn;
 var perma = require( './permaProc.js' );
 var phanto= require( './phantoProc.js' );
@@ -15,7 +27,15 @@ var fs = require('fs');
 var vm = require('vm');
 var net = require('net');
 var port = 7000;
+
+if (argv.h) {
+	require("optimist").showHelp();
+    process.exit(0);
+}
+
 var config;
+
+
 
 //var setIfBlank = function( target, property, value ) {
 //    if ( typeof( target[property] ) === "undefined" ) {
@@ -101,7 +121,7 @@ var routeRequest = function( request ) {
     var targetPort = port + 1;
     if ( request.url.match( /KluJSplain$/ ) 
          || matchesLibDirs( request.url ) ){
-        targetPort = port + 2;
+        targetPort = port + 3;//2;
     }
     return [ targetPort, "localhost" ];
 };
@@ -183,3 +203,7 @@ process.on( 'exit', function() {
     util.log( "nocov exit" );
 } );
 
+var app = express.createServer();
+app.use( express.static( __dirname + "/.." ) );
+app.listen( port + 3 );
+util.log( "Listening to " + __dirname );

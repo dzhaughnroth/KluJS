@@ -1,3 +1,14 @@
+Replace jscoverage with built in node-coverage and vanilla file
+servers based on express. Keep jscoverage as an option. also:
+
+"src" optional custom setting is probably unnecessary if we do not use
+jscoverage as the server for uninstrumented files. So don's use
+jscoverage for that, and fix that setting.
+
+Document -phantom option to support command line builds.
+
+Support find-a-port feature.
+
 Document/enhance filters for modules and files.
 
 Create build/Minification process for distributing KluJS
@@ -19,9 +30,6 @@ Report better on lint filtering. And, in particular, don't report
 KluJS being filtered out, if it is. FIXED filters are reported on
 in priority order, so not too much noise.
 
-"src" optional custom setting is probably unnecessary if we do not use
-jscoverage as the server for uninstrumented files. So don's use
-jscoverage for that, and fix that setting.
 
 Overrides for main,test,libDirs should be relative to src and each
 other? Or templating like "${main}/lib"?
@@ -40,13 +48,13 @@ is important at the moment, more important than speed.
 Oh, and the UI display stinks.
 
 Remove noise of passing lint files. Perhaps sort by pass/fail, then
-alphabetically.
+alphabetically. FIXED. 
 
-Provide a way to specify coverage targets.
+Provide a way to specify coverage targets/goals.
 
 fix bug where specs are filtered because path is
 KluJS/../../pathToTest...  (FIXED by replacing KluJS/.. at start with
 blank. I'm not sure that's 100% robust.) See next item.
 
-Too many ".." in paths; compute to essence.
+Too many ".." in paths; compute to essence. FIXED I believe
 
