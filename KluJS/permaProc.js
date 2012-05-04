@@ -19,7 +19,7 @@ var ProcManager = function( name, command, args ) {
             var proc = spawn( command, args );
             proc.on( 'exit', function( code, signal) {
                 log( "Process ended: " + code + " " + signal );
-//                startNew();
+                startNew();
             } );
             proc.stdout.on('data', function (data) {
                 log( 'stdout: ' + data);
