@@ -1,9 +1,13 @@
+Include necessary packages in node-modules
+
+Include node-coverage in a place where it can be used.
+
 Replace jscoverage with built in node-coverage and vanilla file
-servers based on express. Keep jscoverage as an option. also:
+servers based on express. Keep jscoverage as an option. MUCH PROGRESS
 
 "src" optional custom setting is probably unnecessary if we do not use
 jscoverage as the server for uninstrumented files. So don's use
-jscoverage for that, and fix that setting.
+jscoverage for that, and fix that setting. DONE uses express.
 
 Document -phantom option to support command line builds.
 
@@ -21,13 +25,13 @@ run concurrently maybe that's okay how do we force it?
 Document the configuration settings
 
 Make the proxy restart jscoverage process automatically when it fails
-due to a bad javascript file.
+due to a bad javascript file. DONE. see permaProc.js
 
 Remove jasmineGradle global, probably unused. Limit klujs global to
 configuration; use a module to access it.
 
 Report better on lint filtering. And, in particular, don't report
-KluJS being filtered out, if it is. FIXED filters are reported on
+KluJS being filtered out, if it is. MOSTLY FIXED filters are reported on
 in priority order, so not too much noise.
 
 
