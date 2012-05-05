@@ -116,7 +116,7 @@ define( ["require", "jquery", "./lib/jquery.datatables.min"], function(req, $) {
     };
 
     this.buildNodeCoverageDiv = function( nodeCoverage ) {
-        $("<button />", {text:"node-coverage"} ).appendTo( bannerDiv );
+        $("<button />", {text:"node-coverage", disabled:true} ).appendTo( bannerDiv );
         var table = $( "<table />", { id: "pcovTable",
                                       cellpadding: "0",
                                       cellspacing: "0",

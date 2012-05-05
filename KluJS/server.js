@@ -30,7 +30,7 @@ var phanto= require( './phantoProc.js' );
 var fs = require('fs');
 var vm = require('vm');
 var net = require('net');
-var proxyMode = false;
+var proxyMode = true;//false;
 var port;
 
 if (argv.h) {
@@ -67,27 +67,21 @@ catch( ex ) {
 
 var startJsCoverage = function() {
     proxyMode = true;
-    var i;
     var args = ["--verbose", "--port=" + (port+1)];
-    if ( klujs.libDirs ) {
-        for( i in klujs.libDirs ) {
-            args.push( "--no-instrument=" + klujs.libDirs[i] );
-        }
-    }
-
-
-    if ( true !== klujs.noDefaultFilter ) {
-        args.push( "--no-instrument=KluJS" );
-        var relReqHome = 
-                klujs.requireHome.substring( 3, klujs.requireHome.length );
-        args.push( "--no-instrument=" + relReqHome );
-    }
-
-    util.log( "JSCoverage args are " + args );
-
     var jscov = new perma.ProcManager( "cov", "jscoverage-server", args );
     jscov.startNew();
     process.on( 'exit', function() { jscov.end(); } );
+};
+
+var startNodeCoverageServer = function() {
+    proxyMode = true;
+    var nodeCov = new perma.ProcManager( "nodeCoverage", "node", 
+                                         [ "KluJS/node-coverage/server.js", 
+                                           "-d", ".",
+                                           "-r", "foo",
+                                           "--port", (port+1) ] ); // FIXME not foo, but a tmp
+    nodeCov.startNew();
+    process.on( 'exit', function() { nodeCov.end(); } );
 };
 
 var matchesLibDirs = function( url ) {
@@ -119,6 +113,7 @@ var handleByProxy = function(request, response) {
     var proxy = makeProxy();
     // ... that sends the same same request  
     var proxy_request = proxy.request(request.method, request.url, request.headers);
+    console.log( "Sending to proxy " + request.url );
     // ... and links the response objects.
     proxy_request.addListener('response', function (proxy_response) {
         // ... by copying the headers.
@@ -155,8 +150,8 @@ var handleByProxy = function(request, response) {
 if ( argv.jscoverage ) {
     startJsCoverage();
 }
-else {
-//    hmm.
+if ( argv.nodecoverage ) {
+    startNodeCoverageServer();
 }
 
 if ( argv.phantom ) {
@@ -166,8 +161,18 @@ if ( argv.phantom ) {
     } );
 }
 
+var checkLibFilter = function( path ) {
+    var i;
+    for ( i = 0; i < klujs.libDirs.length; i++ ) {
+        if ( path.match( klujs.libDirs[i] ) ) {
+            return false;
+        }        
+    }
+    return true;    
+};
+
 var app = express.createServer();
-app.use( express.logger({ format: 'ZOOT :method :url' }) );
+app.use( express.logger({ format: ':method :url' }) );
 app.use( app.router );
 app.use( express.static( __dirname + "/.." ) );
 
@@ -177,7 +182,12 @@ app.get( "/*.js", function( req, res, next ) {
     }
     else {
         if ( proxyMode ) {
-            handleByProxy( req, res );
+            if ( checkLibFilter( req.url ) ) {
+                handleByProxy( req, res );
+            }
+            else {
+                next();
+            }
         }
         else {
             next();
