@@ -12,11 +12,15 @@ var express = require( 'express' );
 var argv = require('optimist')
         .usage("Start a simple web server to instrument JS code.")
 	    .options("port", {
-		    "default" : "7000"
+		    "default" : 7000
 	    })
         .describe("port", "Base port to use" )
-        .options("phantom", { } )
+        .boolean( "phantom" )
         .describe( "phantom", "Start server, run phantom-runner script, and exit." )
+        .boolean( "jscoverage" )
+        .describe( "jscoverage", "Start and use a jscoverage-server on the next port up." )
+        .boolean( "proxy" )
+        .describe( "proxy", "Start and use a node-coverage server on the next port up." )
 	    .boolean("h").alias("h", "help")
         .argv;
 
@@ -26,16 +30,19 @@ var phanto= require( './phantoProc.js' );
 var fs = require('fs');
 var vm = require('vm');
 var net = require('net');
-var port = 7000;
+var proxyMode = false;
+var port;
 
 if (argv.h) {
 	require("optimist").showHelp();
     process.exit(0);
 }
 
-var config;
-
-
+port = parseInt( argv.port );
+if ( isNaN( port ) ) {
+    util.log( "Illegal port value: " + argv.port );
+    process.exit( 1 );
+}
 
 //var setIfBlank = function( target, property, value ) {
 //    if ( typeof( target[property] ) === "undefined" ) {
@@ -58,54 +65,30 @@ catch( ex ) {
     throw( "Could not load KluJS/boot.js?!?: " + ex );
 }
 
-var portArgIndex = process.argv.indexOf( "-port" );
-if ( portArgIndex > -1 ) {
-    var portArg = process.argv[portArgIndex + 1];
-    if ( portArg === "find" ) {
-        throw "Find a port is not supported yet.";
-    }
-    else {    
-        var portVal = parseInt( portArg );
-        if ( portVal > 1 ) {            
-            port = portVal;
-        }
-        else {
-            throw "Illegal port option value " + portArg;
+var startJsCoverage = function() {
+    proxyMode = true;
+    var i;
+    var args = ["--verbose", "--port=" + (port+1)];
+    if ( klujs.libDirs ) {
+        for( i in klujs.libDirs ) {
+            args.push( "--no-instrument=" + klujs.libDirs[i] );
         }
     }
-    util.log( "Using base port " + port );
-}
 
-var jscov, nocov, i;
 
-var args = ["--verbose", "--port=" + (port+1)];
-if ( klujs.libDirs ) {
-    for( i in klujs.libDirs ) {
-        args.push( "--no-instrument=" + klujs.libDirs[i] );
+    if ( true !== klujs.noDefaultFilter ) {
+        args.push( "--no-instrument=KluJS" );
+        var relReqHome = 
+                klujs.requireHome.substring( 3, klujs.requireHome.length );
+        args.push( "--no-instrument=" + relReqHome );
     }
-}
 
+    util.log( "JSCoverage args are " + args );
 
-if ( true !== klujs.noDefaultFilter ) {
-    args.push( "--no-instrument=KluJS" );
-    var relReqHome = 
-            klujs.requireHome.substring( 3, klujs.requireHome.length );
-    args.push( "--no-instrument=" + relReqHome );
-}
-
-util.log( "Args are " + args );
-
-jscov = new perma.ProcManager( "cov", "jscoverage-server", args );
-
-nocov = new perma.ProcManager( "noc", "jscoverage-server", 
-                               ["--no-instrument=" + klujs.src, 
-                                "--no-instrument=klujs-config.js", 
-                                "--no-instrument=KluJS", 
-                                "--port=" + (port+2), 
-                                "--verbose"] );
-
-jscov.startNew();
-nocov.startNew();
+    var jscov = new perma.ProcManager( "cov", "jscoverage-server", args );
+    jscov.startNew();
+    process.on( 'exit', function() { jscov.end(); } );
+};
 
 var matchesLibDirs = function( url ) {
     for( i in klujs.libDirs ) {
@@ -115,15 +98,6 @@ var matchesLibDirs = function( url ) {
         }
     }
     return false;
-};
-
-var routeRequest = function( request ) {
-    var targetPort = port + 1;
-    if ( request.url.match( /KluJSplain$/ ) 
-         || matchesLibDirs( request.url ) ){
-        targetPort = port + 3;//2;
-    }
-    return [ targetPort, "localhost" ];
 };
 
 var vanillaResponse = [
@@ -137,39 +111,33 @@ var vanillaResponse = [
     "</html>",
     ""].join( "\n" );
 
-var handleRequest = function( req, res ) {
-    res.writeHead( 200, { "Content-Type": "text/html" });
-    res.write( vanillaResponse, "utf8" );
-    res.end();
-};
-
-var startServer = function() {
-    return http.createServer(function(request, response) {
-        var self = this;
-        if ( request.url === "/" || request.url.match( /\/\?/ ) ) {
-            handleRequest( request, response );
-        return;
-    }
-    var dest = routeRequest( request );
-    var makeProxy = function() { return http.createClient.apply( self, dest ); };
-
+var handleByProxy = function(request, response) {
+    var self = this;
+    var dest = [port+1, "localhost" ];
+    // make an http client to the instrumentation server
+    var makeProxy = function() { return http.createClient.apply( self, dest ); }; 
     var proxy = makeProxy();
-    util.log( request.method + " " + request.url + " " + dest + " " + request.headers.host);
+    // ... that sends the same same request  
     var proxy_request = proxy.request(request.method, request.url, request.headers);
+    // ... and links the response objects.
     proxy_request.addListener('response', function (proxy_response) {
+        // ... by copying the headers.
+        response.writeHead(proxy_response.statusCode, proxy_response.headers);
+        // ... by copying data as it comes
         proxy_response.addListener('data', function(chunk) {
             response.write(chunk, 'binary');
         });
+        // ... by forwarding the ending and error conditions.
         proxy_response.addListener('end', function() {
             response.end();
         });
         proxy_response.addListener('error', function(x) {
             util.log( "respError " + x );
             response.end();
-        } );        
-        response.writeHead(proxy_response.statusCode, proxy_response.headers);
+        } );
     });
     request.addListener('data', function(chunk) {
+        util.log( "Writing a chunk to proxy. Do I ever?" );
         proxy_request.write(chunk, 'binary');
     });
     request.addListener('end', function() {
@@ -182,28 +150,44 @@ var startServer = function() {
     proxy_request.addListener( 'error', function(x) {
         util.log( "Error proxyreq " + x );
     });
-}).listen(port);
-
 };
 
-startServer();
+if ( argv.jscoverage ) {
+    startJsCoverage();
+}
+else {
+//    hmm.
+}
 
-if ( process.argv.indexOf( "-phantom" ) > -1 ) {
+if ( argv.phantom ) {
     phanto.runPhantom( function( result ) {
         util.log( "Phantom result: " + result );
         process.exit(0);
     } );
 }
 
-process.on( 'exit', function() {
-    util.log( "Exiting." );
-    jscov.end();
-    util.log( "jscov exit" );
-    nocov.end();
-    util.log( "nocov exit" );
+var app = express.createServer();
+app.use( express.logger({ format: 'ZOOT :method :url' }) );
+app.use( app.router );
+app.use( express.static( __dirname + "/.." ) );
+
+app.get( "/*.js", function( req, res, next ) {
+    if ( typeof( req.query.KluJSplain ) !== "undefined" ) {
+        next();
+    }
+    else {
+        if ( proxyMode ) {
+            handleByProxy( req, res );
+        }
+        else {
+            //handle with node-coverage
+        }
+    }
 } );
 
-var app = express.createServer();
-app.use( express.static( __dirname + "/.." ) );
-app.listen( port + 3 );
+app.get( "/", function( req, res ) {
+    res.send( vanillaResponse, { "Content-Type": "text/html" } );
+} );
+
+app.listen( port );
 util.log( "Listening to " + __dirname );
