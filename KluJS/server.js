@@ -180,6 +180,7 @@ app.get( "/*.js", function( req, res, next ) {
             handleByProxy( req, res );
         }
         else {
+            next();
             //handle with node-coverage
         }
     }
