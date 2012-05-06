@@ -30,7 +30,7 @@ var phanto= require( './phantoProc.js' );
 var fs = require('fs');
 var vm = require('vm');
 var net = require('net');
-var proxyMode = true;//false;
+var proxyMode = false;
 var port;
 
 if (argv.h) {
@@ -76,7 +76,7 @@ var startJsCoverage = function() {
 var startNodeCoverageServer = function() {
     proxyMode = true;
     var nodeCov = new perma.ProcManager( "nodeCoverage", "node", 
-                                         [ "KluJS/node-coverage/server.js", 
+                                         [ "KluJS/lib/node-coverage/server.js", 
                                            "-d", ".",
                                            "-r", "foo",
                                            "--port", (port+1) ] ); // FIXME not foo, but a tmp
@@ -161,6 +161,7 @@ if ( argv.phantom ) {
     } );
 }
 
+
 var checkLibFilter = function( path ) {
     var i;
     for ( i = 0; i < klujs.libDirs.length; i++ ) {
@@ -169,6 +170,45 @@ var checkLibFilter = function( path ) {
         }        
     }
     return true;    
+};
+
+var sourceCodeCache = {
+	code : {},
+	highlight : {}
+};
+var docRoot = ".";
+var report = require("./lib/node-coverage/lib/report");
+var instrument = require("./lib/node-coverage/lib/instrument");
+
+var coverageOptions = {
+    "function" : undefined,
+	"condition" : true,
+	"doHighlight" : true
+};
+
+var sendInstrumentedFile = function( req, res ) {
+
+	var instrumentedCode = sourceCodeCache[req.url];
+    
+	if (instrumentedCode) {
+		res.send(instrumentedCode.clientCode, {"Content-Type" : "text/javascript"});
+	} else {
+		fs.readFile(docRoot + req.url, "utf-8", function (err, content) {
+			if (err) {
+				res.send("Error while reading " + req.url + err, 500);
+			} else {
+				var code = instrument(req.url, content, coverageOptions);
+				sourceCodeCache.code[req.url] = code.clientCode;
+                
+				if (!coverageOptions.doHighlight) {
+					sourceCodeCache.highlight[req.url] = code.highlightedCode;
+					req.session.highlightInMemory = true;
+				}
+                
+				res.send(code.clientCode, {"Content-Type" : "text/javascript"});
+			}
+		});
+	}
 };
 
 var app = express.createServer();
@@ -190,13 +230,18 @@ app.get( "/*.js", function( req, res, next ) {
             }
         }
         else {
-            next();
-            //handle with node-coverage
+            if ( checkLibFilter( req.url ) ) {
+                sendInstrumentedFile( req,res );
+            }
+            else {
+                next();
+            }
         }
     }
 } );
 
 app.get( "/", function( req, res ) {
+//    util.log( util.inspect( Object.keys(require('module')._cache) ));//debug
     res.send( vanillaResponse, { "Content-Type": "text/html" } );
 } );
 

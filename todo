@@ -1,5 +1,7 @@
 Include necessary packages in node-modules
 
+Cleanup extra modules in lib/node-coverage
+
 Include node-coverage in a place where it can be used.
 
 Replace jscoverage with built in node-coverage and vanilla file
