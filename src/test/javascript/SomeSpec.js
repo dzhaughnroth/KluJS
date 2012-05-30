@@ -5,5 +5,4 @@ define( ["bModule"], function( bMod ) {
             expect( bMod.inc( 3 ) ).toBe( 4 );
         } );
     });
-})
-;
+});

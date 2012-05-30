@@ -30,7 +30,7 @@ define( ["jquery", "./lib/purl" ], function($,purl) {
         var result = [], 
             i;
         for ( i = 0; i < x.length; i++ ) {
-            if ( x[i] !== "" ) {
+           if ( x[i] !== "" ) {
                 result.push( x[i] );
             }
         }

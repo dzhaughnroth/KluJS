@@ -88,7 +88,7 @@ define( ["jquery", "./lintFinder", "./lib/jquery.rule-1.0.2-min" ], function ($,
 
         this.renderDetailDiv = function( lintData, detailDiv ) {
             detailDiv.addClass( "hidden" );
-            if( !lintData ) {
+            if ( !lintData ) {
                 $("<p />", {text:"No lint data"} ).appendTo( detailDiv );
                 return;
             }
@@ -96,7 +96,7 @@ define( ["jquery", "./lintFinder", "./lib/jquery.rule-1.0.2-min" ], function ($,
                 var msgs = $( "<p />" ).appendTo( detailDiv );
                 msgs.append( "Implied globals: " ); 
                 $.each( lintData.implieds, function( i, x ) {
-                msgs.append( $("<span />", {text:x.name, title: "line " + x.line} ))
+                    msgs.append( $("<span />", {text:x.name, title: "line " + x.line} ))
                         .append( "; " );
                 } );
             }

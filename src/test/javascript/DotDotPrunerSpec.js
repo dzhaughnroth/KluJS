@@ -3,6 +3,16 @@
 define( ["KluJS/dotdotPruner"],
 
         function( pruner ) {
+/*
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
+
             describe( "DotDotPruner", function() {
                 it( "Prune dotdots", function() {
                     expect( pruner( "foo/../bar.js" )).toBe( "bar.js" );

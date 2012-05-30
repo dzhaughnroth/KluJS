@@ -137,17 +137,16 @@ define( ["require", "jquery", "./lib/jquery.datatables.min"], function(req, $) {
             }
             var met = {};
             $.each( nodeCoverage.allConditions[fileName], function( i, token ) {
-                var foo = {};
-                met[token] = foo;
+                met[token] = {};
             } );
             $.each( nodeCoverage.conditions[fileName], function( j, arr ) { 
-                var foo = met[ arr[0] ];
-                if ( foo ) {
+                var yn = met[ arr[0] ];
+                if ( yn ) {
                     if ( arr[1] ) {
-                        foo.yes = true;
+                        yn.yes = true;
                     }
                     else {
-                        foo.no = true;
+                        yn.no = true;
                     }
                 }
             } );
@@ -157,24 +156,39 @@ define( ["require", "jquery", "./lib/jquery.datatables.min"], function(req, $) {
                 if ( yn.yes ) {
                     ++metCount;
                 }
-                if( yn.no ) {
+                if ( yn.no ) {
                     ++metCount;
                 }
             } );
-            
-            covDataSums.push( [ fileName, lineTokens.length, 
+            var elemCount = lineTokens.length + condCount;
+            var elemCovered = coveredLines + metCount - condCount;
+            var elemRate = 0.0;
+            if ( elemCount > 0 ) {
+                elemRate = ( elemCovered / elemCount ).toFixed( 2 );
+            }
+            covDataSums.push( [ fileName, 
+                                elemCount,
+                                elemCount - elemCovered,
+                                elemRate,
+                                lineTokens.length, 
                                 lineTokens.length - coveredLines, rate,
-                                2 * condCount, 2 * condCount - metCount ] );
+                                2 * condCount, 
+                                2 * condCount - metCount,
+                                elemCount, elemCount - elemCovered
+                              ] );
         } );
         table.dataTable( {
             aaData : covDataSums,
 
             aoColumns : [ { "sTitle": "File" },
-                          { "sTitle" : "<span title='Number of lines'>N</span>" },
-                          { "sTitle" : "<span title='Lines missed'>m</span>" },
-                          { "sTitle" : "<span title='Coverage rate'>%</span>" }, 
-                          { "sTitle" : "<span title='Branches'>B</span>" },
-                          { "sTitle" : "<span title='Branches missed'>q</span>" }
+                          { "sTitle" : "<span title='Number of elements'>N</span>" },
+                          { "sTitle" : "<span title='Elements missed'>m</span>" },
+                          { "sTitle" : "<span title='Coverage Rate'>%</span>" },
+                          { "sTitle" : "<span title='Number of lines'>Nl</span>" },
+                          { "sTitle" : "<span title='Lines missed'>ml</span>" },
+                          { "sTitle" : "<span title='Coverage rate'>%l</span>" },
+                          { "sTitle" : "<span title='Branches'>Nb</span>" },
+                          { "sTitle" : "<span title='Branches missed'>mb</span>" }
                         ],
             bPaginate : false,
             bFilter : false,
