@@ -1,8 +1,8 @@
-/*global JSON:false, define:false, $$_l:false, describe:false, it:false, console:false, expect:false */
-define( [ "KluJS/nodeCoverageCalculator", "./fixture/simple.js", "./fixture/target.js", "./fixture/trinary.js" ], function( ncc ) {
+/*global JSON:false, define:false, $$_l:false, describe:false, it:false, expect:false */
+define( [ "KluJS/nodeCoverageCalculator", "./fixture/simple.js", "./fixture/target.js", "./fixture/trinary.js" ], function( NCC ) {
     describe( "Coverage Calculator", function() {
         var q = $$_l;
-        var calc = new ncc( $$_l );
+        var calc = new NCC( $$_l );
         it( "Calculates coverage", function() {
             var target = "/src/test/javascript/fixture/target.js";
             var x = calc.coverageByFile[target];
@@ -21,7 +21,6 @@ define( [ "KluJS/nodeCoverageCalculator", "./fixture/simple.js", "./fixture/targ
 
             expect( q.lines[target].length ).toBe(lines);
             expect( q.allConditions[target].length ).toBe(conditions);
-            console.log( JSON.stringify( x.line ));
             expect( x.line.count ).toBe( lines );
             expect( x.line.missed ).toBe( missedLines );
             expect( x.line.rate ).toBe( 1 - missedLines/lines );

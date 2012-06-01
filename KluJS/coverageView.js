@@ -132,9 +132,9 @@ define( ["require", "jquery", "./nodeCoverageCalculator", "./lib/jquery.datatabl
                                 coverage.element.rate.toFixed(2),
                                 coverage.line.count,
                                 coverage.line.missed,
-                                coverage.line.rate.toFixed(2),
-                                coverage.branch.count,
-                                coverage.branch.missed
+                                coverage.line.rate.toFixed(2)
+//                                coverage.branch.count,
+//                                coverage.branch.missed
                               ] );
         } );
         table.dataTable( {
@@ -146,9 +146,9 @@ define( ["require", "jquery", "./nodeCoverageCalculator", "./lib/jquery.datatabl
                           { "sTitle" : "<span title='Coverage Rate'>%</span>" },
                           { "sTitle" : "<span title='Number of lines'>Nl</span>" },
                           { "sTitle" : "<span title='Lines missed'>ml</span>" },
-                          { "sTitle" : "<span title='Coverage rate'>%l</span>" },
-                          { "sTitle" : "<span title='Branches'>Nb</span>" },
-                          { "sTitle" : "<span title='Branches missed'>mb</span>" }
+                          { "sTitle" : "<span title='Coverage rate'>%l</span>" }
+//                          { "sTitle" : "<span title='Branches'>Nb</span>" },
+//                          { "sTitle" : "<span title='Branches missed'>mb</span>" }
                         ],
             bPaginate : false,
             bFilter : false,
