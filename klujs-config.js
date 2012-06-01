@@ -5,7 +5,8 @@ klujs = {
                "lintjobSuite" : [ "LintJobSpec.js", 
                                  "LintViewSpec.js" ],
                "utils": ["DotDotPrunerSpec.js", 
-                         "UrlUtilSpec.js"]
+                         "UrlUtilSpec.js",
+                         "NodeCoverageCalculatorSpec.js" ]
              },
     noDefaultFilter : true,
     libDirs : [ "KluJS\/lib", /aModule\.js$/, /require\-jquery\.js/ ],

@@ -1,5 +1,5 @@
 /*global define:false, _$jscoverage:false, $$_l:false */
-define( ["require", "jquery", "./lib/jquery.datatables.min"], function(req, $) {
+define( ["require", "jquery", "./nodeCoverageCalculator", "./lib/jquery.datatables.min"], function(req, $, NodeCoverageCalculator) {
 
     var mydiv;
     var bannerDiv;
@@ -124,57 +124,17 @@ define( ["require", "jquery", "./lib/jquery.datatables.min"], function(req, $) {
                 .addClass("display")
                 .appendTo( mydiv );
         var covDataSums = [];
-        $.each( nodeCoverage.lines, function( fileName, lineTokens ) {
-            var coveredLines = 0;
-            $.each( lineTokens, function( j, token ) {
-                if ( nodeCoverage.runLines[fileName][token] > 0 ) {
-                    ++coveredLines;
-                }
-            } );
-            var rate = 0.0;
-            if ( lineTokens.length > 0 ) {
-                rate = ( coveredLines / lineTokens.length ).toFixed( 2 );
-            }
-            var met = {};
-            $.each( nodeCoverage.allConditions[fileName], function( i, token ) {
-                met[token] = {};
-            } );
-            $.each( nodeCoverage.conditions[fileName], function( j, arr ) { 
-                var yn = met[ arr[0] ];
-                if ( yn ) {
-                    if ( arr[1] ) {
-                        yn.yes = true;
-                    }
-                    else {
-                        yn.no = true;
-                    }
-                }
-            } );
-            var metCount = 0, condCount = 0;
-            $.each( met, function( token, yn ) {
-                ++condCount;
-                if ( yn.yes ) {
-                    ++metCount;
-                }
-                if ( yn.no ) {
-                    ++metCount;
-                }
-            } );
-            var elemCount = lineTokens.length + condCount;
-            var elemCovered = coveredLines + metCount - condCount;
-            var elemRate = 0.0;
-            if ( elemCount > 0 ) {
-                elemRate = ( elemCovered / elemCount ).toFixed( 2 );
-            }
+        var calc = new NodeCoverageCalculator( nodeCoverage );
+        $.each( calc.coverageByFile, function( fileName, coverage ) {
             covDataSums.push( [ fileName, 
-                                elemCount,
-                                elemCount - elemCovered,
-                                elemRate,
-                                lineTokens.length, 
-                                lineTokens.length - coveredLines, rate,
-                                2 * condCount, 
-                                2 * condCount - metCount,
-                                elemCount, elemCount - elemCovered
+                                coverage.element.count,
+                                coverage.element.missed,
+                                coverage.element.rate.toFixed(2),
+                                coverage.line.count,
+                                coverage.line.missed,
+                                coverage.line.rate.toFixed(2),
+                                coverage.branch.count,
+                                coverage.branch.missed
                               ] );
         } );
         table.dataTable( {
