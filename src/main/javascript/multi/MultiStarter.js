@@ -3,7 +3,6 @@ define( [ "jslint", "../lib/order!./PageModel", "../lib/order!./PageView", "jque
 
     var frameDiv = $( "<div />" )
             .addClass("childIFrameContainer");
-//            .addClass("hidden");
     $("body").append( frameDiv );
     var model = new PageModel( { frameDiv : frameDiv } );
     var view = new PageView( { model:model } ).render();
