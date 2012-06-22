@@ -1,0 +1,80 @@
+/* Correction for update to jasmine 1.2.0*/
+body { 
+  background-color: white;
+  font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+}
+
+#TrivialReporter {
+    position:static;
+}
+
+/*JSLint */
+.hidden {
+  display: none;
+}
+
+#lintframe {
+    display: none;
+}
+
+#jslintContainer a, a:visited{
+  color: #303;
+}
+
+#jslintContainer {
+  padding: 5px;
+  margin: 5px;
+  background-color: #fef;
+  color: #303;
+  float: left;
+}
+
+#jslintBanner .jslintTitle{
+  font-size: 1.1em;  
+  text-decoration: underline;
+}
+
+
+#jscoverageContainer {
+  padding: 5px;
+  margin: 5px;
+  background-color: #fef;
+  color: #303;  
+  float:left;
+}
+
+#jscoverageBanner {
+  font-size: 1.1em;  
+  text-decoration: underline;
+}
+
+.jslintPassed {
+  border: 1px solid gray;
+  padding: 5px;
+  margin: 5px;
+  background-color: #bfb;
+  border-color: green;
+}
+.jslintFailed p {
+  margin: 10px 0px 0px 40px;
+  font-size: .8em;
+}
+.jslintFailed {
+  border: 1px solid gray;
+  padding: 5px;
+  margin: 5px;
+  background-color: #fbb;
+  border-color: red;
+}
+.jslintWorking {
+  border: 1px solid gray;
+  padding: 5px;
+  margin: 5px;
+  background-color: #ffb;
+  border-color: gray;
+}
+
+.jslintDetailOpener {
+    text-decoration: underline;
+}
+

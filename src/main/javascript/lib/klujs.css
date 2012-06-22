@@ -1,0 +1,133 @@
+/* Correction for update to jasmine 1.2.0*/
+body { 
+  background-color: white;
+//  font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+//  line-height: 14px; 
+  font-size: 14px; 
+  font-family: Monaco, "Lucida Console", monospace; 
+  color: #333333; 
+}
+
+/*JSLint */
+.hidden {
+  display: none;
+}
+
+.lintCollectionView {
+  margin: 14px 0 0 0;
+  color: #303;
+}
+
+.lintCollectionBanner {
+    line-height: 28px;
+    padding: 0px 9px 0px 9px;
+    margin: 0 0 14px 0;
+    color: white;
+}
+
+.lintCollectionBanner .title {
+//  font-size: 1.2em;  
+//  text-decoration: underline;
+}
+
+.lintCollectionBanner.failed {
+    background-color:#B03911
+}
+
+.lintCollectionBanner.passed {
+    background-color:#5E7D00;
+}
+
+.lintCollectionBanner.running {
+    background-color:#333333;
+}
+
+.lintItem {
+    padding : 0 0 0 14px;
+}
+
+.lintItem.failed {
+    color: #B03911;
+}
+
+.lintItem.passed {
+    color: #5E7D00;
+}
+
+.lintItem.running {
+    color: #AAAAAA;
+}
+
+.lintDetail {
+    color: black;
+    font-size: .8em;
+    padding: 0 0 0 14;
+}
+
+.coverageDataView {
+    margin: 14px 0 0 0;
+}
+
+.coverageDataView table {
+    font-size: .9em;
+}
+
+.coverageBanner {
+  padding: 0px 9px 0px 9px;
+  margin: 0 0 14px 0;
+  line-height: 28px;
+//  text-decoration: underline;
+  background-color: #555555;
+  color: white;
+}
+
+#HTMLReporter.minimized .banner {
+    display: none;
+}
+#HTMLReporter.minimized .symbolSummary {
+    display: none;
+}
+#HTMLReporter.minimized .results {
+    display: none;
+}
+
+#HTMLReporter.minimized .resultsMenu {
+    display: none;
+}
+
+.childIFrameContainer {
+    position:absolute;
+    right:0px;
+    top:0px;
+    height:30%;
+    width:60%;
+    z-index:50;
+//    float:right;
+//    display:none;
+//    height:800px;
+}
+
+.childKlujsSuiteFrame {
+    width: 100%;//500px;
+    height: 100%;
+//    z-index: -100;
+}
+
+.childFrameSummary {
+    line-height: 28px;
+    padding: 0px 9px 0px 9px;
+    margin: 0 0 14px 0;
+    background-color:#5E7D00;
+    color:white;
+}
+
+.childFrameSummary.failed {
+    background-color:#B03911;
+}
+.childFrameSummary.failed.running {
+    background-color: #D0AAAA;
+}
+.childFrameSummary.running {
+    background-color:#AAAAAA;
+    color:white;
+}

@@ -1,0 +1,7 @@
+<div class='lintItemHeadline'>
+  <span><%= src %>: <%= done ? ( error ? "Failed " + message : issueCount + " issue(s)" ) : "(working)" %></span>
+  <button class='reload'>Reload</button>
+</div>
+<% _.each( messages, function( msg ) { %> 
+<div class="lintDetail hidden" ><%= msg %></div>
+<% } ); %>

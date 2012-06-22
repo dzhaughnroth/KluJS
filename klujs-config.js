@@ -1,15 +1,34 @@
 /*global klujs:true */
 klujs = {
-    suites : { "specSuite" : [ "SomeSpec.js", "AnotherSpec.js" ],
-               "runnerSuite" : [ "ChildRunnerSpec.js" ],
-               "lintjobSuite" : [ "LintJobSpec.js", 
-                                 "LintViewSpec.js" ],
-               "utils": ["DotDotPrunerSpec.js", 
-                         "UrlUtilSpec.js",
-                         "NodeCoverageCalculatorSpec.js" ]
-             },
-    noDefaultFilter : true,
-    libDirs : [ "KluJS\/lib", /aModule\.js$/, /require\-jquery\.js/ ],
-//    specRunners : [ "SpecRunner.html" ]
-    "foo":"bar"
+    require : {
+        paths: {
+            underscore: 'lib/underscore',
+            backbone: 'lib/backbone',
+            jslint: 'lib/webjslint'
+        }
+    },
+    suites : { 
+        "Models" : [ "JasmineModelSpec.js", "SuiteAssemblySpec.js", 
+                     "SuiteViewSpec.js", "JasmineDivReporterSpec.js",
+                     "SuitePageSpec.js", "SuiteRunnerSpec.js" ],
+        "Lint" : [ "lint/LintModelSpec.js", 
+                   "lint/LintCollectionSpec.js", 
+                   "lint/LintViewSpec.js", 
+                   "lint/LintCollectionSummaryViewSpec.js",
+                   "lint/LintCollectionViewSpec.js",
+                   "lint/DirectoryNamePrunerSpec.js",
+                   "lint/LintFinderSpec.js" ],
+        "Coverage" : [ "coverage/NodeCoverageCalculatorSpec.js", 
+                       "coverage/CoverageDataAggregatorSpec.js",
+                       "coverage/CoverageDataModelSpec.js", 
+                       "coverage/CoverageDataViewSpec.js"],
+        "Widgets" : [ "widgets/CheckboxSpec.js" ],
+        "Multi": ["multi/ChildFrameManagerSpec.js", "multi/ChildFrameManagerViewSpec.js",
+                  "multi/ChildFrameCollectionSpec.js", 
+                  "multi/PageModelSpec.js", "multi/PageViewSpec.js" ]
+        
+    },
+    ignore:"me"
 };
+
+
