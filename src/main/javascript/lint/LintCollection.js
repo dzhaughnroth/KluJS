@@ -1,12 +1,10 @@
 /*global define:false, jasmine:false */
-define( ["backbone", "./LintModel", "./LintLoaderStrategy", "underscore" ], function( Backbone, LintModel, LintLoaderStrategy, _ ) {
+define( ["backbone", "./LintModel", "underscore" ], function( Backbone, LintModel, _ ) {
     
     var LintCollection = Backbone.Collection.extend( {
-        loader : LintLoaderStrategy.ajax,
         modelsBySrc : {},
         filterMap: {},
         modelFactory : function( attributeHash ) {
-            attributeHash.loader = this.loader;
             var result = new LintModel( attributeHash );
             return result;
         },

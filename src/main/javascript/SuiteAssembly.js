@@ -3,9 +3,8 @@ define( [
     "./JasmineModel",
     "./coverage/CoverageDataModel",
     "./lint/LintFinder",
-    "./lint/LintCollection",
-    "./lint/LintLoaderStrategy"
-], function( JasmineModel, CoverageDataModel, LintFinder, LintCollection, LintLoaderStrategy ) {
+    "./lint/LintCollection"
+], function( JasmineModel, CoverageDataModel, LintFinder, LintCollection ) {
 
     // optional args for testing; defaults to window, jasmine globals
     var Assembly = function( mockWindow, mockJasmine ) {
@@ -21,7 +20,6 @@ define( [
         };
         var jasModel = new JasmineModel( { jasmineImpl:mockJasmine } );
         var lintModel = new LintCollection();
-        lintModel.loader = LintLoaderStrategy.ajax;
         lintModel.on( 'add', function( modelAdded ) {
             modelAdded.check();
         } );

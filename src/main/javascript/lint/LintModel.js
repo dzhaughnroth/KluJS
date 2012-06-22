@@ -1,7 +1,14 @@
 /*global define:false, jasmine:false, JSLINT:false */
-define( ["backbone", "underscore", "jquery", "./LintLoaderStrategy" ], function( Backbone, _, $, LintLoader ) {
+define( ["backbone", "underscore", "jquery"], function( Backbone, _, $ ) {
     var jslintImpl = JSLINT;
-
+    var ajaxStrategy = function( src, onSuccess, onError ) {
+        var loc = src + "?KluJSplain";
+        $.ajax( loc, { dataType:"text", async:true } )
+            .done( function( text, status, ar) {
+                onSuccess( text );
+            } )
+            .fail( onError );
+    };
     var issueCount = function() {
         var data = this.get("lintData");
         if ( ! data ) {
@@ -26,7 +33,7 @@ define( ["backbone", "underscore", "jquery", "./LintLoaderStrategy" ], function(
             src : "Required at construction",
             done : false,
             error : false,
-            loader : LintLoader.ajax
+            loader : ajaxStrategy
 //            message : "",
 //            lintData : {}           
         },
