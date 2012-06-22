@@ -12,7 +12,8 @@ define( [ "./lib/order!./lib/jasmine",
       apiReporter = new jasmine.JsApiReporter();
       lintReporter = duhLintReporter;
       jasmine.getEnv().addReporter( apiReporter );
-      jasmine.getEnv().addReporter( new jasmine.TrivialReporter() );
+//      jasmine.getEnv().addReporter( new jasmine.TrivialReporter() );
+      jasmine.getEnv().addReporter( new jasmine.HtmlReporter() );
       jasmine.getEnv().addReporter( coverageReporter );
       jasmine.getEnv().addReporter( lintReporter );
       jasmine.getEnv().addReporter( parentReporter );
@@ -31,7 +32,7 @@ define( [ "./lib/order!./lib/jasmine",
                   relSpecs.push( "../" + klujs.test + "/" + spec );
               });
               run( relSpecs );
-          } );         
+          } );
       };
 
       return { run : run,

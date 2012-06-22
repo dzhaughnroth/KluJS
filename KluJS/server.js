@@ -169,6 +169,14 @@ var checkLibFilter = function( path ) {
             return false;
         }        
     }
+    if ( ! klujs.noDefaultFilter ) {
+        if ( path.match( /^\/KluJS\// ) ) {
+            return false;
+        }
+        if ( path.match( /require-jquery\.js$/ ) ) {
+            return false;
+        }        
+    }
     return true;    
 };
 
