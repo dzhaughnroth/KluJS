@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false */
-define( ["backbone", "underscore", "jquery", "../widgets/Checkbox", "../lib/text!./lintCollectionTemplate.html" ], function( Backbone, _, $, Checkbox, lintCollectionSummaryTemplate ) {
+define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../widgets/Checkbox", "../lib/text!./lintCollectionTemplate.html" ], function( Backbone, _, $, Checkbox, lintCollectionSummaryTemplate ) {
 
 // TODO
 // Replace span with this div as banner

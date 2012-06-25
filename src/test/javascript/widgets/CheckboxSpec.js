@@ -1,5 +1,5 @@
-/*global define:false, describe:false, it:false, expect:false, runs:false, waits:false */
-define( [ "widgets/Checkbox" ], function( Checkbox ) {
+/*global define:false, describe:false, it:false, expect:false, runs:false, waits:false, Backbone:false, _:false */
+define( [ "widgets/Checkbox", "lib/notBackbone", "lib/notUnderscore" ], function( Checkbox, Snackbone, Wunderscore ) {
     describe( "Checkbox", function() {
         var model = new Checkbox.Model( { label : "Hiyawlol" } );
         var cb1 = new Checkbox.View( { model:model } );

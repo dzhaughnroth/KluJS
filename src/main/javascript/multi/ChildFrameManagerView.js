@@ -1,5 +1,5 @@
 /*global jasmineGradle: true, $: false, define:false */
-define( ["backbone", "jquery", "underscore"], function(Backbone, $, _) {
+define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backbone, $, _) {
 
     var ChildFrameManagerView = Backbone.View.extend( {
         tagName:"tr",

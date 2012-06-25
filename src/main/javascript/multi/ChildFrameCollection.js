@@ -1,5 +1,5 @@
 /*global jasmineGradle: true, $: false, define:false */
-define( ["./ChildFrameManager", "./ChildFrameManagerView", "backbone", "jquery", "underscore"], function(ChildFrameManager,ChildFrameManagerView, Backbone, $, _) {
+define( ["./ChildFrameManager", "./ChildFrameManagerView", "../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(ChildFrameManager,ChildFrameManagerView, Backbone, $, _) {
 
     var Model = Backbone.Collection.extend( {
         model : ChildFrameManager,

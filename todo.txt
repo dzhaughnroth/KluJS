@@ -1,5 +1,14 @@
 Only use Backbone and _ in noConflict mode. Do not contaminate the module namespace with "backbone" and "underscore"
 
+Backbone in noConflict is ok.
+
+Underscore decides to define itself under the AMD module name
+underscore, not the path to the library. So I don't think we can avoid
+taking over the AMD namespace. However, a library can use a different
+name for underscore, and will not get that one. I don't think.
+
+
+
 In multiview. A bit too much flashing? Slows down the runner???
 
 style the multiview pass/fail
@@ -12,3 +21,4 @@ Manage jslint, backbone, underscore better so no collisions
 
 Clean up aux directory. Explain what parts can't be tested and why.
 Put server side only stuff in a different place.
+

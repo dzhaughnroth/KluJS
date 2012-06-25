@@ -1,5 +1,5 @@
 /*global define:false, window:false, klujs:false */
-define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "backbone", "jquery", "underscore" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, Backbone, $, _ ) {
+define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../lib/notBackbone", "jquery", "../lib/notUnderscore" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, Backbone, $, _ ) {
 
     var PageModel = Backbone.Model.extend( {
         defaults: {

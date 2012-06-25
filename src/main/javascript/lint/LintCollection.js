@@ -1,17 +1,19 @@
 /*global define:false, jasmine:false */
-define( ["backbone", "./LintModel", "underscore" ], function( Backbone, LintModel, _ ) {
+define( ["../lib/notBackbone", "./LintModel", "../lib/notUnderscore" ], function( Backbone, LintModel, _ ) {
     
     var LintCollection = Backbone.Collection.extend( {
-        modelsBySrc : {},
-        filterMap: {},
+        initialize: function() {
+            this.modelsBySrc = {};
+            this.filterMap = {};
+        },
         modelFactory : function( attributeHash ) {
             var result = new LintModel( attributeHash );
             return result;
         },
         addFinderResult : function( finderResult ) {
+            var self = this;
             // Caution: we assume the filtering logic of all the
             // children are identical here; true enough at the moment.
-            var self = this;
             this.finderResults = this.finderResults || [];
             this.finderResults.push( finderResult );
             _.each( finderResult.filterMap, function( items, type ) {
@@ -33,8 +35,6 @@ define( ["backbone", "./LintModel", "underscore" ], function( Backbone, LintMode
                     self.modelsBySrc[src] = model;
                 }
             } );
-
-            return this;
         },
         unfinished : function() {
             return this.filter( function(x) { 

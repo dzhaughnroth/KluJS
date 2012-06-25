@@ -2,9 +2,8 @@
 klujs = {
     require : {
         paths: {
-            underscore: 'lib/underscore',
-            backbone: '../../../KluJS/javascript/lib/backbone',
-            jslint: '../../../KluJS/javascript/lib/webjslint'
+            // not required by klujs; to demonstrate non-conflict
+            underscore: 'lib/underscore'
         }
     },
     suites : { 

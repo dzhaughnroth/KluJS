@@ -1,6 +1,6 @@
 /*global define:false, jasmine:false, JSLINT:false */
-define( ["backbone", "underscore", "jquery"], function( Backbone, _, $ ) {
-    var jslintImpl = JSLINT;
+define( ["../lib/notBackbone", "../lib/notUnderscore", "../lib/notJSLint", "jquery"], function( Backbone, _, notjslint, $ ) {
+
     var ajaxStrategy = function( src, onSuccess, onError ) {
         var loc = src + "?KluJSplain";
         $.ajax( loc, { dataType:"text", async:true } )
@@ -56,7 +56,10 @@ define( ["backbone", "underscore", "jquery"], function( Backbone, _, $ ) {
             var error = false;
             var message = "ok";
             var data;
-            var impl = jslintImpl;
+            // Tried using a module, but it never quite worked.
+            // JSLINT has functions that refer to the JSLINT global,
+            // so we need the last loaded instance of JSLINT.
+            var impl = JSLINT;
             try {
                 impl( jsText, {} );
                 try {                    

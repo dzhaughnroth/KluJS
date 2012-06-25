@@ -1,5 +1,5 @@
 /*global define:false, window:false, klujs:false */
-define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/CoverageDataView", "backbone", "jquery", "underscore", "require" ], function( ChildFrameCollection, LintCollectionView, CoverageDataView, Backbone, $, _, req ) {
+define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/CoverageDataView", "../lib/notBackbone", "jquery", "../lib/notUnderscore", "require" ], function( ChildFrameCollection, LintCollectionView, CoverageDataView, Backbone, $, _, req ) {
 
     var linkToCss = function( name ) {
         return $("<link />")

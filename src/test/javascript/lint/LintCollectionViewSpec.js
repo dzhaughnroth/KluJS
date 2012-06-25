@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, runs:false, waitsFor:false */
-define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCollectionView", "underscore", "jquery" ], function( LintView, LintModel, LintCollection, LintCollectionView, _, $ ) {
+define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCollectionView", "lib/notUnderscore", "jquery" ], function( LintView, LintModel, LintCollection, LintCollectionView, _, $ ) {
 
     describe( "LintCollectionView", function() {
         var model = new LintCollection( );
@@ -7,6 +7,7 @@ define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCo
         var view = new LintCollectionView( { model:model } ).render();
                 
         it( "Renders as a div with certain class name", function() {
+            expect( model.modelsBySrc ).toEqual( {} );
             expect( view.$el.hasClass( "lintCollectionView" ) ).toBe( true );
             expect( view.$el.is( "div" ) ).toBe( true );
         } );

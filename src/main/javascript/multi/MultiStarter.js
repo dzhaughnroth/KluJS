@@ -1,5 +1,5 @@
 /*global define:false, window:false, klujs:false, console:false */
-define( [ "jslint", "../lib/order!./PageModel", "../lib/order!./PageView", "jquery"], function( notlint, PageModel, PageView, $ ) {
+define( [ "../lib/order!./PageModel", "../lib/order!./PageView", "jquery"], function( PageModel, PageView, $ ) {
 
     var frameDiv = $( "<div />" )
             .addClass("childIFrameContainer");

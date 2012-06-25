@@ -1,5 +1,5 @@
 /*globals define:false, klujs:false, jasmine:false */
-define( [ "./lib/order!./lib/jasmine", "./lib/order!./lib/jasmine-html", "./lib/order!./SuiteRunner", "./lib/order!./SuitePage", "jquery", "jslint" ], function( j, jh, SuiteRunner, SuitePage, $ ) {
+define( [ "./lib/order!./lib/jasmine", "./lib/order!./lib/jasmine-html", "./lib/order!./SuiteRunner", "./lib/order!./SuitePage", "jquery" ], function( j, jh, SuiteRunner, SuitePage, $ ) {
 
     var page = new SuitePage();
     // has to come first. :(

@@ -2,9 +2,6 @@
 klujs = {
     require : {
         paths: {
-            underscore: 'lib/underscore',
-            backbone: 'lib/backbone',
-            jslint: 'lib/webjslint'
         }
     },
     suites : { 
@@ -25,8 +22,7 @@ klujs = {
         "Widgets" : [ "widgets/CheckboxSpec.js" ],
         "Multi": ["multi/ChildFrameManagerSpec.js", "multi/ChildFrameManagerViewSpec.js",
                   "multi/ChildFrameCollectionSpec.js", 
-                  "multi/PageModelSpec.js", "multi/PageViewSpec.js" ]
-        
+                  "multi/PageModelSpec.js", "multi/PageViewSpec.js" ]        
     },
     ignore:"me"
 };

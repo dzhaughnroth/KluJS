@@ -1,5 +1,5 @@
 /*globals define:false, $$_l:false */
-define( [ "backbone", "underscore", "jquery", "./SuiteAssembly", "./lint/LintCollectionView", "./coverage/CoverageDataView", "./JasmineDivReporter" ], function( Backbone, _, $, SuiteAssembly, LintCollectionView, CoverageDataView, JasmineDivReporter ) {
+define( [ "./lib/notBackbone", "./lib/notUnderscore", "jquery", "./SuiteAssembly", "./lint/LintCollectionView", "./coverage/CoverageDataView", "./JasmineDivReporter" ], function( Backbone, _, $, SuiteAssembly, LintCollectionView, CoverageDataView, JasmineDivReporter ) {
 
     var SuiteView = Backbone.View.extend( {
         tagName : "div",

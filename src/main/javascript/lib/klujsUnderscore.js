@@ -1,3 +1,5 @@
+// Only modification is to use 'klujsUnderscore" as the AMD module name,
+// not 'undersocre,' to avoid conflict. See bottom of file.
 //     Underscore.js 1.3.1
 //     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
 //     Underscore is freely distributable under the MIT license.
@@ -1000,7 +1002,7 @@
   // AMD define happens at the end for compatibility with AMD loaders
   // that don't enforce next-turn semantics on modules.
   if (typeof define === 'function' && define.amd) {
-    define('underscore', function() {
+    define('klujsUnderscore', function() {
       return _;
     });
   }

@@ -7,15 +7,15 @@ define( [ "lint/LintCollection", "lint/LintModel" ], function( LintCollection, L
             expect( lints.length ).toBe( 0 );
         } );
         it( "Builds, adds LintModels, computes counts", function() {
-            lints.add( new LintModel( { src : "foo" } ) );
+            lints.add( new LintModel( { src : "foofoo" } ) );
             expect( lints.length ).toBe( 1 );
 
             var z = lints.at( 0 );
-            expect( z.get("src") ).toBe( "foo" );
+            expect( z.get("src") ).toBe( "foofoo" );
             expect( z.issueCount ).toBeDefined();
-            lints.add( new LintModel( { src: "bar", done: "true" } ));
+            lints.add( new LintModel( { src: "barbar", done: "true" } ));
             expect( lints.length ).toBe( 2 );
-            expect( lints.at(1).get("src") ).toBe( "bar" );
+            expect( lints.at(1).get("src") ).toBe( "barbar" );
             lints.at( 1 ).issueCount = function() { return 10; };
             lints.add( new LintModel( { src: "baz", done: "true" } ) );
             lints.at( 2 ).issueCount = function() { return 5; };
@@ -29,6 +29,7 @@ define( [ "lint/LintCollection", "lint/LintModel" ], function( LintCollection, L
             expect( lints.length ).toBe( 3 );
         } );
         it( "Supports adding a LintFinder result", function() {
+            expect( lints.filterMap.lib ).toBeUndefined( );
             var mockFinderResult = {
                 allModules : [ "found1", "found2" ],
                 filterMap: { lib: [ "found4"] }
@@ -45,9 +46,14 @@ define( [ "lint/LintCollection", "lint/LintModel" ], function( LintCollection, L
             expect( lints.at(5).get( "src" ) ).toBe( "found3" );
             expect( lints.finderResults ).toEqual( [ mockFinderResult, mock2 ] );
             expect( lints.filterMap.lib ).toEqual( ["found4", "found5"] );
+ 
             // Note: we assume all filtering logic is identical,
             // so a filtered item in one child will not be unfiltered in another.
             // True enough at the moment.
+        } );
+        it( "Is not a singleton", function() {
+            var q = new LintCollection();
+            expect( q.modelsBySrc ).toEqual( {} );
         } );
 
     } );

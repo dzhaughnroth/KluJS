@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false*/
-define( [ "./NodeCoverageCalculator", "backbone", "underscore" ], function( NodeCoverageCalculator, Backbone, _ ) {
+define( [ "./NodeCoverageCalculator", "../lib/notBackbone", "../lib/notUnderscore" ], function( NodeCoverageCalculator, Backbone, _ ) {
 
     var SrcModel = Backbone.Model.extend( {
         defaults : { 

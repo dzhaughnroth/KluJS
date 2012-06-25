@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false*/
-define( ["backbone", "underscore", "jquery", "../lib/jquery.datatables.min" ], function( Backbone, _, $ ) {
+define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.datatables.min" ], function( Backbone, _, $ ) {
 
     var DtView = Backbone.View.extend( {
         tagName : "div",

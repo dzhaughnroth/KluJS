@@ -1,11 +1,10 @@
 /*global define:false */
-define( ["underscore"], function( _ ) {
+define( ["underscore"], function( un ) {
     var x = function() {
         var q = q || q || 3;
         return zoot;
     };
     var One = function(ints) {
-        
         this.ints = ints;
         var self = this;
         this.evens = function() {
