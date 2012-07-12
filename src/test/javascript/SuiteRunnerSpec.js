@@ -21,7 +21,7 @@ define( [ "SuiteRunner"], function( SuiteRunner ) {
             // jasmine freaks out if is a spec here
             // although of course it generally is.
             topic.klujsConfig = {
-                suites : { "Models" : [ "coverage/fixture/simple.js" ] },
+                suites : { "(base)" : [ "coverage/fixture/simple.js" ] },
                 test : klujs.test
             };
             runs( function() {

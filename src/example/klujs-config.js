@@ -6,10 +6,11 @@ klujs = {
             underscore: 'lib/underscore'
         }
     },
-    suites : { 
-        "One" : [ "OneSpec.js", "AnotherOneSpec.js"],
-        "Two" : [ "TwoSpec.js" ]
-    },
+//    suites : { 
+//        "One" : [ "OneSpec.js", "AnotherOneSpec.js"],
+//        "Two" : [ "TwoSpec.js" ]
+//    },
+    autoSuites:true,
     ignore:"me"
 };
 

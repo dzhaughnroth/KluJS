@@ -27,6 +27,7 @@ var argv = require('optimist')
 //var spawn = require('child_process').spawn;
 var perma = require( './permaProc.js' );
 var phanto= require( './phantoProc.js' );
+var suiteManagerPkg = require( "./javascript/autosuite/SuiteManager.js" );
 var fs = require('fs');
 var vm = require('vm');
 var net = require('net');
@@ -64,6 +65,8 @@ try {
 catch( ex ) {
     throw( "Could not load KluJS/boot.js?!?: " + ex );
 }
+
+var suiteManager = suiteManagerPkg.create( klujs.test.substring(3) );
 
 var startJsCoverage = function() {
     proxyMode = true;
@@ -113,7 +116,7 @@ var handleByProxy = function(request, response) {
     var proxy = makeProxy();
     // ... that sends the same same request  
     var proxy_request = proxy.request(request.method, request.url, request.headers);
-    console.log( "Sending to proxy " + request.url );
+    util.log( "Sending to proxy " + request.url );
     // ... and links the response objects.
     proxy_request.addListener('response', function (proxy_response) {
         // ... by copying the headers.
@@ -223,6 +226,13 @@ var app = express.createServer();
 app.use( express.logger({ format: ':method :url' }) );
 app.use( app.router );
 app.use( express.static( __dirname + "/.." ) );
+
+app.get("/klujs-autoSuites.json", function( req, res, next ) {
+    var str = suiteManager.getAsString();
+    util.log( str );
+    res.send( str,
+              {"Content-Type": "text/javascript"} );
+} );
 
 app.get( "/*.js", function( req, res, next ) {
     if ( typeof( req.query.KluJSplain ) !== "undefined" ) {

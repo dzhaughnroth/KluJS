@@ -42,7 +42,7 @@
     if ( !_klujs.requireHome.match( "/js$" ) ) {
         _klujs.requireHome += "/require-jquery.js";
     }
-    
+
     var addBootScriptElement = function() {
         var doc = window.document;
         var el = doc.createElement( "script" );
