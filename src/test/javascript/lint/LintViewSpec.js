@@ -1,4 +1,4 @@
-/*global define:false, describe:false, it:false, expect:false, runs:false, waits:false */
+/*global define:false, describe:false, it:false, expect:false, runs:false, waitsFor:false */
 define( [ "lint/LintView", "lint/LintModel" ], function( LintView, LintModel ) {
     var goodScript = "/*global goo:true*/\ngoo = 3;\n";
 
@@ -56,7 +56,8 @@ define( [ "lint/LintView", "lint/LintModel" ], function( LintView, LintModel ) {
                 myView.reload();
                 expect( myModel.get( "done" ) ).toBe( false );
             } );
-            waits( 50 );
+            waitsFor( function() { return myModel.get("done"); },
+                     500 );
             runs( function() {
                 expect( myModel.get( "done" )).toBe( true );
             } );

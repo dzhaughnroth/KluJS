@@ -7,17 +7,27 @@ var SpecFinder = function( basedir ) {
     var dirs = [];
 
     var totalPath = function( relPath ) {
-        return basedir + "/" + relPath;
+        var result = basedir;
+        if ( relPath !== "" ) {
+            result = basedir + "/" + relPath;
+        }
+        return result;
+    };
+
+    var pathForFile = function( path, file ) {
+        if ( path === "" ) {
+            return file;
+        }
+        else {
+            return path + "/" + file;
+        }
     };
 
     var findDirs = function( path ) {
         var files = fs.readdirSync( totalPath( path ) );
         var i;
         for ( i = 0; i < files.length; i++ ) {
-            var aPath = path + "/" + files[i];
-            if ( path === "" ) {
-                aPath = files[i];
-            }
+            var aPath = pathForFile( path, files[i] );
             if ( fs.statSync( totalPath(aPath) ).isDirectory() ) {  
                 dirs.push( aPath );
                 findDirs( aPath );
@@ -31,7 +41,7 @@ var SpecFinder = function( basedir ) {
         var i;
         for( i = 0; i < files.length; i++ ) {
             if ( files[i].match( /.*Spec\.js$/ ) ) {
-                result.push( path + "/" + files[i] );
+                result.push( pathForFile( path, files[i] ) );
             }
         };
         return result;
