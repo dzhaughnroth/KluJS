@@ -19,5 +19,16 @@ define( [ "coverage/CoverageDataModel", "coverage/CoverageDataView", "./fixture/
             expect( table.find( "th" ).length ).toBe( 8 ); // 8 columns
             expect( table.find( "tr" ).length > 5 ).toBe( true ); // many rows
         } ); 
+        it( "Should support filtering", function() {
+            var view2 = new CoverageDataView( { 
+                model:model,
+                filter: function(x) {
+                    return x.get( "src" ).match( /fixture/ );
+                }
+            } ).render();
+//            $("body").append( view2.$el );
+            var table = view2.$el.find( "table" );
+            expect( table.find( "tbody tr" ).length ).toBe( 3 );
+        } );
     } );
 } );

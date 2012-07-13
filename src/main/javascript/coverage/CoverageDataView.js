@@ -10,6 +10,11 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.
             this.model.on( "reset", function() {
                 self.render( );
             } );
+            if ( ! this.options.filter ) {
+                this.options.filter = function( x ) {
+                    return true;
+                };
+            }
         },
         render : function() {
             this.$el.empty();
@@ -54,7 +59,7 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.
         },
         buildTableData : function() {
             var result = [];
-            this.model.forEach( function( srcModel ) {              
+            this.model.filter( this.options.filter ).forEach( function( srcModel ) {              
                 var row = [];
                 result.push( row );
                 row.push( srcModel.get("src") );
