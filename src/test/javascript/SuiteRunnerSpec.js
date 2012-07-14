@@ -1,8 +1,9 @@
 /*global define:false, describe:false, it:false, expect:false, $:false, klujs:false, jasmine:false, runs:false, waitsFor:false */
-define( [ "SuiteRunner"], function( SuiteRunner ) {
+define( [ "SuiteRunner", "SuiteName"], function( SuiteRunner, SuiteName ) {
 
     describe( "SuiteRunner", function() {
-        var topic = new SuiteRunner();
+        var nameModel = new SuiteName.Model();
+        var topic = new SuiteRunner( nameModel );
         var executed = false;
         var mockJasmine = {
             getEnv : function() {
@@ -20,6 +21,7 @@ define( [ "SuiteRunner"], function( SuiteRunner ) {
             // gotcha: depends on a fixture, which must exist.
             // jasmine freaks out if is a spec here
             // although of course it generally is.
+
             topic.klujsConfig = {
                 suites : { "(base)" : [ "coverage/fixture/simple.js" ] },
                 test : klujs.test
@@ -30,6 +32,7 @@ define( [ "SuiteRunner"], function( SuiteRunner ) {
             waitsFor( function() { return executed; }, 1000 );
             runs( function() {
                 expect( executed ).toBe( true );
+                expect( nameModel.get( "suiteName" ) ).toBe( "(base)" );
             } );
 
         } );

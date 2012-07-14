@@ -2,7 +2,7 @@
 define( [ "jquery", "./widgets/Checkbox" ], function( $, Checkbox ) {
 
     // argument is optional, only for testing.
-    var create = function( jmodel, HtmlReporterConstructor ) {
+    var create = function( jasmineModel, HtmlReporterConstructor ) {
         var constructor = HtmlReporterConstructor || jasmine.HtmlReporter;
         var self = this;
         var showDetailsModel = new Checkbox.Model( { checked:false,
@@ -53,9 +53,9 @@ define( [ "jquery", "./widgets/Checkbox" ], function( $, Checkbox ) {
 
         showDetailsModel.on( 'change', adjustVisibility );
 
-        jmodel.on( 'change', function( ) {
-            var result = jmodel.get("result");
-            if ( jmodel.get("status") !== "done" ) {
+        jasmineModel.on( 'change', function( ) {
+            var result = jasmineModel.get("result");
+            if ( jasmineModel.get("status") !== "done" ) {
                 return;
             }
             showDetailsModel.set( "checked", result.failed > 0 );

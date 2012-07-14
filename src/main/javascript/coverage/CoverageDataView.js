@@ -15,13 +15,16 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.
                     return true;
                 };
             }
+            if( ! this.options.label ) {
+                this.options.label = "Code coverage";
+            }
         },
         render : function() {
             this.$el.empty();
             var banner = $( "<div />" )
                     .addClass( "coverageBanner" )
                     .appendTo( this.$el );
-            $("<span />", { text:"Code Coverage" } )
+            $("<span />", { text: this.options.label } )
                 .addClass( "coverageTitle" )
                 .appendTo( banner );
             $("<button />", {text:"node-coverage", disabled:true} )
@@ -30,7 +33,6 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.
                 this.$el.append( $( "<div />", { text: "Pending..." } ) );
                 return this;
             }
-            
             var table = $( "<table />", { } )
                     .addClass("coverageTable")
                     .addClass("display")
@@ -59,7 +61,8 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.
         },
         buildTableData : function() {
             var result = [];
-            this.model.filter( this.options.filter ).forEach( function( srcModel ) {              
+            var filtered = this.model.filter( this.options.filter );
+            filtered.forEach( function( srcModel ) {
                 var row = [];
                 result.push( row );
                 row.push( srcModel.get("src") );

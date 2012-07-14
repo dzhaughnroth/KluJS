@@ -15,6 +15,9 @@ define( [ "SuiteAssembly" ], function(SuiteAssembly) {
             location : {here:"here"}
         };
         var topic = new SuiteAssembly( mockWindow );
+        it( "Has a model for the name of the suite", function() {
+            expect( topic.name ).toBeDefined();
+        } );
         it( "Notifies parent on test start", function() {
             expect( topic.jasmine.get("status")).toBe( "running" );
             expect( topic.jasmine.get("status")).toBe( "running" );

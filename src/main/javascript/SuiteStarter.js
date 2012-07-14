@@ -8,7 +8,7 @@ define( [ "./lib/order!./lib/jasmine", "./lib/order!./lib/jasmine-html", "./lib/
         page.buildDom();
     } );
     var fetcher = new Fetcher();
-    fetcher.fetch( function() { var sr = new SuiteRunner();
+    fetcher.fetch( function() { var sr = new SuiteRunner( page.assembly.name );
                                 sr.go();
                               }, 
                    function() { console.log( "Error getting autosuite" ); 

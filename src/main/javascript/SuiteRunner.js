@@ -2,7 +2,7 @@
 define( [ "jquery", "require", "./lib/purl" ], function( $, require, purl ) {
 
     // args optional, for mocking.
-    var SuiteRunner = function( ) {
+    var SuiteRunner = function( nameModel ) {
         var self = this;
         this.klujsConfig = klujs;
         this.onReady = $("body").ready;
@@ -16,6 +16,7 @@ define( [ "jquery", "require", "./lib/purl" ], function( $, require, purl ) {
         this.go = function() {
             self.onReady( function() {
                 var suite = purl().param("suite");
+                nameModel.set("suiteName", suite );
                 var relSpecs = [];
                 $.each( self.klujsConfig.suites[suite], function( i, spec ) {
                     relSpecs.push( "../" + self.klujsConfig.test + "/" + spec );

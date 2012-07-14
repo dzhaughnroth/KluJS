@@ -1,10 +1,12 @@
 /*globals define:false, $$_l:false, window:false */
 define( [ 
     "./JasmineModel",
+    "./SuiteName",
     "./coverage/CoverageDataModel",
     "./lint/LintFinder",
-    "./lint/LintCollection"
-], function( JasmineModel, CoverageDataModel, LintFinder, LintCollection ) {
+    "./lint/LintCollection",
+    "./lib/notBackbone"
+], function( JasmineModel, SuiteName, CoverageDataModel, LintFinder, LintCollection, Backbone ) {
 
     // optional args for testing; defaults to window, jasmine globals
     var Assembly = function( mockWindow, mockJasmine ) {
@@ -49,6 +51,7 @@ define( [
         this.jasmine = jasModel;
         this.coverage = covModel;
         this.lint = lintModel;
+        this.name = new SuiteName.Model();
 
         jasModel.on( 'change', listener );
         testFinished();

@@ -28,3 +28,10 @@ AutoSuite:
   Merge with, don't clobber, other suites, if any.
   Support exclusion regex
   Support checking coverage completion against main directory
+  Handle errors
+
+Create Config interpreter layer to separate vaguaraies of
+configuration from intperpretation of the code.
+
+List dead files under main and test in coverage view.
+

@@ -17,7 +17,7 @@ define( [ "SuitePage", "jquery"], function( SuitePage, $ ) {
             expect( topic.head.children("link").length ).toBe( 3 );
         } );
         it( "Adds divs to body", function() {
-            expect( topic.body.children("div").length ).toBe( 3 );
+            expect( topic.body.children("div").length ).toBe( 1 );
 //            console.log( topic.body );
         } );
 

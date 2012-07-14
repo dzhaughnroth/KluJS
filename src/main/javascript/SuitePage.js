@@ -19,16 +19,17 @@ define( [ "./SuiteAssembly", "./SuiteView", "jquery", "require"], function( Suit
         else {
             klujsAssembly = this.assembly;
         }
-        this.view = new SuiteView( { model:self.assembly } );
+        this.view = new SuiteView( { model:self.assembly } ).render();
         this.buildDom = function() {
             self.head.append( linkToCss( "jasmine.css" ) )
                 .append( linkToCss( "klujs.css" ) )
                 .append( linkToCss( "data_table.css" ) );
 
-            self.body.append( $("<h1 />", { text: "KluJS" } ) );
-            self.body.append( self.view.jasmineView.$el )
-                .append( self.view.lintView.$el )
-                .append( self.view.coverageView.$el );
+//            self.body.append( $("<h1 />", { text: "KluJS" } ) );
+            self.body.append( self.view.$el );
+//jasmineView.$el )
+//                .append( self.view.lintView.$el )
+//                .append( self.view.coverageView.$el );
         };
     };
 
