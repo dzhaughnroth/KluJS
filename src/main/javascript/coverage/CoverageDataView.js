@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false*/
-define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.datatables.min" ], function( Backbone, _, $ ) {
+define( [ "./CoverageDataTallyer", "../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.datatables.min" ], function( tally, Backbone, _, $ ) {
 
     var DtView = Backbone.View.extend( {
         tagName : "div",
@@ -21,6 +21,18 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.
         },
         render : function() {
             this.$el.empty();
+            var msg;
+            try {
+                var tallies = tally( this.model, this.options.filter );
+                msg = "Missed " + tallies.line.missed + " of " + tallies.line.count
+                    + " lines (" + tallies.line.rate().toFixed( 2 ) + " covered) and " +
+                    tallies.element.missed + " of " + tallies.element.count + 
+                    " elements (" + tallies.element.rate().toFixed( 2 ) + " covered.)";
+            }
+            catch( ex ) {
+                msg = "Totals failed: " + ex;
+            }
+
             var banner = $( "<div />" )
                     .addClass( "coverageBanner" )
                     .appendTo( this.$el );
@@ -29,6 +41,8 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.
                 .appendTo( banner );
             $("<button />", {text:"node-coverage", disabled:true} )
                 .appendTo( banner );
+            $("<span />", {text: msg } )
+              .appendTo( banner );
             if( ! this.model.calculator ) {
                 this.$el.append( $( "<div />", { text: "Pending..." } ) );
                 return this;
@@ -57,6 +71,7 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/jquery.
                 bAutoWidth : false 
             } );
             table.fnSort( [ [2,'desc'], [0,'asc'] ] );
+
             return this;
         },
         buildTableData : function() {
