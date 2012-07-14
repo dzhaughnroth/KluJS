@@ -11,7 +11,7 @@ describe('SpecFinder', function(){
             // normally, we'd use new Finder("src/test/javascript")
             should.exist( topic.suites["javascript/lint"] );
             topic.suites["javascript/lint"].length.should.be.above(3);
-            topic.suites["javascript/lint"].length.should.be.below(10);
+            topic.suites["javascript/lint"].length.should.be.below(20);
             topic.suites["javascript/lint"].should.include( "javascript/lint/LintModelSpec.js" );
             topic.suites["javascript"].should.include( "javascript/SuitePageSpec.js" );
             
@@ -23,7 +23,7 @@ describe('SpecFinder', function(){
         it('should have special (base) key', function() {
             var base = topic.suites["(base)"];
             base.length.should.be.above( 2 );
-            base.length.should.be.below(10);
+            base.length.should.be.below(20);
             base.should.include( "SuitePageSpec.js" );
         } );
     } );

@@ -16,9 +16,9 @@ Put server side only stuff in a different place.
 Display an error if the suite parameter does not refer to a suite
 
 AutoSuite:
-  Merge with, don't clobber, other suites, if any.
-  Support exclusion regex
-  Support checking coverage completion against main directory
+  Merge with, don't clobber, other suites, if any. LATER
+  Support exclusion regex. GLOBAL, LOCAL, BOTH?
+  Support checking coverage completion against main directory NEXT
   Handle errors
 
 List dead files under main and test in coverage view.
