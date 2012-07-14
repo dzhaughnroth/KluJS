@@ -1,10 +1,10 @@
 /*globals define:false, klujs:false, jasmine:false */
-define( [ "jquery", "require", "./lib/purl" ], function( $, require, purl ) {
+define( [ "jquery", "require", "./lib/purl", "./Config" ], function( $, require, purl, notKlujs ) {
 
     // args optional, for mocking.
     var SuiteRunner = function( nameModel ) {
         var self = this;
-        this.klujsConfig = klujs;
+        this.klujsConfig = notKlujs;
         this.onReady = $("body").ready;
         this.jasmine = jasmine;
         this.runSpecs = function( specs ) {
@@ -18,8 +18,10 @@ define( [ "jquery", "require", "./lib/purl" ], function( $, require, purl ) {
                 var suite = purl().param("suite");
                 nameModel.set("suiteName", suite );
                 var relSpecs = [];
-                $.each( self.klujsConfig.suites[suite], function( i, spec ) {
-                    relSpecs.push( "../" + self.klujsConfig.test + "/" + spec );
+                var prefix = self.klujsConfig.test();
+                $.each( self.klujsConfig.specsForSuite(suite), function( i, spec ) {
+                    var pathToSpec = prefix + "/" + spec;
+                    relSpecs.push( pathToSpec );
                 });
                 self.runSpecs( relSpecs );
             } );

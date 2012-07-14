@@ -11,7 +11,7 @@
     };
 
     var computeKlujsPath = function() {
-        var depth = _klujs.main.match( /\//g ).length; 
+        var depth = _klujs.mainPath.match( /\//g ).length; 
         var i;
         var result = "";
         for( i = 0; i < depth + 1; i++ ) {
@@ -22,19 +22,19 @@
     
     setIfBlank( _klujs, "src", "src" );
     setIfBlank( _klujs, "main", _klujs.src + "/main/javascript" );
-    _klujs.main = "../" + _klujs.main;
+    _klujs.mainPath = "../" + _klujs.main;
     setIfBlank( _klujs, "test", _klujs.src + "/test/javascript" );
-    _klujs.test = "../" + _klujs.test;
+
     
     setIfBlank( _klujs, "require", {} );
-    setIfBlank( _klujs, "requireHome", _klujs.main );
+    setIfBlank( _klujs, "requireHome", _klujs.mainPath );
     setIfBlank( _klujs, "libDirs", 
                 [ "src/main/javascript/lib", 
                   "src/test/javascript/lib" 
                 ] );
     
     _require = _klujs.require;
-    _require.baseUrl = _klujs.main;
+    _require.baseUrl = _klujs.mainPath;
     setIfBlank( _require, "paths", {} );
 
     _require.paths.KluJS = computeKlujsPath();

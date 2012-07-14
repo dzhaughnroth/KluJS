@@ -25,11 +25,7 @@ define( [ "./SuiteAssembly", "./SuiteView", "jquery", "require"], function( Suit
                 .append( linkToCss( "klujs.css" ) )
                 .append( linkToCss( "data_table.css" ) );
 
-//            self.body.append( $("<h1 />", { text: "KluJS" } ) );
             self.body.append( self.view.$el );
-//jasmineView.$el )
-//                .append( self.view.lintView.$el )
-//                .append( self.view.coverageView.$el );
         };
     };
 

@@ -1,9 +1,9 @@
-/*global define:false, window:false, klujs:false */
-define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../lib/notBackbone", "jquery", "../lib/notUnderscore" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, Backbone, $, _ ) {
+/*global define:false, window:false */
+define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../lib/notBackbone", "jquery", "../lib/notUnderscore", "../Config" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, Backbone, $, _, notKlujs ) {
 
     var PageModel = Backbone.Model.extend( {
         defaults: {
-            config: klujs,
+            config: notKlujs,
             done : false
             // frameDiv, a div containing the iframes for suites.
         },
@@ -18,7 +18,7 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
             this.lintModel.on( 'add', function( modelAdded ) {
                 modelAdded.check();
             } );
-            $.each( self.get("config").suites, function( name, array ) {
+            $.each( self.get("config").suiteNames(), function( i, name ) {
                 self.childFrames.add( {suite:name} );
             } );
             this.coverageDataModel = new CoverageDataModel.ProjectModel();

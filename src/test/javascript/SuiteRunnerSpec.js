@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, $:false, klujs:false, jasmine:false, runs:false, waitsFor:false */
-define( [ "SuiteRunner", "SuiteName"], function( SuiteRunner, SuiteName ) {
+define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( SuiteRunner, SuiteName, notKlujs, ConfigFacade ) {
 
     describe( "SuiteRunner", function() {
         var nameModel = new SuiteName.Model();
@@ -15,17 +15,22 @@ define( [ "SuiteRunner", "SuiteName"], function( SuiteRunner, SuiteName ) {
         it( "Initializes ready to go", function() {
             expect( topic.jasmine ).toBe( jasmine );
             expect( topic.onReady ).toBe( $("body").ready );
-            expect( topic.klujsConfig ).toBe( klujs );
+            expect( topic.klujsConfig ).toBe( notKlujs );
             topic.jasmine = mockJasmine;
             // gotcha: suite name for this test must be "Models"
             // gotcha: depends on a fixture, which must exist.
             // jasmine freaks out if is a spec here
             // although of course it generally is.
 
-            topic.klujsConfig = {
-                suites : { "(base)" : [ "coverage/fixture/simple.js" ] },
-                test : klujs.test
-            };
+            topic.klujsConfig = new ConfigFacade( 
+                {
+                    main : notKlujs.main(),
+                    mainPath : notKlujs.mainPath(),
+                    test : notKlujs.test(),
+                    suites: {
+                        "(base)" : [ "coverage/fixture/simple.js" ]
+                    }
+                } );
             runs( function() {
                 topic.go();
             });

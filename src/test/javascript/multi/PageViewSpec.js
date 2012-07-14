@@ -1,13 +1,13 @@
 /*global define:false, describe:false, it:false, expect:false */
-define( [ "multi/PageView", "multi/PageModel", "jquery" ], function( PageView, PageModel, $ ) {
+define( [ "multi/PageView", "multi/PageModel", "jquery", "ConfigFacade" ], function( PageView, PageModel, $, ConfigFacade ) {
 
     describe( "PageView", function() {
-        var config = {
+        var config = new ConfigFacade( {
             suites: {
                 Foo: ["foospec", "foofoospec"],
                 Bar: ["barspec"]
             }
-        };
+        } );
         var frameDiv = $("<div />");
         var model = new PageModel( { 
             config: config,

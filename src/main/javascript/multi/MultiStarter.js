@@ -1,4 +1,4 @@
-/*global define:false, window:false, klujs:false, console:false */
+/*global define:false, window:false, console:false */
 define( [ "../lib/order!./PageModel", "../lib/order!./PageView", "../lib/order!../autosuite/AutoSuiteFetcher", "jquery"], function( PageModel, PageView, Fetcher, $ ) {
 
     var frameDiv = $( "<div />" )

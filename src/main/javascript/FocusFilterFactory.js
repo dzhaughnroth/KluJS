@@ -1,13 +1,13 @@
-/*globals define:false, klujs:false */
-define( [ ], function() {
+/*globals define:false */
+define( [ "./Config" ], function( notKlujs ) {
 
     var FocusFilterFactory = function( mockKlujs ) {
-        var config = mockKlujs || klujs;
+        var config = mockKlujs || notKlujs;
         var log = function( x ) {
- //           console.log( x );
+//            console.log( x );
         };
         var createFocusFilter = function( suiteName ) {
-            var pattern = "^" + config.main.substring(2) + "/";
+            var pattern = "^/" + config.main() + "/";
             if ( suiteName !== "(base)" ) {
                 pattern += suiteName + "/";
             }

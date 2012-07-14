@@ -1,4 +1,4 @@
-/*globals define:false, klujs:false, jasmine:false */
+/*globals define:false, jasmine:false */
 define( [ "./lib/order!./lib/jasmine", "./lib/order!./lib/jasmine-html", "./lib/order!./SuiteRunner", "./lib/order!./SuitePage", "./lib/order!./autosuite/AutoSuiteFetcher", "jquery" ], function( j, jh, SuiteRunner, SuitePage, Fetcher, $ ) {
 
     var page = new SuitePage();

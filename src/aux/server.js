@@ -66,7 +66,8 @@ catch( ex ) {
     throw( "Could not load KluJS/boot.js?!?: " + ex );
 }
 
-var suiteManager = suiteManagerPkg.create( klujs.test.substring(3) );
+
+var suiteManager = suiteManagerPkg.create( klujs.test );
 
 var startJsCoverage = function() {
     proxyMode = true;

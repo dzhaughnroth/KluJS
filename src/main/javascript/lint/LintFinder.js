@@ -1,5 +1,5 @@
 /*globals define:false, klujs:false */
-define( [ "jquery", "./DirectoryNamePruner" ], function( $, pruner ) {
+define( [ "jquery", "./DirectoryNamePruner", "../Config" ], function( $, pruner, notKlujs ) {
 
     var LintFinder = function() {
         var _defaultFilter = function( src ) {
@@ -16,7 +16,7 @@ define( [ "jquery", "./DirectoryNamePruner" ], function( $, pruner ) {
         
         var _libFilter = function( src ) {
             var result = true;
-            $.each( klujs.libDirs, function( i, x ) {
+            $.each( notKlujs.libDirs(), function( i, x ) {
                 if ( src.match( x ) ) {
                     result = false;
                 }
@@ -25,10 +25,10 @@ define( [ "jquery", "./DirectoryNamePruner" ], function( $, pruner ) {
         };
         
         var lf = this;
-        lf.noDefaultFilter = klujs.noDefaultFilter;
+        lf.noDefaultFilter = notKlujs.noDefaultFilter();
         lf.defaultFilter = _defaultFilter;
         lf.libFilter = _libFilter;
-        lf.customFilter = klujs.lintFilter;
+        lf.customFilter = notKlujs.lintFilter();
         lf.filterNames = [ "custom", "lib", "default" ];
         
         lf.filterSrc = function( srcFromAttr, scriptEl ) {
