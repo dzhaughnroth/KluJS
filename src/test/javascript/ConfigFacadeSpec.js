@@ -12,9 +12,15 @@ define( [ "ConfigFacade" ], function( ConfigFacade ) {
             },
             lintFilter : function() {},
             noDefaultFilter : "zap",
-            libDirs : [ "weezle" ]
+            libDirs : [ "weezle" ],
+            lineCoverage : {
+                max : 12
+            },
+            elementCoverage : {
+                min : 0.9
+            }
         };
-        it( "It works with configuration", function() {
+        it( "It sets values from configuration", function() {
             var config = new ConfigFacade( fakeConfig );
             expect( fakeConfig ).toBe( config.rawConfig );
             expect( config.main() ).toBe("a");
@@ -25,6 +31,9 @@ define( [ "ConfigFacade" ], function( ConfigFacade ) {
             expect( config.lintFilter() ).toBe( fakeConfig.lintFilter );
             expect( config.libDirs() ).toBe( fakeConfig.libDirs );
             expect( config.noDefaultFilter() ).toBe( fakeConfig.noDefaultFilter );
+
+            expect( config.lineCoverage() ).toBe( fakeConfig.lineCoverage );
+            expect( config.elementCoverage() ).toBe( fakeConfig.elementCoverage );            
         } );
     } );
 } );

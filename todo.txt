@@ -3,7 +3,7 @@ Investigate jshint instead or in addition.
 
 In multiview. A bit too much flashing? Slows down the runner???
 
-Style the multiview pass/fail
+Style the multiview pass/fail table; Add coverage criteria when available
 
 Display the details of the first lint and spec failure.
 

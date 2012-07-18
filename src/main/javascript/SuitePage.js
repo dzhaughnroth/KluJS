@@ -1,5 +1,5 @@
 /*globals define:false, klujsAssembly:true */
-define( [ "./SuiteAssembly", "./SuiteView", "jquery", "require"], function( SuiteAssembly, SuiteView, $, req ) {
+define( [ "./SuiteAssembly", "./SuiteView", "./Config", "jquery", "require"], function( SuiteAssembly, SuiteView, notKlujs, $, req ) {
 
     var linkToCss = function( name ) {
         return $("<link />")

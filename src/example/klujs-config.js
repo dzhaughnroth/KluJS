@@ -10,9 +10,24 @@ klujs = {
 //        "One" : [ "OneSpec.js", "AnotherOneSpec.js"],
 //        "Two" : [ "TwoSpec.js" ]
 //    },
-    globalLineCoverage : {
+    lineCoverage : {
         alert:"warn",
-        min:.9        
+        max: 0,
+        except: {
+            generalAggro: { 
+                files:["One", "Barzle"],
+                max : 5,
+                min : .95
+            },
+            integrationSuite : {
+                suites: [ "integration" ],
+                max : -1
+            },
+            mistake : {
+                files: ["oozle"],
+                max : 10
+            }
+        }
     },
     suiteLineCoverage: {
         alert:"fail", // or warn, or default none

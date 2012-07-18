@@ -1,5 +1,5 @@
 /*globals define:false, $$_l:false */
-define( [ "./lib/notBackbone", "./lib/notUnderscore", "jquery", "./SuiteAssembly", "./lint/LintCollectionView", "./coverage/CoverageDataView", "./JasmineDivReporter", "./SuiteName", "./FocusFilterFactory" ], function( Backbone, _, $, SuiteAssembly, LintCollectionView, CoverageDataView, JasmineDivReporter, SuiteName, FocusFilterFactory ) {
+define( [ "./lib/notBackbone", "./lib/notUnderscore", "jquery", "./SuiteAssembly", "./lint/LintCollectionView", "./coverage/CoverageDataView", "./JasmineDivReporter", "./SuiteName", "./FocusFilterFactory", "./goals/SuiteInterpreter" ], function( Backbone, _, $, SuiteAssembly, LintCollectionView, CoverageDataView, JasmineDivReporter, SuiteName, FocusFilterFactory, SuiteInterpreter ) {
 
     var filterFactory = new FocusFilterFactory();
     var computeFocusFilter = function( suiteName ) {
@@ -22,7 +22,8 @@ define( [ "./lib/notBackbone", "./lib/notUnderscore", "jquery", "./SuiteAssembly
             } );
             this.focusView = new CoverageDataView( {
                 model : assembly.coverage,
-                label : "Focused code coverage"
+                label : "Focused code coverage",
+                goals : new SuiteInterpreter( assembly.name )
             } );
             assembly.name.on( "change", function() {
                 var filter = computeFocusFilter( assembly.name.get( "suiteName" ));

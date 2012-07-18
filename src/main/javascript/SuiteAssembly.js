@@ -52,7 +52,6 @@ define( [
         this.coverage = covModel;
         this.lint = lintModel;
         this.name = new SuiteName.Model();
-
         jasModel.on( 'change', listener );
         testFinished();
 

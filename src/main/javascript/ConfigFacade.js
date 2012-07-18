@@ -1,5 +1,5 @@
 /*globals define:false, klujs:false */
-define( ["./lib/notUnderscore" ], function(_) {
+define( ["./lib/notUnderscore", "./goals/CoverageGoalInterpreter" ], function(_,CoverageGoalInterpreter) {
 
 
     // Facade for the JSON config file.
@@ -35,7 +35,14 @@ define( ["./lib/notUnderscore" ], function(_) {
         };
 
         this.lintFilter = function() { return raw.lintFilter; };
-        
+
+        this.lineCoverage = function() {
+            return raw.lineCoverage;
+        };
+
+        this.elementCoverage = function() {
+            return raw.elementCoverage;
+        };
     };
 
     return ConfigFacade;

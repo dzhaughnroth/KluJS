@@ -131,3 +131,9 @@ body {
     background-color:#AAAAAA;
     color:white;
 }
+
+.coverageGoalFailed {
+    background-color:#FFDCDA;//#B03911;
+ //   color:yellow;
+
+}
