@@ -8,9 +8,15 @@ klujs = {
     elementCoverage : {
         max : 0,
         except : {
-            ccWierd: {
+            ccWeird: {
+                // Overcaution in checking for cc's existence.
                 files:[ "NodeCoverageCalculator" ],
                 max : 1
+            },
+            pageGlobal: {
+                // setting the klujsAssembly global will never work in a unit test.
+                files:[ "SuitePage" ],
+                max : 2
             }
         }
     },

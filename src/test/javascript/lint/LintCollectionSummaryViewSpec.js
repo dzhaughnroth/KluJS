@@ -1,16 +1,23 @@
 /*global define:false, describe:false, it:false, expect:false, runs:false, waitsFor:false */
-define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCollectionSummaryView" ], function( LintView, LintModel, LintCollection, LintCollectionSummaryView ) {
+define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCollectionSummaryView", "jquery" ], function( LintView, LintModel, LintCollection, LintCollectionSummaryView, $ ) {
 
     describe( "LintCollectionSummaryView", function() {
         var model = new LintCollection( );
         var view = new LintCollectionSummaryView( { model:model } )
             .render();
-        var check = function( issues, issueFiles, count, clazz ) {
+        $("body").append( view.$el );
+        var check = function( issues, issueFiles, count, clazz, filtered ) {
             var text = view.$el.children(".summary").text();
-            expect( text.indexOf( issues + " issue(s) in " 
-                                  + issueFiles + " files out of " 
-                                  + count ) > 0 )
-                .toBe( true ); 
+
+            expect( text ).toMatch( new RegExp( "^JSLint: " + issues + " issue\\(s\\) in "
+                                                + issueFiles + " files out of " 
+                                                + count ) );
+            if ( filtered && filtered.length > 0 ) {
+                var filterSpans = view.$el.find( ".summary span" );
+                var filterSpan = $(filterSpans[1]);              
+                expect( filterSpan.text() ).toMatch( "(" + filtered.length + " filtered)" );
+                expect( filterSpan.attr("title") ).toMatch( filtered[0] );
+            }
             if( clazz ) {
                 expect( view.$el.hasClass( "running" )).toBe( clazz === "running" );
                 expect( view.$el.hasClass( "passed" )).toBe( clazz === "passed" );
@@ -31,6 +38,15 @@ define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCo
             check( 2, 2, 2, "running" );
             model.add( new LintModel( { src: "src/test/javascript/lint/LintModelSpec.js" } ));
             check( 3, 3, 3, "running" );
+
+            model.addFinderResult( {
+                allModules : [ "src/test/javascript/lint/LintFailureSample.js" ],
+                filterMap: { lib: [ "found4" ] },
+                filtered: ["found4"]
+            }  );
+            
+            check( 4, 4, 4, "running", ["found4"] );
+            
         } );
         it( "Updates summary counts when models change", function() {
             runs( function() { 
@@ -42,7 +58,9 @@ define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCo
             runs( function() {
                 var text = view.$el.text();
                 expect( text )
-                    .toMatch( /JSLint: \d* issue\(s\) in \d files out of 3/ );
+                    .toMatch( /JSLint: \d* issue\(s\) in \d files out of 4/ );
+                expect( text )
+                    .not.toMatch( /JSLint: 0/ );
                 // TODO
                 // Our test could fail if lint check fails in a certain way.
                 // GOTCHA possibly spurious failure; keep lint clean.

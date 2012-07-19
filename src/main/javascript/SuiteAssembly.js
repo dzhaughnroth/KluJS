@@ -3,25 +3,20 @@ define( [
     "./JasmineModel",
     "./SuiteName",
     "./FocusFilterFactory",
+    "./ParentMessagePoster",
     "./coverage/CoverageDataModel",
     "./goals/SuiteInterpreter",
     "./lint/LintFinder",
     "./lint/LintCollection",
     "./lib/notBackbone"
-], function( JasmineModel, SuiteName, FocusFilterFactory, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, Backbone ) {
+], function( JasmineModel, SuiteName, FocusFilterFactory, ParentMessagePoster, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, Backbone ) {
 
     // optional args for testing; defaults to window, jasmine globals
     var Assembly = function( mockWindow, mockJasmine ) {
         var self = this;
-        var win = mockWindow || window;
+        var parentPoster = new ParentMessagePoster( mockWindow );
         var postToParent = function( msg ) {
-            if ( win.parent && win.parent.postMessage && win.parent.window !== win ) {
-                win.parent.postMessage( msg, win.location );
-                return true;
-            }
-            else {
-                return false;
-            }
+            return parentPoster.postToParent( msg );
         };
         var filterFactory = new FocusFilterFactory();
         this.filter = function() { return true; };

@@ -60,18 +60,15 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "../lib/notJSLint", "jque
             // JSLINT has functions that refer to the JSLINT global,
             // so we need the last loaded instance of JSLINT.
             var impl = JSLINT;
+            var implCalled = false; // want to know where the problem occurred
             try {
                 impl( jsText, {} );
-                try {                    
-                    data = impl.data();
-                }
-                catch( x ) {
-                    throw( "No data: " + x );
-                }
+                implCalled = true;
+                data = impl.data();
             }
             catch( e ) {
                 error = true;
-                message = "JSLint failed: " + e;
+                message = "JSLint failed: " + e + ": impl ok? " + implCalled;
             }
             var result = {
                 message: message,

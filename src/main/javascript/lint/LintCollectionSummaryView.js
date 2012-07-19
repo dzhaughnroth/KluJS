@@ -28,16 +28,16 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../widgets/Che
         return result;
     };
 
-    var buildSummary = function( colMod, toJson ) {
-        toJson.finished = colMod.finished();
-        toJson.unfinished = colMod.unfinished();
-        toJson.length = colMod.length;
-        toJson.failed = colMod.failed();
-        toJson.passed = colMod.passed();
-        toJson.issueCount = colMod.issueCount();
+    var buildSummary = function( collection, toJson ) {
+        toJson.finished = collection.finished();
+        toJson.unfinished = collection.unfinished();
+        toJson.length = collection.length;
+        toJson.failed = collection.failed();
+        toJson.passed = collection.passed();
+        toJson.issueCount = collection.issueCount();
         // TODO out with you
-        if ( colMod.finderResults ) {
-            var found = colMod.finderResults[0];
+        if ( collection.finderResults ) {
+            var found = collection.finderResults[0];
             toJson.found = found;
             toJson.filterTooltip = filterTooltip( found );
         }

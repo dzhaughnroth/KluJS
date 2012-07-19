@@ -29,9 +29,9 @@ define( [ "jquery", "./widgets/Checkbox" ], function( $, Checkbox ) {
         var adjustVisibility = function( ) {
             var show = showDetailsModel.get( "checked" );
             var reporter = self.$el.children(".jasmine_reporter");
-            if ( reporter.length === 0 ) {
-                return;
-            }
+//            if ( reporter.length === 0 ) {
+//                return;
+//            }
             if( show ) {
                 reporter.removeClass( "minimized" );
             }

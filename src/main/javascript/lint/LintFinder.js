@@ -101,9 +101,9 @@ define( [ "jquery", "./DirectoryNamePruner", "../Config" ], function( $, pruner,
                 iEl = $(this);
                 iAttrVal = iEl.attr( "data-requiremodule" );
                 var filterVal;
-                if ( lf.filter ) {
+//                if ( lf.filter ) {
                     filterVal = lf.filter( iEl );
-                }
+//                }
                 if ( ! filterVal ) {
                     if ( iAttrVal ) {
                         if ( iAttrVal.match( /\.js$/ ) ) {

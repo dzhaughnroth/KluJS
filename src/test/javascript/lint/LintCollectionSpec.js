@@ -36,6 +36,7 @@ define( [ "lint/LintCollection", "lint/LintModel" ], function( LintCollection, L
             };
             lints.addFinderResult( mockFinderResult );
             expect( lints.length ).toBe( 5 );
+
             expect( lints.finderResults ).toEqual( [ mockFinderResult ] );
             var mock2 = {
                 allModules : [ "found1", "found3" ],
@@ -46,7 +47,10 @@ define( [ "lint/LintCollection", "lint/LintModel" ], function( LintCollection, L
             expect( lints.at(5).get( "src" ) ).toBe( "found3" );
             expect( lints.finderResults ).toEqual( [ mockFinderResult, mock2 ] );
             expect( lints.filterMap.lib ).toEqual( ["found4", "found5"] );
- 
+
+            // ignore redundant additions
+            lints.addFinderResult( mock2 ); 
+            expect( lints.length ).toBe( 6 );
             // Note: we assume all filtering logic is identical,
             // so a filtered item in one child will not be unfiltered in another.
             // True enough at the moment.

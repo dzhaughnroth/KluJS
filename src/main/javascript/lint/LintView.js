@@ -29,7 +29,7 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/text!./
                 if ( x ) {
                     if ( x.evidence) {
                         fullEvidence = x.evidence;
-                        truncEvidence = x.evidence.length > 80 ? x.evidence.substring( 0, 80 ) + "..." : x.evidence;
+                        truncEvidence = x.evidence.substring(80);
                     }
                     lineMessage = "Line " + x.line + ": " + x.reason 
                         + " (" + truncEvidence + ")";

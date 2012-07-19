@@ -20,7 +20,7 @@ define( [ "lint/LintView", "lint/LintModel" ], function( LintView, LintModel ) {
             expect( view.model ).toBe( model );
             expect( view.template ).toBeDefined();
             view.render();
-//            expect( view.$el.children( ".lintItem" ).length).toBe( 1 );
+            expect( view.$el.children( ".lintItem" ).length).toBe( 0 );
             expect( view.$el.hasClass( "running" ) ).toBe(true);
             expect( view.$el.hasClass( "passed" ) ).toBe(false);
             expect( view.$el.hasClass( "failed" ) ).toBe(false);
@@ -48,6 +48,12 @@ define( [ "lint/LintView", "lint/LintModel" ], function( LintView, LintModel ) {
             expect( view.$el.text() ).toMatch( /voot: 1 issue\(s\)/ );
             expect( view.$el.children( ".lintDetail" ).text() ).toMatch( /Unused: q/ );
 
+        } );
+        it( "Renders as failed on error", function() {
+            model.process();
+            expect( view.$el.hasClass( "running" ) ).toBe(false);
+            expect( view.$el.hasClass( "passed" ) ).toBe(false);
+            expect( view.$el.hasClass( "failed" ) ).toBe(true);
         } );
         it( "Can trigger reload", function() {
             var myModel = new LintModel( {src:"src/test/javascript/lint/LintViewSpec.js"} );
