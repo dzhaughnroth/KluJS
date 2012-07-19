@@ -18,12 +18,12 @@ define( [ "./lib/notBackbone", "./lib/notUnderscore", "jquery", "./SuiteAssembly
                 model : assembly.lint } );
             this.coverageView = new CoverageDataView( { 
                 model : assembly.coverage,
-                label : "Global code coverage" 
+                label : "Global code coverage",
+                disableGoals : true
             } );
             this.focusView = new CoverageDataView( {
                 model : assembly.coverage,
-                label : "Focused code coverage",
-                goals : new SuiteInterpreter( assembly.name )
+                label : "Focused code coverage"
             } );
             assembly.name.on( "change", function() {
                 var filter = computeFocusFilter( assembly.name.get( "suiteName" ));

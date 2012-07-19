@@ -16,8 +16,8 @@ define( [ "./Config" ], function( notKlujs ) {
             // todo handle exception rules.
             var regex = new RegExp( pattern );
             return function(x) {
-                log( "Testing " + x.get("src") + " against " + pattern );
-                return regex.test( x.get("src") );
+                log( "Testing " + x.src + " against " + pattern );
+                return regex.test( x.src );
             };
             
         };

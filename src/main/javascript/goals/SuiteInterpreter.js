@@ -19,6 +19,27 @@ define( [ "./CoverageGoalInterpreter", "../Config" ], function( CoverageGoalInte
         this.elementGoal = function( fileName ) {
             return this.elementGoals.goalForFile( suiteNameModel.get( "suiteName" ), fileName );
         };
+        
+        this.thresholdsForFile = function( fileName ) {
+            var goalThresholds = {
+                line : {
+                },
+                element: {
+                }
+            };
+
+            var lineGoal = this.lineGoal( fileName );
+            var elGoal = this.elementGoal( fileName );
+            
+            goalThresholds.line.max = lineGoal.max;
+            goalThresholds.line.min = lineGoal.min;
+            goalThresholds.element.max = elGoal.max;
+            goalThresholds.element.min = elGoal.min;
+            
+            goalThresholds.line.rules = lineGoal.exceptionRules;
+            goalThresholds.element.rules = elGoal.exceptionRules;
+            return goalThresholds;
+        };
 
     };
 

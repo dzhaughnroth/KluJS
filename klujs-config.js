@@ -6,7 +6,13 @@ klujs = {
     },
     autoSuites:true,    
     elementCoverage : {
-        max : 0
+        max : 0,
+        except : {
+            ccWierd: {
+                files:[ "NodeCoverageCalculator" ],
+                max : 1
+            }
+        }
     },
     ignore:"me"
 };

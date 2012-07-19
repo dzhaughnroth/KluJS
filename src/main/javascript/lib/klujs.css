@@ -147,5 +147,9 @@ tr.even td.coverageGoalFailed {
 tr.odd td.coverageGoalFailed {
     background-color:#FFDCDA;//#B03911;
  //   color:yellow;
+}
 
+div.coverageGoalFailed {
+    background-color:#B03911;
+    color:white;
 }

@@ -27,8 +27,9 @@ define( [
         lintModel.on( 'add', function( modelAdded ) {
             modelAdded.check();
         } );
-        var covModel = new CoverageDataModel.ProjectModel( );
-        covModel.goals = new SuiteInterpreter( this.name );
+        var covModel = new CoverageDataModel( { 
+            goals : new SuiteInterpreter( this.name ) 
+        } );
         var lintFinder = new LintFinder();
 
         var self = this;

@@ -36,7 +36,7 @@ define( [ "multi/PageModel","jquery", "ConfigFacade" ], function( PageModel, $, 
         } );
         it( "Should compute aggreage coverage results from children when done", function() {
             var resets = [];
-            topic.coverageDataModel.on( 'reset', function( ){
+            topic.coverageDataModel.on( 'change', function( ){
                 resets.push( arguments );
             } );
             // caution: mocking
@@ -62,11 +62,8 @@ define( [ "multi/PageModel","jquery", "ConfigFacade" ], function( PageModel, $, 
             expect( resets.length ).toBe( 0 );
             topic.check();
             expect( resets.length ).toBe( 1 );
-            topic.coverageDataModel.forEach( function( x ) {
-                var covData = x.get("calculator").nodeCoverage;
-                expect( covData.runLines.foo ).toEqual( {"a":2, "b":4 } );
-                expect( x.get("calculator").coverageByFile.foo.line.missed ).toBe( 1 );
-            } );
+            var fooCoverage = topic.coverageDataModel.byFile.foo;
+            expect( fooCoverage.line.missed ).toBe( 1 );
         } );
 
     } );

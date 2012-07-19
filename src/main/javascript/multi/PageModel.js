@@ -21,7 +21,7 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
             $.each( self.get("config").suiteNames(), function( i, name ) {
                 self.childFrames.add( {suite:name} );
             } );
-            this.coverageDataModel = new CoverageDataModel.ProjectModel();
+            this.coverageDataModel = new CoverageDataModel();
             this.on( 'change:done', function( ) {
                 if ( self.get( "done" ) === true ) {
                     self.aggregateCoverage();

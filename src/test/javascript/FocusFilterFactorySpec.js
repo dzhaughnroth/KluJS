@@ -2,9 +2,9 @@
 define( [ "FocusFilterFactory", "SuiteName", "Config" ], function( Factory, SuiteName, Global ) {
 
     describe( "FocusFilterFactory", function() {
-        var model = new SuiteName.Model(); // any model will do for tes
+        var model = {};
         var set = function( name ) {
-            model.set( "src", "/" + name );
+            model.src = "/" + name;
             return model;
         };
 
