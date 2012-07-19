@@ -1,6 +1,6 @@
 /*globals define:false */
 define( [ "../lib/notUnderscore" ], function( _ ) {
-    var noGoal = { exceptionRules : [] };
+    var noGoal = { rules : [] };
     
     var CoverageGoalInterpreter = function( goalConfig ) {
 
@@ -8,7 +8,7 @@ define( [ "../lib/notUnderscore" ], function( _ ) {
             return {
                 max: goalConfig.max,
                 min: goalConfig.min,
-                exceptionRules : []
+                rules : [] // the except rules that were applied to comptue min/max
             };
         };
 
@@ -41,7 +41,7 @@ define( [ "../lib/notUnderscore" ], function( _ ) {
                     if ( hasMatch( rule.suites, suiteName ) 
                          || hasMatch( rule.files, fileName ) ) {
                              adjustGoal( result, rule );
-                             result.exceptionRules.push( name );
+                             result.rules.push( name );
                          }
                 } );
             }

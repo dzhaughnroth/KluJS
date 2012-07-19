@@ -12,7 +12,7 @@ define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backb
             "click .resultCell" : "selectFrame"
         },
         selectFrame: function() {
-            $("#frame" + this.model.cid ).toggleClass( "hidden" );
+            this.model.frame.toggleClass( "hidden" );
         },
         render : function() {
             var model = this.model;
@@ -35,6 +35,23 @@ define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backb
                              .append( $("<a />", {href: model.path, 
                                                   text: model.get( "suite" ) } )));
             this.$el.append( $("<td />", { text: text } ).addClass( "resultCell" ) );
+
+            var goalTd = $("<td />", { text:"---" } );
+            
+            var failureCount = model.get( "coverageGoalFailures" );
+            
+            if( typeof failureCount !== "undefined") {
+                if ( failureCount > 0 ) {
+                    goalTd.text( "Missed " + model.get("coverageGoalFailures") + " goal(s)" );
+                    goalTd.addClass("coverageGoalFailed");                    
+                }
+                else {
+                    goalTd.text( "Ok" );
+                    goalTd.addClass("allCoverageGoalsPassed");
+                }
+                
+            }
+            this.$el.append( goalTd );
             return this;
         }
 

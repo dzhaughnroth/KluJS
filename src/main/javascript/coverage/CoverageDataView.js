@@ -59,6 +59,7 @@ define( [ "../goals/CoverageGoalInterpreter", "../lib/notBackbone", "../lib/notU
 
         },
         render : function() {
+            var self = this;
             var useGoals = !this.options.disableGoals;
             this.$el.empty();
             var banner = $( "<div />" )
@@ -123,17 +124,14 @@ define( [ "../goals/CoverageGoalInterpreter", "../lib/notBackbone", "../lib/notU
             } );
             table.fnSort( [ [0,'asc'] ] );
             if ( useGoals ) {
-                var goalFailureCount = 0;
-                $.each( data, function( i, x ) {
-                    var y = magicValue(x);
-                    if ( !y.line.allOk() || !y.element.allOk() ) {
-                        ++goalFailureCount;
-                    }                
-                } );
+                var goalFailureCount = self.model.goalFailureCount( this.options.filter );
                 var msg = "All " + data.length + " met goals";
                 if ( goalFailureCount ) {
                     msg = goalFailureCount + " of " + data.length + " failed to meet goals";
                     banner.addClass( "coverageGoalFailed" );
+                }
+                else {
+                    banner.addClass( "allCoverageGoalsPassed" );
                 }
                 
                 $("<span />", {text: msg } )

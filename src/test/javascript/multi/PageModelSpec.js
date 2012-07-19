@@ -64,6 +64,8 @@ define( [ "multi/PageModel","jquery", "ConfigFacade" ], function( PageModel, $, 
             expect( resets.length ).toBe( 1 );
             var fooCoverage = topic.coverageDataModel.byFile.foo;
             expect( fooCoverage.line.missed ).toBe( 1 );
+            topic.set("done", false );
+            expect( resets.length ).toBe( 1 );
         } );
 
     } );

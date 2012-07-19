@@ -2,15 +2,17 @@
 define( [ 
     "./JasmineModel",
     "./SuiteName",
+    "./FocusFilterFactory",
     "./coverage/CoverageDataModel",
     "./goals/SuiteInterpreter",
     "./lint/LintFinder",
     "./lint/LintCollection",
     "./lib/notBackbone"
-], function( JasmineModel, SuiteName, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, Backbone ) {
+], function( JasmineModel, SuiteName, FocusFilterFactory, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, Backbone ) {
 
     // optional args for testing; defaults to window, jasmine globals
     var Assembly = function( mockWindow, mockJasmine ) {
+        var self = this;
         var win = mockWindow || window;
         var postToParent = function( msg ) {
             if ( win.parent && win.parent.postMessage && win.parent.window !== win ) {
@@ -21,6 +23,8 @@ define( [
                 return false;
             }
         };
+        var filterFactory = new FocusFilterFactory();
+        this.filter = function() { return true; };
         this.name = new SuiteName.Model();
         var jasModel = new JasmineModel( { jasmineImpl:mockJasmine } );
         var lintModel = new LintCollection();
@@ -30,9 +34,12 @@ define( [
         var covModel = new CoverageDataModel( { 
             goals : new SuiteInterpreter( this.name ) 
         } );
+        this.name.on( "change", function() {
+            self.filter = filterFactory.create( self.name.get("suiteName" ) );
+        } );
+
         var lintFinder = new LintFinder();
 
-        var self = this;
         var listener = function() {
             self.testFinished();
         };
@@ -55,6 +62,9 @@ define( [
         this.jasmine = jasModel;
         this.coverage = covModel;
         this.lint = lintModel;
+        this.goalFailureCount = function() {
+            return this.coverage.goalFailureCount( self.filter );
+        };
         jasModel.on( 'change', listener );
         testFinished();
 

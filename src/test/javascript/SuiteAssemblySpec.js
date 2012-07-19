@@ -15,8 +15,12 @@ define( [ "SuiteAssembly" ], function(SuiteAssembly) {
             location : {here:"here"}
         };
         var topic = new SuiteAssembly( mockWindow );
-        it( "Has a model for the name of the suite", function() {
+        it( "Has a name model linked to a FocusFilterFactory", function() {
             expect( topic.name ).toBeDefined();
+            var prevFilter = topic.filter;
+            expect( topic.filter() ).toBe( true ); // trivial filter initially
+            topic.name.set( "suiteName", "goo" );
+            expect( topic.filter ).not.toBe( prevFilter );
         } );
         it( "Notifies parent on test start", function() {
             expect( topic.jasmine.get("status")).toBe( "running" );
@@ -49,5 +53,8 @@ define( [ "SuiteAssembly" ], function(SuiteAssembly) {
                 expect( noParentTopic.lint.length >5 ).toBe( true );
             } );
         });
+        it( "Will count goal Failures against filter", function() {
+            expect( topic.goalFailureCount() ).toBe( topic.coverage.goalFailureCount( topic.filter ) );
+        } );
     } );
 } );

@@ -7,7 +7,7 @@ define( [ "goals/CoverageGoalInterpreter" ], function( CoverageGoalInterpreter )
             var topic = interp.goalForFile();
             expect( topic.max ).toBeUndefined();
             expect( topic.min ).toBeUndefined();
-            expect( topic.exceptionRules ).toEqual( [] );
+            expect( topic.rules ).toEqual( [] );
         } );
         it( "Accepts blank min setting", function() {
             var interp = new CoverageGoalInterpreter( {
@@ -49,33 +49,33 @@ define( [ "goals/CoverageGoalInterpreter" ], function( CoverageGoalInterpreter )
                 var x = interp.goalForFile( "goody", "twoShoes" );
                 expect( x.max  ).toBe( 1 );
                 expect( x.min ).toBe( 0.9 );
-                expect( x.exceptionRules ).toEqual( [] );
+                expect( x.rules ).toEqual( [] );
             } );
             it( "Handles individual file exceptions", function() {
                 var x = interp.goalForFile( "goody", "blabarzog" );
                 expect( x.max ).toBe( 0 );
                 expect( x.min ).toBe( 0.9 );
-                expect( x.exceptionRules ).toEqual( [ "fileMax" ] );
+                expect( x.rules ).toEqual( [ "fileMax" ] );
                 var y = interp.goalForFile( "goody", "bazzog" );
                 expect( y.max  ).toBe( 1 );
                 expect( y.min ).toBe( 0.8 );
-                expect( y.exceptionRules ).toEqual( [ "fileMin" ] );
+                expect( y.rules ).toEqual( [ "fileMin" ] );
             } );
             it( "Handles suite-wide exceptions", function() {
                 var x = interp.goalForFile( "weird", "twoShoes" );
                 expect( x.max  ).toBe( 3 );
                 expect( x.min ).toBe( 0.0 );
-                expect( x.exceptionRules ).toEqual( [ "suite" ] );
+                expect( x.rules ).toEqual( [ "suite" ] );
             } );
             it( "Handles multiple rules", function() {
                 var x = interp.goalForFile( "goody", "foogoo" );
                 expect( x.max ).toBe( 0 );
                 expect( x.min ).toBe( 0.8 );
-                expect( x.exceptionRules ).toEqual( [ "fileMax", "fileMin" ] );
+                expect( x.rules ).toEqual( [ "fileMax", "fileMin" ] );
                 var y = interp.goalForFile( "weird", "foogoo" );
                 expect( y.max ).toBe( 3 );
                 expect( y.min ).toBe( 0.0 );
-                expect( y.exceptionRules ).toEqual( [ "fileMax", "fileMin", "suite" ] );
+                expect( y.rules ).toEqual( [ "fileMax", "fileMin", "suite" ] );
             } );
 
         } );

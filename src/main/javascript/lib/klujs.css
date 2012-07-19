@@ -151,5 +151,9 @@ tr.odd td.coverageGoalFailed {
 
 div.coverageGoalFailed {
     background-color:#B03911;
-    color:white;
 }
+
+div.allCoverageGoalsPassed {
+    background-color: #5E7D00;
+}
+

@@ -18,7 +18,7 @@ define( [ "multi/ChildFrameCollection", "jquery" ], function( Cfc, $ ) {
         } );
         it ( "TableView start as an empty table", function() {
             expect( tableView.$el.is( "table" ) ).toBe( true );
-            expect( tableView.$el.find( "th" ).length ).toBe( 2 );
+            expect( tableView.$el.find( "th" ).length ).toBe( 3 );
             expect( tableView.$el.find( "thead tr" ).length ).toBe( 1 );
             expect( tableView.$el.find( "td" ).length ).toBe( 0 );
             expect( tableView.$el.find( "tbody tr" ).length ).toBe( 0 );
@@ -51,13 +51,16 @@ define( [ "multi/ChildFrameCollection", "jquery" ], function( Cfc, $ ) {
         } );
         it( "Let ChildFrameManagerViews update themselves", function() {
             var found = tableView.$el.find( "tbody tr" );
-            expect( $(found[0]).children(":last").text() ).toBe( "...Running..." );            
+            expect( $(found[0]).children(":nth-child(2)").text() ).toBe( "...Running..." );
             model.at( 0 ).set( "results", { failedCount: 3, count: 5, passedCount: 2 } );
             model.at( 0 ).set( "status", "failed" );
+            model.at( 0 ).set( "coverageGoalFailures", 173 );
             expect( model.isDone() ).toBe( false );
             expect( model.isFailing() ).toBe( true );
             found = tableView.$el.find( "tbody tr" );
-            expect( $(found[0]).children(":last").text() ).toBe( "Failed 3 of 5 specs" );
+            expect( $(found[0]).children(":nth-child(2)").text() ).toMatch( "Failed 3 of 5 specs" );
+            expect( $(found[0]).children(":nth-child(3)").text() ).toMatch( "173" );
+            
         } );        
         it( "Summary counts should again be updated", function() {
             expect( summary.$el.text()).toBe( "1 of 2 suites failed (1 running)" );

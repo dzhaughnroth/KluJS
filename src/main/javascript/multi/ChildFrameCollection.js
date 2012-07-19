@@ -28,7 +28,8 @@ define( ["./ChildFrameManager", "./ChildFrameManagerView", "../lib/notBackbone",
             _.bindAll( this, "render" );
             var header = $( "<tr />" )
                     .append( $( "<th />", { text:"Suite" } ) )
-                    .append( $( "<th />", {text: "Results"} ) );
+                    .append( $( "<th />", {text: "Results"} ) )
+                    .append( $( "<th />", {text: "Coverage" } ));
             this.header = $( "<thead />" ).append( header );
             this.tbody = $( "<tbody />" );
             this.$el.append( this.header );

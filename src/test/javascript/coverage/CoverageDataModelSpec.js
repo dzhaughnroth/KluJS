@@ -26,6 +26,7 @@ define( [ "coverage/CoverageDataModel", "coverage/NodeCoverageCalculator", "goal
             expect( x.line.missed ).toBe( 4 );
         } ); 
         it( "Should merge data and coverage goals", function() {
+            expect( topic.goalFailureCount() ).toBe( 0 );
             var mock = {
                 max : 2,
                 except : {
@@ -53,6 +54,8 @@ define( [ "coverage/CoverageDataModel", "coverage/NodeCoverageCalculator", "goal
             expect( xs[0].element.hasMax() ).toBe( true );
             expect( xs[0].element.maxOk() ).toBe( false );
             expect( xs[0].line.rules ).toEqual( ["fooRule"] );
+            
+            expect( topic.goalFailureCount() > 1 ).toBe( true );
         } );
     } );
 } );

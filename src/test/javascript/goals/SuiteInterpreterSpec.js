@@ -2,6 +2,15 @@
 define( [ "goals/SuiteInterpreter", "goals/CoverageGoalInterpreter", "SuiteName", "Config" ], function( SuiteInterpreter, CoverageGoalInterpreter, SuiteName, notKlujs ) {
 
     describe( "SuiteInterpreter", function() {
+        var mock = {
+            max : 2,
+            except : {
+                foo : {
+                    suites: ["goo"],
+                    max : 0
+                }
+            }
+        };
         var model = new SuiteName.Model();
         it( "Defaults to global configuration", function() {
             var topic = new SuiteInterpreter( model );
@@ -9,15 +18,6 @@ define( [ "goals/SuiteInterpreter", "goals/CoverageGoalInterpreter", "SuiteName"
             expect( topic.elementGoals.config ).toBe( notKlujs.elementCoverage() );
         } );
         it( "Specializes goals using suite name", function() {
-            var mock = {
-                max : 2,
-                except : {
-                    foo : {
-                        suites: ["goo"],
-                        max : 0
-                    }
-                }
-            };
             var topic = new SuiteInterpreter( model, mock, mock );
             expect( topic.lineGoals.config ).toBe( mock );
             expect( topic.elementGoals.config ).toBe( mock );            
@@ -29,11 +29,10 @@ define( [ "goals/SuiteInterpreter", "goals/CoverageGoalInterpreter", "SuiteName"
             expect( topic.suiteName() ).toBe( "bar" );
             expect( topic.lineGoal( "zoo" ).max ).toBe( 2 );
             expect( topic.elementGoal( "zoo" ).max ).toBe( 2 );
-            
-
-
+            var x = topic.thresholdsForFile( "zoo" );
+            expect( x.line ).toEqual( topic.lineGoal( "zoo" ));
+            expect( x.element ).toEqual( topic.elementGoal( "zoo" ));
         } );
-
 
     } );
 } );

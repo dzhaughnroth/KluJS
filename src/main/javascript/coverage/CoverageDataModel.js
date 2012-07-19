@@ -38,7 +38,7 @@ define( [ "./NodeCoverageCalculator", "./CoverageAndGoalsSubSummary", "../lib/no
         },
         initialize : function() {
             var self = this;
-            _.bindAll( this, "setData" ); 
+            _.bindAll( this, "setData", "goalFailureCount" ); 
             this.byFile = {};
             this.on( "change", function() {
                 var coverageData = this.get( "coverageData" );
@@ -50,6 +50,18 @@ define( [ "./NodeCoverageCalculator", "./CoverageAndGoalsSubSummary", "../lib/no
         },
         setData : function( data ) {
             this.set( "coverageData", data );
+        },
+        goalFailureCount: function( filter ) {
+            var myFilter = filter || function() { return true; };
+            var vals = _.filter( _.values( this.byFile ), myFilter );
+            var result = 0;
+            _.each( vals, function( sum ) {
+                if ( ! sum.line.allOk() || ! sum.element.allOk() ) {
+                    ++result;
+                }
+            } );
+
+            return result;
         }
         // accessors for data and goals and their join
     } );

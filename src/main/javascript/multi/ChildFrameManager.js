@@ -37,7 +37,6 @@ define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backb
                          count : 0,
                          failedCount : 0,
                          passedCount : 0
-//                         results : []
                      };
                      var jasResults = cWin.klujsAssembly.jasmine.get( "result" );
                      result.failedCount = jasResults.failed;
@@ -50,6 +49,8 @@ define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backb
                      else {
                          this.set( "status", PASSED);
                      }
+                     var goalFailures = cWin.klujsAssembly.goalFailureCount();
+                     this.set( "coverageGoalFailures", goalFailures );
                  }
             else {
                 this.set( "status", RUNNING );

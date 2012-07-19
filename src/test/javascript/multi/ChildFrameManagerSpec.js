@@ -14,7 +14,12 @@ define( [ "multi/ChildFrameManager" ], function( ChildFrameManager ) {
                             get : function() {
                                 return mockValues.shift();
                             }
+                        },
+                        goalFailureCount : function() {
+                            return 171;
                         }
+                            
+                        
                     }
                 }
             };
@@ -38,6 +43,16 @@ define( [ "multi/ChildFrameManager" ], function( ChildFrameManager ) {
             mockValues = [ "running" ];
             topic.check();
             expect( topic.get("status" ) ).toBe( "running" );
+            expect( topic.get("coverageGoalFailures" ) ).toBeUndefined();
+
+            // code coverage for check of the existence of a contentWindow.
+            topic.plainFrame.contentWindow = null;            
+            topic.check();
+            expect( topic.get("status" ) ).toBe( "running" );
+
+            topic.plainFrame.contentWindow = {};
+            topic.check();
+            expect( topic.get("status" ) ).toBe( "running" );
         } );
         
         it( "Should be able to report pass/fail counts after checking", function() {
@@ -48,13 +63,17 @@ define( [ "multi/ChildFrameManager" ], function( ChildFrameManager ) {
             expect( topic.get("results").passedCount ).toBe( 31085 );
             expect( topic.get("results").count ).toBe( 31092 );
             expect( topic.get("status" ) ).toBe( "failed" );
+            expect( topic.get("coverageGoalFailures" ) ).toBe( 171 );
 
             mockValues = [ "done", { failed: 0, count:8 } ];
             topic.check();
             expect( topic.get("results").failedCount ).toBe( 0 );
             expect( topic.get("results").passedCount ).toBe( 8 );
             expect( topic.get("status" ) ).toBe( "passed" );
+            expect( topic.get("coverageGoalFailures" ) ).toBe( 171 );
         } );
+
+
     } );
 
 

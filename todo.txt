@@ -1,7 +1,9 @@
 Manage jslint better so no collisions
 Investigate jshint instead or in addition.
 
-In multiview. A bit too much flashing? Slows down the runner???
+In multiview. A bit too much flashing? Slows down the runner??? 
+
+Browser freezes momentarily during tests or something.
 
 Style the multiview pass/fail table; Add coverage criteria when available
 
@@ -18,9 +20,8 @@ Display an error if the suite parameter does not refer to a suite
 AutoSuite:
   Merge with, don't clobber, other suites, if any. LATER
   Support exclusion regex. GLOBAL, LOCAL, BOTH?
-  Support checking coverage completion against main directory NEXT
   Handle errors
 
 List dead files under main and test in coverage view.
 
-Fix : Sorting hide coverage highlighting. Use span, not td, for styling?
+Fix : Sorting hide coverage highlighting. Use span, not td, for styling?  DONE
