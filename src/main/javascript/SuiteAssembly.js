@@ -3,10 +3,11 @@ define( [
     "./JasmineModel",
     "./SuiteName",
     "./coverage/CoverageDataModel",
+    "./goals/SuiteInterpreter",
     "./lint/LintFinder",
     "./lint/LintCollection",
     "./lib/notBackbone"
-], function( JasmineModel, SuiteName, CoverageDataModel, LintFinder, LintCollection, Backbone ) {
+], function( JasmineModel, SuiteName, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, Backbone ) {
 
     // optional args for testing; defaults to window, jasmine globals
     var Assembly = function( mockWindow, mockJasmine ) {
@@ -20,12 +21,14 @@ define( [
                 return false;
             }
         };
+        this.name = new SuiteName.Model();
         var jasModel = new JasmineModel( { jasmineImpl:mockJasmine } );
         var lintModel = new LintCollection();
         lintModel.on( 'add', function( modelAdded ) {
             modelAdded.check();
         } );
-        var covModel = new CoverageDataModel.ProjectModel();
+        var covModel = new CoverageDataModel.ProjectModel( );
+        covModel.goals = new SuiteInterpreter( this.name );
         var lintFinder = new LintFinder();
 
         var self = this;
@@ -51,7 +54,6 @@ define( [
         this.jasmine = jasModel;
         this.coverage = covModel;
         this.lint = lintModel;
-        this.name = new SuiteName.Model();
         jasModel.on( 'change', listener );
         testFinished();
 

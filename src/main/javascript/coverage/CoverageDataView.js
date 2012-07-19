@@ -3,36 +3,30 @@ define( [ "./CoverageDataTallyer", "../goals/CoverageGoalInterpreter", "../lib/n
     var decorateForPassFail = function( htmlEl, val, targets, isMin ) {
         
         var x = $(htmlEl);
-        if ( typeof targets.rules !== "undefined" ) {
-            var fail;
-            var targetVal;
-            if ( isMin ) {
-                targetVal = targets.min;
-                fail = val < targets.min;
-            }              
-            else {
-                targetVal = targets.max;
-                fail = val > targets.max;
-            }
-            var msg = "Any";
-            if( typeof targetVal !== "undefined" ) {
-                if ( fail ) {
-                    x.addClass("coverageGoalFailed");
-                }
-                msg = (isMin ? "min" : "max") + " of " + targetVal;
-                if ( targets.rules.length > 0 ) {
-                    msg += " from " +targets.rules.join(",");
-                }
-            }
-            else {
-                msg = "Any";
-            }
-            x.attr( "title", msg );
-        }
+       
+        var fail;
+        var targetVal;
+        if ( isMin ) {
+            targetVal = targets.min;
+            fail = val < targets.min;
+        }              
         else {
-            x.attr( "title", "Any" );
+            targetVal = targets.max;
+            fail = val > targets.max;
         }
+        var msg = "Any";
+        if( typeof targetVal !== "undefined" ) {
+            if ( fail ) {
+                x.addClass("coverageGoalFailed");
+            }
+            msg = (isMin ? "min" : "max") + " of " + targetVal;
+            if ( targets.rules.length > 0 ) {
+                msg += " from " + targets.rules.join(",");
+            }
+        }
+        x.attr( "title", msg );
     };
+
     var DtView = Backbone.View.extend( {
         tagName : "div",
         className : "coverageDataView",
@@ -111,7 +105,6 @@ define( [ "./CoverageDataTallyer", "../goals/CoverageGoalInterpreter", "../lib/n
                                     decorateForPassFail( el, val, row[8].line, true );
                                 }
                               },
-
                               { "sTitle" : "<span title='Missed range'>Between</span>",
                                 "bSortable" : false
                               }
@@ -126,7 +119,6 @@ define( [ "./CoverageDataTallyer", "../goals/CoverageGoalInterpreter", "../lib/n
             return this;
         },
         buildTableData : function() {
-            var self = this;
             var result = [];
             var filtered = this.model.filter( this.options.filter );
             filtered.forEach( function( srcModel ) {
@@ -134,6 +126,11 @@ define( [ "./CoverageDataTallyer", "../goals/CoverageGoalInterpreter", "../lib/n
                 result.push( row );
                 row.push( srcModel.get("src") );
                 var srcData = srcModel.data();
+                // Nextstep:
+                // Consider converting to aoColumndDefs and
+                // just pushing the goalReport data, relying on render.
+                // srcModel.targets below is exogonous
+
                 $.each( ["element", "line"], function( i, type ) {
                     var cd = srcData[type];
                     row.push( cd.count );
@@ -146,25 +143,7 @@ define( [ "./CoverageDataTallyer", "../goals/CoverageGoalInterpreter", "../lib/n
                         + " - " + srcData.element.lastLine;
                 }
                 row.push( lineMessage );
-                var goalThresholds = {
-                    line : {
-                    },
-                    element: {
-                    }
-                };
-                if ( self.options.goals ) {
-                    var lineGoal = self.options.goals.lineGoal( srcModel.get( "src" ) );
-                    var elGoal = self.options.goals.elementGoal( srcModel.get("src" ));
-                    
-                    goalThresholds.line.max = lineGoal.max;
-                    goalThresholds.line.min = lineGoal.min;
-                    goalThresholds.element.max = elGoal.max;
-                    goalThresholds.element.min = elGoal.min;
-                    
-                    goalThresholds.line.rules = lineGoal.exceptionRules;
-                    goalThresholds.element.rules = elGoal.exceptionRules;
-                }
-                row.push( goalThresholds );
+                row.push( srcModel.targets );
             } );
             return result;
         }

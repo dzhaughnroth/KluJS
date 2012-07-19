@@ -22,8 +22,9 @@ define( [ "./SuiteAssembly", "./SuiteView", "./Config", "jquery", "require"], fu
         this.view = new SuiteView( { model:self.assembly } ).render();
         this.buildDom = function() {
             self.head.append( linkToCss( "jasmine.css" ) )
+                .append( linkToCss( "data_table.css" ) )
                 .append( linkToCss( "klujs.css" ) )
-                .append( linkToCss( "data_table.css" ) );
+            ;
 
             self.body.append( self.view.$el );
         };

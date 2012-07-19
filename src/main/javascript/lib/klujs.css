@@ -137,3 +137,15 @@ body {
  //   color:yellow;
 
 }
+
+tr.even td.coverageGoalFailed {
+    background-color:#FFDCDA;//#B03911;
+ //   color:yellow;
+
+}
+
+tr.odd td.coverageGoalFailed {
+    background-color:#FFDCDA;//#B03911;
+ //   color:yellow;
+
+}

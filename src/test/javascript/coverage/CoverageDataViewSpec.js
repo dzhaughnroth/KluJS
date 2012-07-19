@@ -26,14 +26,14 @@ define( [ "coverage/CoverageDataModel", "coverage/CoverageDataView", "goals/Suit
         var goals = new SuiteInterpreter( name, goalConfig.lineCoverage
                                           , goalConfig.elementCoverage );        
         var model = new CoverageDataModel.ProjectModel();
+        model.goals = goals;
         var plainView = new CoverageDataView( { model:model,
                                            label:"Foo" } );
         plainView.render();
 
         var view = new CoverageDataView( { model:model,
                                            label:"FilterFoo",
-                                           filter:filter,
-                                           goals : goals } );
+                                           filter:filter } );
         model.setData( $$_l );
         view.render(); // for variety.
         $("body").append( view.$el );
