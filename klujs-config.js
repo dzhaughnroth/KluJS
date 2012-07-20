@@ -1,20 +1,18 @@
 /*global klujs:true */
 klujs = {
-    require : {
-        paths: {
-        }
-    },
     autoSuites:true,    
     elementCoverage : {
         max : 0,
         except : {
             ccWeird: {
-                // Overcaution in checking for cc's existence.
+                // Code for checking for 
+                // cc's existence is maybe overcautious here.
                 files:[ "NodeCoverageCalculator" ],
                 max : 1
             },
             pageGlobal: {
-                // setting the klujsAssembly global will never work in a unit test.
+                // setting the klujsAssembly global 
+                // will never work in a unit test.
                 files:[ "SuitePage" ],
                 max : 2
             }

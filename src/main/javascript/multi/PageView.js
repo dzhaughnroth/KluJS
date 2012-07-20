@@ -28,8 +28,10 @@ define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/C
                         .render();
                 var lintView = new LintCollectionView( { model:model.lintModel} )
                         .render(); 
-                var coverageView = new CoverageDataView( { model:model.coverageDataModel } )
-                        .render();
+                var coverageView = new CoverageDataView( { 
+                    model:model.coverageDataModel,
+                    disableGoals:true
+                } ).render();
                 this.bodyElement.append( $( "<h1 />", {text:"KluJSsssss" } ) );
                 this.bodyElement.append( view.$el );
                 this.bodyElement.append( lintView.$el );
