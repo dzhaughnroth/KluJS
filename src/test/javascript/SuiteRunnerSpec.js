@@ -37,7 +37,6 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
             waitsFor( function() { return executed; }, 1000 );
             runs( function() {
                 expect( executed ).toBe( true );
-                expect( nameModel.get( "suiteName" ) ).toBe( "(base)" );
             } );
 
         } );

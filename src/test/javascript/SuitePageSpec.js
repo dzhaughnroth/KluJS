@@ -12,13 +12,14 @@ define( [ "SuitePage", "jquery"], function( SuitePage, $ ) {
             expect( topic.body.get(0).tagName ).toEqual( "BODY" );
         } );
         it( "Adds link elements to head", function() {
-            topic = new SuitePage( $("<div />"), $("<div />" ), global );
+            var head = $("<div />");
+            topic = new SuitePage( head, $("<div />" ), global );
             topic.buildDom();
-            expect( topic.head.children("link").length ).toBe( 3 );
+            expect( head.children("link").length ).toBe( 3 );
         } );
-        it( "Adds divs to body", function() {
+        it( "Adds div to body", function() {
+            expect( $.contains( topic.body, topic.view.$el ) );
             expect( topic.body.children("div").length ).toBe( 1 );
-//            console.log( topic.body );
         } );
 
         
