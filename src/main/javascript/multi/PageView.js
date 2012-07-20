@@ -32,7 +32,7 @@ define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/C
                     model:model.coverageDataModel,
                     disableGoals:true
                 } ).render();
-                this.bodyElement.append( $( "<h1 />", {text:"KluJSsssss" } ) );
+                this.bodyElement.append( $( "<h1 />", {text:"KluJS: All Suites" } ) );
                 this.bodyElement.append( view.$el );
                 this.bodyElement.append( lintView.$el );
                 this.bodyElement.append( coverageView.$el );

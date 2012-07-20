@@ -13,16 +13,15 @@ define( [ "multi/PageModel","jquery", "ConfigFacade" ], function( PageModel, $, 
             config: config,
             frameDiv: div
         } );
-        it( "Should create suite runner frames", function() {
+        it( "Should create suite runner frames, other models", function() {
             expect( topic.childFrames.length ).toBe( 2 );
             expect( div.children( "iframe" ).length ).toBe( 2 );
-        } );
-        it( "Should accept lintFinder results", function() {
-            expect( topic.lintModel.length ).toBe( 0 );
+            expect( topic.lintModel.length ).toBe( 0 );  
             topic.lintFound( {
                 allModules: ["foo", "bar"]
             } );
-            expect( topic.lintModel.length ).toBe( 2 );
+            expect( topic.lintModel.length ).toBe( 0 );  // computed later            
+            expect( topic.lintQueue.length ).toBe( 1 );  // computed later            
         } );
         it( "Should check them when asked", function() {
             var checkCount = 0;
@@ -64,9 +63,14 @@ define( [ "multi/PageModel","jquery", "ConfigFacade" ], function( PageModel, $, 
             expect( resets.length ).toBe( 1 );
             var fooCoverage = topic.coverageDataModel.byFile.foo;
             expect( fooCoverage.line.missed ).toBe( 1 );
-            topic.set("done", false );
+            expect( resets.length ).toBe( 1 );
+            topic.set("testDone", false );
             expect( resets.length ).toBe( 1 );
         } );
+        it( "Should compute lintFinder result on completion", function() {
+            expect( topic.lintModel.length ).toBe( 2 );
+        } );
+
 
     } );
 

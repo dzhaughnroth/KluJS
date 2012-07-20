@@ -5,7 +5,8 @@ define( [ "../lib/order!./PageModel", "../lib/order!./PageView", "../lib/order!.
             .addClass("childIFrameContainer");
     $("body").append( frameDiv );
     var errorCallback = function() {
-        "Something went wrong loading autoSuite";
+        // FIXME
+        console.log( "Something went wrong loading autoSuite" );
     };
     var callback = function() {
         var model = new PageModel( { frameDiv : frameDiv } );

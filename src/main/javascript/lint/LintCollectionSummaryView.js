@@ -65,10 +65,11 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../widgets/Che
             var label = new Checkbox.Label( { model: this.showHideModel, 
                                               label: "Show passed" } )
                     .render();
-            this.$el.append( $("<span />", {text:"foo"} )
+            this.$el.append( $("<span />", {text:"JSLint: ...Loading..."} )
                              .addClass( "summary" ) );            
             this.$el.append( cbox.$el );
             this.$el.append( label.$el );
+            this.$el.addClass( "running" );
         },
         render: function() {
             var self = this;

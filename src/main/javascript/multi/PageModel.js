@@ -18,13 +18,16 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
             this.lintModel.on( 'add', function( modelAdded ) {
                 modelAdded.check();
             } );
+            this.lintQueue = [];
             $.each( self.get("config").suiteNames(), function( i, name ) {
                 self.childFrames.add( {suite:name} );
             } );
             this.coverageDataModel = new CoverageDataModel();
-            this.on( 'change:done', function( ) {
-                if ( self.get( "done" ) === true ) {
+            this.on( 'change:testDone', function( ) {
+                if ( self.get( "testDone" ) === true ) {
                     self.aggregateCoverage();
+                    self.doLint();
+                    self.set( "done", true );
                 }
             } );
         },
@@ -36,11 +39,18 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
                 done = done && (x.get("status") !== "running");
             } );
             if ( done ) {
-                self.set( "done", true );
+                self.set( "testDone", true );
             }
         },        
         lintFound : function( lf ) {
-            this.lintModel.addFinderResult( lf );
+//            this.lintModel.addFinderResult( lf );
+            this.lintQueue.push( lf );
+        },
+        doLint : function() {
+            var self = this;
+            $.each( this.lintQueue, function( i, lf ) {
+                self.lintModel.addFinderResult( lf );
+            } );
         },
         coverageData: function() {
             var self = this;           
