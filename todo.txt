@@ -1,27 +1,30 @@
-Manage jslint better so no collisions
-Investigate jshint instead or in addition.
+LATER: 
+Manage jslint better so no possible collisions. Investigate jshint instead or in addition. 
 
-In multiview. A bit too much flashing? Slows down the runner??? 
+Autosuite should merge, not clobber, other suites.
 
-Browser freezes momentarily during tests or something.
+AutoSuite:  Support exclusion regex. GLOBAL, LOCAL, BOTH?
+
+Integrate with mocha node tests that need the server side. teehee.
+
+MEDIUM
+
+Browser freezes momentarily during tests or something. (not easy to repro)
+
+SOON:
 
 Style the multiview pass/fail table; Add coverage criteria when available
 
-Display the details of the first lint and spec failure.
+Display the details of the first lint and spec failure automatically
 
 Scroll box for the iframe child div?
-
 
 Clean up aux directory. Explain what parts can't be tested and why.
 Put server side only stuff in a different place.
 
 Display an error if the suite parameter does not refer to a suite
 
-AutoSuite:
-  Merge with, don't clobber, other suites, if any. LATER
-  Support exclusion regex. GLOBAL, LOCAL, BOTH?
-  Handle errors
+Autosuite handle errors; now logs to console.
 
 List dead files under main and test in coverage view.
 
-Fix : Sorting hide coverage highlighting. Use span, not td, for styling?  DONE

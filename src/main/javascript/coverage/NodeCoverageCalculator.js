@@ -6,13 +6,14 @@ define( [ "jquery" ], function( $ ) {
         this.missed = missed || 0;
         this.firstLine = firstLine;
         this.lastLine = lastLine;
-        this.__defineGetter__("rate", function() {
+        this.computeRate = function() {
             var result = 0;
             if ( this.count > 0 ) {
                 result = 1 - this.missed / this.count;
             }
-            return result;
-        } );
+            this.rate = result;
+        };
+        this.computeRate();
     };
 
     var NodeCoverageCalculator = function( nodeCoverage ) {
@@ -25,14 +26,6 @@ define( [ "jquery" ], function( $ ) {
         var lineNumberForToken = function( token ) {
             var x = tokenRegx.exec( token );
             return parseInt( x, 0 );
-        };
-        var computeRate = function( coverageSummary ) {
-            if ( coverageSummary.count ) {
-                coverageSummary.rate = 1.0 - coverageSummary.missed / coverageSummary.count;
-            }
-            else {
-                coverageSummary.rate = 0;
-            }
         };
 
         var lineCoverageForFile = function( fileName ) {
@@ -139,8 +132,8 @@ define( [ "jquery" ], function( $ ) {
             elementCoverage.firstLine = firstLine;
             elementCoverage.lastLine = lastLine;
             $.each( unlines, analyzeConditionCoverageEntry );
-            computeRate( elementCoverage );
-            computeRate( branchCoverage );
+            elementCoverage.computeRate();
+            branchCoverage.computeRate();
             return {
                 line : lineCoverage,
                 element : elementCoverage,

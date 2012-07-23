@@ -1,6 +1,7 @@
 /*globals define:false, jasmine:false */
-define( [ "./lib/order!./lib/jasmine", "./lib/order!./lib/jasmine-html", "./lib/order!./SuiteRunner", "./lib/order!./SuitePage", "./lib/order!./autosuite/AutoSuiteFetcher", "jquery" ], function( j, jh, SuiteRunner, SuitePage, Fetcher, $ ) {
 
+define( [ "./lib/order!./lib/jasmine", "./lib/order!./lib/jasmine-html", "./lib/order!./SuiteRunner", "./lib/order!./SuitePage", "./lib/order!./autosuite/AutoSuiteFetcher", "jquery" ], function( j, jh, SuiteRunner, SuitePage, Fetcher, $ ) {
+    
     var page = new SuitePage();
     // has to come first. :(
     jasmine.getEnv().reporter.subReporters_.unshift( page.view.jasmineView.reporter );
