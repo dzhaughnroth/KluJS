@@ -58,8 +58,7 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
             self.childFrames.forEach( function( cf ) {
                 result.push( cf.plainFrame.contentWindow.$$_l );
             } );
-            return result;
-            
+            return result;           
         },
         aggregateCoverage: function() {
             var data = this.coverageData();

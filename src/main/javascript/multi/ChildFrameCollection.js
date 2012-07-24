@@ -17,6 +17,16 @@ define( ["./ChildFrameManager", "./ChildFrameManagerView", "../lib/notBackbone",
         },
         isFailing: function() {
             return this.failed().length > 0;
+        },
+        summarize : function() {
+            var result = {};
+            this.forEach( function( x ) {
+                result[x.get("suite")] = {
+                    status: x.get("status"),
+                    coverageGoalFailures: x.get("coverageGoalFailures")
+                };
+            } );
+            return result;
         }
     } );
 

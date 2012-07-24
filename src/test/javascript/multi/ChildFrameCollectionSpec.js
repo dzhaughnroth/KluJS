@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, jasmine:false */
-define( [ "multi/ChildFrameCollection", "jquery" ], function( Cfc, $ ) {
+define( [ "multi/ChildFrameCollection", "jquery", "lib/notUnderscore" ], function( Cfc, $, _ ) {
 
     describe( "ChildFrameCollectionView and SummaryView", function() {
         var model = new Cfc.Model();
@@ -81,9 +81,14 @@ define( [ "multi/ChildFrameCollection", "jquery" ], function( Cfc, $ ) {
             expect( summary.$el.hasClass( "running" ) ).toBe( false );
             expect( summary.$el.hasClass( "failed" ) ).toBe( false );
         } );
+        it( "Produces summary", function() {
+            var summary = model.summarize();
+            expect( _.keys( summary )).toEqual( ["foo", "bar"] );
+            expect( summary.foo ).toEqual( { status:"passed", coverageGoalFailures:173} );
+        } );
 
 
     } );
-
+    
 
 } );
