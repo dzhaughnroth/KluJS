@@ -125,9 +125,9 @@ define( [ "../goals/CoverageGoalInterpreter", "../lib/notBackbone", "../lib/notU
             table.fnSort( [ [0,'asc'] ] );
             if ( useGoals ) {
                 var goalFailureCount = self.model.goalFailureCount( this.options.filter );
-                var msg = "All " + data.length + " met goals";
+                var msg = "All " + data.length + " goals met";
                 if ( goalFailureCount ) {
-                    msg = goalFailureCount + " of " + data.length + " failed to meet goals";
+                    msg = goalFailureCount + " of " + data.length + " goals unmet";
                     banner.addClass( "coverageGoalFailed" );
                 }
                 else {

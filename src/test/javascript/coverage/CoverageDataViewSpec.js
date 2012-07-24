@@ -77,14 +77,14 @@ define( [ "coverage/CoverageDataModel", "coverage/CoverageDataView", "goals/Suit
             expect( $(c[3]).hasClass( "coverageGoalFailed" )).toBe( true );
             var banner = view.$el.children( "div.coverageBanner" );
             
-            expect( banner.text() ).toMatch( /2 of 3 failed to meet goals/ );
+            expect( banner.text() ).toMatch( /2 of 3 goals unmet/ );
             expect( banner.hasClass( "coverageGoalFailed" )).toBe( true );
         } );
         it( "Should note in banner if coverage goals all pass", function() {
             model.set( "goals", new SuiteInterpreter( name, {}, {} ) );
             var banner = view.$el.children( "div.coverageBanner" );
             expect( banner.hasClass( "coverageGoalFailed" )).toBe( false );            
-            expect( banner.text() ).toMatch( /All 3 met goals/ );
+            expect( banner.text() ).toMatch( /All 3 goals met/ );
         } );
     } );
 } );
