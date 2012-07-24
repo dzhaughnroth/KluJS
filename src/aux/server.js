@@ -6,6 +6,9 @@
  *  Requests are routed to one or the other based on the URL
  *  ending in the term "KluJSplain" HaHa.
  */
+var requirejs = require( "requirejs" );
+requirejs.config( { nodeRequire:require });
+
 var http = require('http');
 var util = require('util');
 var express = require( 'express' );
@@ -27,10 +30,13 @@ var argv = require('optimist')
 //var spawn = require('child_process').spawn;
 var perma = require( './permaProc.js' );
 var phanto= require( './phantoProc.js' );
-var suiteManagerPkg = require( "./javascript/autosuite/SuiteManager.js" );
+
 var fs = require('fs');
 var vm = require('vm');
 var net = require('net');
+
+requirejs( ["./javascript/autosuite/SuiteManager"], function( suiteManagerPkg ) {
+
 var proxyMode = false;
 var port;
 
@@ -266,3 +272,4 @@ app.get( "/", function( req, res ) {
 
 app.listen( port );
 util.log( "Listening to " + __dirname );
+} );
