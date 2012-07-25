@@ -73,7 +73,7 @@ catch( ex ) {
 }
 
 
-var suiteManager = suiteManagerPkg.create( klujs.test );
+var suiteManager = suiteManagerPkg.create( klujs.test, fs );
 
 var startJsCoverage = function() {
     proxyMode = true;

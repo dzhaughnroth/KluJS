@@ -1,6 +1,8 @@
-define( ["fs"], function(fs) {
-    var SpecFinder = function( basedir ) {
-        
+/*global define:false */
+define( ["require"], function(require) {
+
+    var SpecFinder = function( basedir, fs ) {
+        this.fs = fs;
         this.basedir = basedir;
         this.suites = {};
         var self = this;
@@ -23,12 +25,14 @@ define( ["fs"], function(fs) {
             }
         };
         
-        var findDirs = function( path ) {
-            var files = fs.readdirSync( totalPath( path ) );
+        var findDirs;
+        var SfSelf = this;
+        findDirs = function( path ) {
+            var files = SfSelf.fs.readdirSync( totalPath( path ) );
             var i;
             for ( i = 0; i < files.length; i++ ) {
                 var aPath = pathForFile( path, files[i] );
-                if ( fs.statSync( totalPath(aPath) ).isDirectory() ) {  
+                if ( SfSelf.fs.statSync( totalPath(aPath) ).isDirectory() ) {  
                     dirs.push( aPath );
                     findDirs( aPath );
                 }
@@ -37,13 +41,13 @@ define( ["fs"], function(fs) {
         
         var findSpecsInDir = function( path ) {
             var result = [];
-            var files = fs.readdirSync( totalPath(path) );
+            var files = SfSelf.fs.readdirSync( totalPath(path) );
             var i;
             for( i = 0; i < files.length; i++ ) {
                 if ( files[i].match( /.*Spec\.js$/ ) ) {
                     result.push( pathForFile( path, files[i] ) );
                 }
-            };
+            }
             return result;
         };
         
@@ -66,9 +70,9 @@ define( ["fs"], function(fs) {
         this.find = function() {
             findDirs( "" );
             findSpecs();
+            return this;
         };
     };
-    
+
     return SpecFinder;
-    
 });
