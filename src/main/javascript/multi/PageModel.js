@@ -1,9 +1,8 @@
 /*global define:false, window:false */
-define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../lib/notBackbone", "jquery", "../lib/notUnderscore", "../Config" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, Backbone, $, _, notKlujs ) {
+define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../lib/notBackbone", "jquery", "../lib/notUnderscore" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, Backbone, $, _ ) {
 
     var PageModel = Backbone.Model.extend( {
         defaults: {
-            config: notKlujs,
             done : false
             // frameDiv, a div containing the iframes for suites.
         },
@@ -19,9 +18,6 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
                 modelAdded.check();
             } );
             this.lintQueue = [];
-            $.each( self.get("config").suiteNames(), function( i, name ) {
-                self.childFrames.add( {suite:name} );
-            } );
             this.coverageDataModel = new CoverageDataModel();
             this.on( 'change:testDone', function( ) {
                 if ( self.get( "testDone" ) === true ) {
@@ -30,6 +26,21 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
                     self.set( "done", true );
                 }
             } );
+            var built = false;
+            var buildChildren = function() {
+                if ( !built ) {
+                    built = true;
+                    $.each( self.get("config").suiteNames(), function( i, name ) {
+                        self.childFrames.add( {suite:name} );
+                    } );
+                }
+            };
+            if ( self.get( "config" ) ) {
+                buildChildren();
+            }
+            else {
+                this.on( "change:config", buildChildren );
+            }
         },
         check: function() {
             var self = this;

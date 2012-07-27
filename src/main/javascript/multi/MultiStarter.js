@@ -1,17 +1,18 @@
 /*global define:false, window:false, console:false */
-define( [ "../lib/order!./PageModel", "../lib/order!./PageView", "../lib/order!../autosuite/AutoSuiteFetcher", "jquery"], function( PageModel, PageView, Fetcher, $ ) {
+define( [ "../lib/order!./PageModel", "../lib/order!./PageView", "../lib/order!../autosuite/AutoSuiteFetcher", "../Config", "jquery"], function( PageModel, PageView, AutoSuiteFetcher, notKlujs, $ ) {
 
     var frameDiv = $( "<div />" )
             .addClass("childIFrameContainer");
     $("body").append( frameDiv );
-    var errorCallback = function() {
+    var model = new PageModel( { frameDiv : frameDiv } );
+    var view = new PageView( { model:model } ).render();
+
+    var autoSuiteErrorCallback = function() {
         // FIXME
         console.log( "Something went wrong loading autoSuite" );
     };
-    var callback = function() {
-        var model = new PageModel( { frameDiv : frameDiv } );
-        var view = new PageView( { model:model } ).render();
-        
+    var autoSuiteCallback = function() {
+        model.set( "config", notKlujs );
         var handlers = {
             finished: function( data ) { model.check();},
             started: function( data ) { },
@@ -33,7 +34,7 @@ define( [ "../lib/order!./PageModel", "../lib/order!./PageView", "../lib/order!.
         klujsPage = model;
     };
     
-    var fetcher = new Fetcher();
-    fetcher.fetch( callback, errorCallback );
+    var fetcher = new AutoSuiteFetcher();
+    fetcher.fetch( autoSuiteCallback, autoSuiteErrorCallback );
 
 } );

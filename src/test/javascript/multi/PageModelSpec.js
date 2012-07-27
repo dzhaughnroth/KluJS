@@ -71,6 +71,17 @@ define( [ "multi/PageModel","jquery", "ConfigFacade" ], function( PageModel, $, 
             expect( topic.lintModel.length ).toBe( 2 );
         } );
 
+        it( "Should accept delayed configuration", function() {
+            var fd = $("<div />" );
+            var pm = new PageModel( { frameDiv:fd } );
+            expect( pm.childFrames.length ).toBe( 0 );
+            pm.set("config", config );
+            expect( fd.children().length ).toBe( 2 );
+            pm.set("config", {} );
+            expect( fd.children().length ).toBe( 2 );
+            pm.set("config", config );
+            expect( fd.children().length ).toBe( 2 );
+        } );
 
     } );
 

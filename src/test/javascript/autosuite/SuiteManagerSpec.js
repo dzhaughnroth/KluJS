@@ -15,10 +15,11 @@ define( [ "autosuite/SuiteManager", "./MockFs.js", "jquery" ], function( SuiteMa
        }
     };
 
-    describe( "SpecFinder", function() {
+    describe( "SuiteManager", function() {
         var topic = new SuiteManager.create( "root", new MockFs( anFs ));
-        it( "Finds Specs from fs", function() {
-            var expected = { "aDir/subsub": [ "aDir/subsub/gooSpec.js" ], "(base)": [ "aSpec.js", "anotherSpec.js" ] };
+        it( "Finds suites", function() {
+            var expected = { "(base)": [ "aSpec.js", "anotherSpec.js" ],
+                             "aDir/subsub": [ "aDir/subsub/gooSpec.js" ]  };
             expect( topic.get() ).toEqual( expected );
             expect( topic.getAsString() ).toEqual( JSON.stringify( expected, 0, 4 ));
         } );

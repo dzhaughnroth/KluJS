@@ -32,6 +32,7 @@ define( [ "./MockFs.js", "jquery" ], function( MockFs, $ ) {
             expect( topic.statSync( "" ).isDirectory() ).toBe( true );
             expect( topic.statSync( "aDir/aSpec.js" ).isDirectory() ).toBe( false );
             expect( topic.statSync( "aDir/subsub" ).isDirectory() ).toBe( true );
+            expect( topic.statSync( "aDir/subsub/gooSpec.js" ).isDirectory() ).toBe( false );
         } );
         it ( "Mocks readdirSync", function() {
             expect( topic.readdirSync("aDir") ).toEqual( ["subdirFile.js", "subsub" ] );
