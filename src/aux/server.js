@@ -119,7 +119,7 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
             next();
         }
         else {
-            if ( libFilter.check( req.url ) ) {
+            if ( libFilter.test( req.url ) ) {
                 sendInstrumentedFile( req,res );
             }
             else {
