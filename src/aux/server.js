@@ -3,7 +3,7 @@
  */
 require( "amd-loader" );
 
-define( ["./javascript/autosuite/SuiteManager", "./phantoProc.js", "fs", "vm", "net", "http", "util", "express", "optimist", "./lib/node-coverage/lib/report", "./lib/node-coverage/lib/instrument"  ], function( SuiteManager, phanto, fs, vm, net, http, util, express, optimist, report, instrument ) {
+define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter", "./phantoProc.js", "fs", "vm", "net", "http", "util", "express", "optimist", "./lib/node-coverage/lib/report", "./lib/node-coverage/lib/instrument"  ], function( SuiteManager, LibFilter, phanto, fs, vm, net, http, util, express, optimist, report, instrument ) {
 
     var argv = optimist
             .usage("Start the KluJS server. It serves instrumented Javascript code, and other stuff")
@@ -63,24 +63,7 @@ define( ["./javascript/autosuite/SuiteManager", "./phantoProc.js", "fs", "vm", "
         } );
     }
     
-
-    var checkLibFilter = function( path ) {
-        var i;
-        for ( i = 0; i < klujs.libDirs.length; i++ ) {
-            if ( path.match( klujs.libDirs[i] ) ) {
-                return false;
-            }        
-        }
-        if ( ! klujs.noDefaultFilter ) {
-            if ( path.match( /^\/KluJS\// ) ) {
-                return false;
-            }
-            if ( path.match( /require-jquery\.js$/ ) ) {
-                return false;
-            }        
-        }
-        return true;    
-    };
+    var libFilter = new LibFilter( klujs );
 
     var sourceCodeCache = {
 	    code : {},
@@ -136,7 +119,7 @@ define( ["./javascript/autosuite/SuiteManager", "./phantoProc.js", "fs", "vm", "
             next();
         }
         else {
-            if ( checkLibFilter( req.url ) ) {
+            if ( libFilter.check( req.url ) ) {
                 sendInstrumentedFile( req,res );
             }
             else {
