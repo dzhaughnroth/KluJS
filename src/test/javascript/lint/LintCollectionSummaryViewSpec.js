@@ -40,7 +40,7 @@ define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCo
             check( 3, 3, 3, "running" );
 
             model.addFinderResult( {
-                allModules : [ "src/test/javascript/lint/LintFailureSample.js" ],
+                allModules : [ "src/test/javascript/lint/LintFailureSample.js.not" ],
                 filterMap: { lib: [ "found4" ] },
                 filtered: ["found4"]
             }  );

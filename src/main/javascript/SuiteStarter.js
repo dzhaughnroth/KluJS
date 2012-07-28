@@ -1,6 +1,6 @@
 /*globals define:false, jasmine:false */
 
-define( [ "./lib/order!./lib/jasmine", "./lib/order!./lib/jasmine-html", "./lib/order!./SuiteRunner", "./lib/order!./SuitePage", "./lib/order!./autosuite/AutoSuiteFetcher", "jquery" ], function( j, jh, SuiteRunner, SuitePage, Fetcher, $ ) {
+define( [ "./lib/order!./lib/jasmine", "./lib/order!./lib/jasmine-html", "./lib/order!./SuiteRunner", "./lib/order!./SuitePage", "./lib/order!./autosuite/AutoSuiteFetcher", "jquery" ], function( j, jh, SuiteRunner, SuitePage, AutoSuiteFetcher, $ ) {
     
     var page = new SuitePage();
     // has to come first. :(
@@ -8,7 +8,7 @@ define( [ "./lib/order!./lib/jasmine", "./lib/order!./lib/jasmine-html", "./lib/
     $("body").ready( function() {
         page.buildDom();
     } );
-    var fetcher = new Fetcher();
+    var fetcher = new AutoSuiteFetcher();
     fetcher.fetch( function() { var sr = new SuiteRunner( page.assembly.name );
                                 sr.go();
                               }, 
