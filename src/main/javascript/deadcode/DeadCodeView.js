@@ -24,8 +24,11 @@ define( [ "../lib/notBackbone", "../lib/notUnderscore", "jquery" ], function( Ba
             var deadCode = this.model.get("deadCode");
             if ( typeof deadCode !== "undefined" ) {
                 report.empty();
-                report.text( deadCode.join( "; " ) );
                 if ( deadCode.length > 0 ) {
+                    var ul = $("<ul />").appendTo( report );
+                    $.each( deadCode, function( i, x ) {
+                        $("<li />", {text:x}).appendTo( ul );
+                    } );
                     banner.removeClass( "passed" );
                     banner.addClass( "failed" );
                 }

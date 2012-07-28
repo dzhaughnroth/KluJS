@@ -21,7 +21,14 @@ define( [ "SuitePage", "jquery"], function( SuitePage, $ ) {
             expect( $.contains( topic.body, topic.view.$el ) );
             expect( topic.body.children("div").length ).toBe( 1 );
         } );
-
+        it( "Has failure dispay", function() {
+            $("body").append( topic.body );
+            topic.fail( { whoops: "eeDaisy" } );
+            var headline = $(topic.body.find( ".klujsFailureHeadline" ));
+            expect( headline.text() ).toBe( "Error: KluJS did not work" );
+            var pre = $(topic.body.find( ".klujsFailureText" ));
+            expect( pre.text() ).toMatch( "whoops.*eeDaisy" );
+        } );
         
     } );
 } );

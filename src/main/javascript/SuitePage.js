@@ -8,7 +8,7 @@ define( [ "./SuiteAssembly", "./SuiteView", "./Config", "jquery", "require"], fu
             .attr( "href", req.toUrl( "./lib/" + name ) );
     };
 
-    var Runner = function( head, body, mockGlobal ) {       
+    var SuitePage = function( head, body, mockGlobal ) {       
         var self = this;
         this.head = head || $("head");
         this.body = body || $("body");
@@ -23,12 +23,24 @@ define( [ "./SuiteAssembly", "./SuiteView", "./Config", "jquery", "require"], fu
         this.buildDom = function() {
             self.head.append( linkToCss( "jasmine.css" ) )
                 .append( linkToCss( "data_table.css" ) )
-                .append( linkToCss( "klujs.css" ) )
-            ;
+                .append( linkToCss( "klujs.css" ) );
 
             self.body.append( self.view.$el );
         };
+        this.fail = function(err) {
+            var failDiv = $("<div />")
+                    .addClass("klujsFailureDiv")
+                    .prependTo( this.body );
+            $("<h1 />", {text:"Error: KluJS did not work"} )
+                .addClass( "klujsFailureHeadline" )
+                .appendTo( failDiv );
+
+            var text = JSON.stringify( err );
+            $("<pre />", {text: text} )
+                .addClass( "klujsFailureText" )
+                .appendTo( failDiv );
+        };
     };
 
-    return Runner;
+    return SuitePage;
 } );

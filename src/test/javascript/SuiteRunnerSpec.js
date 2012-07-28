@@ -3,7 +3,11 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
 
     describe( "SuiteRunner", function() {
         var nameModel = new SuiteName.Model();
-        var topic = new SuiteRunner( nameModel );
+        var error;
+        var errCallback = function( x ) {
+            error = x;
+        };
+        var topic = new SuiteRunner( nameModel, errCallback );
         var executed = false;
         var mockJasmine = {
             getEnv : function() {
@@ -12,15 +16,13 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
                 };
             }
         };
-        it( "Initializes ready to go", function() {
+        it( "Invokes Jasmine", function() {
             expect( topic.jasmine ).toBe( jasmine );
             expect( topic.onReady ).toBe( $("body").ready );
             expect( topic.klujsConfig ).toBe( notKlujs );
             topic.jasmine = mockJasmine;
-            // gotcha: suite name for this test must be "Models"
+            // gotcha: suite name for this test must be "(base)"
             // gotcha: depends on a fixture, which must exist.
-            // jasmine freaks out if is a spec here
-            // although of course it generally is.
 
             topic.klujsConfig = new ConfigFacade( 
                 {
@@ -37,8 +39,29 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
             waitsFor( function() { return executed; }, 1000 );
             runs( function() {
                 expect( executed ).toBe( true );
+                expect( error ).toBeUndefined();
+                executed = false;
+                mockJasmine.getEnv = function() {
+                    return { execute: function() { 
+                        executed = true; 
+                        throw "Sabotage";
+                    } 
+                           };
+                };
+                topic.go();
             } );
-
+            waitsFor( function() { return executed; }, 1000 );
+            runs( function() {
+                expect( executed ).toBe( true );
+                expect( error ).toBe( "Sabotage" );
+                topic.errorCallback = undefined;
+                error = undefined;
+                topic.go();
+            } );
+            waitsFor( function() { return executed; }, 1000 );
+            runs( function() {
+                expect( error ).toBeUndefined();
+            } );
         } );
 
         

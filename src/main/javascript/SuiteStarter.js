@@ -9,11 +9,13 @@ define( [ "./lib/order!./lib/jasmine", "./lib/order!./lib/jasmine-html", "./lib/
         page.buildDom();
     } );
     var fetcher = new AutoSuiteFetcher();
-    fetcher.fetch( function() { var sr = new SuiteRunner( page.assembly.name );
-                                sr.go();
-                              }, 
-                   function() { console.log( "Error getting autosuite" ); 
-                              } 
+    fetcher.fetch( function() { 
+        var sr = new SuiteRunner( page.assembly.name );
+        sr.go();
+    }, 
+                   function( err ) { 
+                       page.fail( err );
+                   } 
                  );
     
 } );

@@ -13,7 +13,10 @@ define( [ "deadcode/DeadCodeView", "deadcode/DeadCodeModel", "jquery" ], functio
         });
         it( "Displays dead code list", function() {
             model.set( "deadCode", ["foo", "bar", "baz" ] );
-            expect( topic.$el.find(".deadCodeReport").text()).toMatch( "foo.*bar.*baz" );
+            var li = topic.$el.find( ".deadCodeReport ul li" );
+            var itemText = [];
+            $.each( li, function( i, x ) { itemText.push( $(x).text() );} );
+            expect( itemText ).toEqual( ["foo", "bar", "baz"] );
             expect( topic.$el.find( ".deadCodeBanner" ).hasClass( "failed" ) ).toBe(true);
             expect( topic.$el.find( ".deadCodeBanner" ).hasClass( "passed" ) ).toBe(false);
             model.set( "deadCode", [ ] );

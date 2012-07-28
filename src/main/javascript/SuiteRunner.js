@@ -1,15 +1,22 @@
 /*globals define:false, klujs:false, jasmine:false */
 define( [ "jquery", "require", "./lib/purl", "./Config" ], function( $, require, purl, notKlujs ) {
 
-    // args optional, for mocking.
-    var SuiteRunner = function( nameModel ) {
+    var SuiteRunner = function( nameModel, errorCallback ) {
         var self = this;
+        this.errorCallback = errorCallback;
         this.klujsConfig = notKlujs;
         this.onReady = $("body").ready;
         this.jasmine = jasmine;
         this.runSpecs = function( specs ) {
             require( specs, function() {
-                self.jasmine.getEnv().execute();
+                try {
+                    self.jasmine.getEnv().execute();
+                }
+                catch( x ) {
+                    if ( self.errorCallback ) {
+                        self.errorCallback( x );
+                    }
+                }
             } );
         };
 
