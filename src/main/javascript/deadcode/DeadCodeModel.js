@@ -1,8 +1,16 @@
 /*globals define:false, klujs:false, jasmine:false */
 define( [ "../lib/notBackbone", "../lib/notUnderscore", "jquery" ], function( Backbone, _, $ ) {
-    var findDeadCode = function() {
-        return [];
+
+    var findDeadCode = function( codeList, coverageData ) {
+        var result = [];
+        $.each( codeList, function( i, name ) {
+            if( typeof coverageData.lines[name] === "undefined" ) {
+                result.push( name );
+            }
+        } );
+        return result;
     };
+
     var DeadCodeModel = Backbone.Model.extend( {
         initialize: function() {
             var self = this;
@@ -10,32 +18,19 @@ define( [ "../lib/notBackbone", "../lib/notUnderscore", "jquery" ], function( Ba
             var bindToCheck = function( model ) {
                 model.on( "change", self.check );
             };               
-            var prepareBind = function( name ) {
-                if ( self.get( name ) ) {
-                    bindToCheck( self.get( name ) );
-                }
-                else {
-                    this.on( "change:" + name, function() {
-                        bindToCheck( self.get( name ) );
-                    } );
-                }
-            };
-            prepareBind( "codeListModel" );
-            prepareBind( "coverageDataModel" );
+            bindToCheck( self.get( "codeListModel" ) );
+            bindToCheck( self.get( "coverageDataModel" ));
             self.check();
         },
         check : function() {
-            var clModel = self.get( "codeListModel" );
-            var cdModel = self.get( "coverageDataModel" );
-            if ( clModel && cdModel ) {
-                var codeList = clModel.get("codeList");
-                var coverageData = cdModel.get( "coverageData" );
-                if ( codeList && coverageData ) {
-                    this.set("deadCode", findDeadCode( codeList, coverageData ) );
-                }
+            var self = this;
+            var codeList = self.get("codeListModel").get("codeList");
+            var coverageData = self.get( "coverageDataModel" ).get( "coverageData" );
+            if ( codeList && coverageData ) {
+                this.set("deadCode", findDeadCode( codeList, coverageData ) );
             }
         }
 
     } );
-    return CodeListModel;
+    return DeadCodeModel;
 } );

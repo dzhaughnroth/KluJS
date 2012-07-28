@@ -1,5 +1,5 @@
 /*global define:false, window:false */
-define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/CoverageDataView", "../lib/notBackbone", "jquery", "../lib/notUnderscore", "require" ], function( ChildFrameCollection, LintCollectionView, CoverageDataView, Backbone, $, _, req ) {
+define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/CoverageDataView", "../deadcode/DeadCodeView", "../lib/notBackbone", "jquery", "../lib/notUnderscore", "require" ], function( ChildFrameCollection, LintCollectionView, CoverageDataView, DeadCodeView, Backbone, $, _, req ) {
 
     var linkToCss = function( name ) {
         return $("<link />")
@@ -28,6 +28,8 @@ define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/C
                         .render();
                 var lintView = new LintCollectionView( { model:model.lintModel} )
                         .render(); 
+                var deadCodeView = new DeadCodeView( { model:model.deadCodeModel } )
+                        .render();
                 var coverageView = new CoverageDataView( { 
                     model:model.coverageDataModel,
                     disableGoals:true
@@ -35,6 +37,7 @@ define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/C
                 this.bodyElement.append( $( "<h1 />", {text:"KluJS: All Suites" } ) );
                 this.bodyElement.append( view.$el );
                 this.bodyElement.append( lintView.$el );
+                this.bodyElement.append( deadCodeView.$el );
                 this.bodyElement.append( coverageView.$el );
                 this.renderedOnce = true;
             }

@@ -30,6 +30,7 @@ define( [ "multi/PageView", "multi/PageModel", "jquery", "ConfigFacade" ], funct
             expect( body.find( "div.childFrameContainer" ).length ).toBe( 1 );
             expect( body.find( "div.lintCollectionView" ).length ).toBe( 1 );
             expect( body.find( "div.coverageDataView" ).length ).toBe( 1 );
+            expect( body.find( "div.deadCodeView" ).length ).toBe( 1 );
             expect( frameDiv.find( "iframe" ).length ).toBe( 2 );
         } );
         it( "Does not reintroduce elements", function() {

@@ -1,5 +1,5 @@
 /*global define:false, window:false */
-define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../lib/notBackbone", "jquery", "../lib/notUnderscore" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, Backbone, $, _ ) {
+define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../deadcode/CodeListModel", "../deadcode/DeadCodeModel", "../lib/notBackbone", "jquery", "../lib/notUnderscore" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, CodeListModel, DeadCodeModel, Backbone, $, _ ) {
 
     var PageModel = Backbone.Model.extend( {
         defaults: {
@@ -7,7 +7,7 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
             // frameDiv, a div containing the iframes for suites.
         },
         initialize: function() {
-            var self = this;
+            var self = this;            
             this.childFrames = new ChildFrameCollection.Model();
             this.childFrames.on( 'add', function( frameModel ) {
                 self.get( "frameDiv" ).append( frameModel.frame );
@@ -18,7 +18,13 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
                 modelAdded.check();
             } );
             this.lintQueue = [];
+            this.codeListModel = new CodeListModel( );
+            this.codeListModel.fetch();
             this.coverageDataModel = new CoverageDataModel();
+            this.deadCodeModel = new DeadCodeModel( {
+                coverageDataModel : self.coverageDataModel,
+                codeListModel: self.codeListModel
+            } );
             this.on( 'change:testDone', function( ) {
                 if ( self.get( "testDone" ) === true ) {
                     self.aggregateCoverage();

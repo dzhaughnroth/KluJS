@@ -1,6 +1,8 @@
 /*global klujs:true */
 klujs = {
     autoSuites:true,    
+    libDirs: ["src/main/javascript/lib", "src/test/javascript/lib",
+              "src/aux", "src/example" ],
     elementCoverage : {
         max : 0,
         except : {

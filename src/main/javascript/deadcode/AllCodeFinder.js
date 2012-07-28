@@ -13,6 +13,7 @@ define( [ "../autosuite/FsTraverser"], function(FsTraverser) {
         };
 
         this.find = function() {
+            this.found = [];
             traverser.find();
             return this;
         };

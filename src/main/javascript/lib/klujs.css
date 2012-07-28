@@ -157,3 +157,20 @@ div.allCoverageGoalsPassed {
     background-color: #5E7D00;
 }
 
+.deadCodeBanner {
+  padding: 0px 9px 0px 9px;
+  margin: 0 0 14px 0;
+  line-height: 28px;
+//  text-decoration: underline;
+  background-color: #555555;
+  color: white;
+}
+
+.deadCodeBanner.failed {
+    background-color:#B03911;
+}
+
+
+.deadCodeBanner.passed {
+    background-color:#5E7D00;
+}

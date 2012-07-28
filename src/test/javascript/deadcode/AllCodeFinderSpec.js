@@ -22,6 +22,10 @@ define( [ "deadcode/AllCodeFinder", "../autosuite/MockFs.js" ], function( SpecFi
                 ["/root/plainFile.js", "/root/anotherSpec.js", 
                  "/root/aDir/subdirFile.js", "/root/aDir/subsub/gooSpec.js"
                 ] );
+            var prevFound = topic.found;
+            // test that it clears old values
+            topic.find();
+            expect( topic.found ).toEqual( prevFound );
         } );
     } );
 

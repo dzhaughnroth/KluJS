@@ -1,4 +1,4 @@
-/*global define:false, describe:false, it:false, expect:false */
+/*global define:false, describe:false, it:false, expect:false, runs:false, waitsFor:false */
 define( [ "multi/PageModel","jquery", "ConfigFacade" ], function( PageModel, $, ConfigFacade ) {
 
     describe( "PageModel", function() {
@@ -81,6 +81,17 @@ define( [ "multi/PageModel","jquery", "ConfigFacade" ], function( PageModel, $, 
             expect( fd.children().length ).toBe( 2 );
             pm.set("config", config );
             expect( fd.children().length ).toBe( 2 );
+        } );
+        it( "Should have deadCode and codeList Models, and execute them", function() {
+            runs( function() {
+                expect( topic.codeListModel ).toBeDefined();
+                expect( topic.deadCodeModel ).toBeDefined();
+            } );
+            waitsFor( function() { return topic.deadCodeModel.get("deadCode"); }, 500 );
+            runs( function() {
+                expect( topic.codeListModel.get("codeList" ) ).toBeDefined();
+                expect( topic.deadCodeModel.get("deadCode" ) ).toBeDefined();
+            } );
         } );
 
     } );
