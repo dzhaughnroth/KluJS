@@ -3,7 +3,7 @@
  */
 require( "amd-loader" );
 
-define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter", "./phantoProc.js", "fs", "vm", "net", "http", "util", "express", "optimist", "./lib/node-coverage/lib/report", "./lib/node-coverage/lib/instrument"  ], function( SuiteManager, LibFilter, phanto, fs, vm, net, http, util, express, optimist, report, instrument ) {
+define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter", "./javascript/server/CodeInstrumenter", "./javascript/deadcode/AllCodeFinder", "./javascript/server/Handlers", "./phantoProc.js", "fs", "vm", "net", "http", "util", "express", "optimist", "./lib/node-coverage/lib/report", "./lib/node-coverage/lib/instrument"  ], function( SuiteManager, LibFilter, CodeInstrumenter, AllCodeFinder, Handlers, phanto, fs, vm, net, http, util, express, optimist, report, instrument ) {
 
     var argv = optimist
             .usage("Start the KluJS server. It serves instrumented Javascript code, and other stuff")
@@ -40,35 +40,13 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
         vm.runInThisContext( bootString, "KluJS/boot.js" );
     }
     catch( ex ) {
-        throw( "Could not load KluJS/boot.js?!?: " + ex );
+        throw( "Could not load KluJS/boot.js: " + ex );
     }
-
-    var suiteManager = SuiteManager.create( klujs.test, fs );
     
-    var vanillaResponse = [
-        "<html>",
-        "<head>",
-        "  <title>KluJS</title>",
-        "  <script type='text/javascript' src='klujs-config.js'></script>",
-        "  <script type='text/javascript' src='KluJS/boot.js' ></script>",
-        "</head>",
-        "<body />",
-        "</html>",
-        ""].join( "\n" );
-    
-    if ( argv.phantom ) {
-        phanto.runPhantom( function( result ) {
-            util.log( "Phantom result: " + result );
-            process.exit(0);
-        } );
-    }
+    var suiteManager = SuiteManager.create( klujs.test, fs );   
     
     var libFilter = new LibFilter( klujs );
 
-    var sourceCodeCache = {
-	    code : {},
-	    highlight : {}
-    };
     var docRoot = ".";
     
     var coverageOptions = {
@@ -77,62 +55,30 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
 	    "doHighlight" : true
     };
 
-    var sendInstrumentedFile = function( req, res ) {
-        
-	    var instrumentedCode = sourceCodeCache[req.url];
-        
-	    if (instrumentedCode) {
-		    res.send(instrumentedCode.clientCode, {"Content-Type" : "text/javascript"});
-	    } else {
-		    fs.readFile(docRoot + req.url, "utf-8", function (err, content) {
-			    if (err) {
-				    res.send("Error while reading " + req.url + err, 500);
-			    } else {
-				    var code = instrument(req.url, content, coverageOptions);
-				    sourceCodeCache.code[req.url] = code.clientCode;
-                    
-				    if (!coverageOptions.doHighlight) {
-					    sourceCodeCache.highlight[req.url] = code.highlightedCode;
-					    req.session.highlightInMemory = true;
-				    }
-                    
-				res.send(code.clientCode, {"Content-Type" : "text/javascript"});
-			    }
-		    });
-	    }
-    };
-    
+    var codeInstrumenter = new CodeInstrumenter( fs, docRoot, instrument, coverageOptions);
+    var codeLister = new AllCodeFinder( klujs.src, fs );
     var app = express.createServer();
     app.use( express.logger({ format: ':method :url' }) );
     app.use( app.router );
     app.use( express.static( __dirname + "/.." ) );
-    
-    app.get("/klujs-autoSuites.json", function( req, res, next ) {
-        var str = suiteManager.getAsString();
-        util.log( str );
-        res.send( str,
-                  {"Content-Type": "text/javascript"} );
-    } );
-    
-    app.get( "/*.js", function( req, res, next ) {
-        if ( typeof( req.query.KluJSplain ) !== "undefined" ) {
-            next();
-        }
-        else {
-            if ( libFilter.test( req.url ) ) {
-                sendInstrumentedFile( req,res );
-            }
-            else {
-                next();
-            }
-        }
-    } );
-    
-    app.get( "/", function( req, res ) {
-        //    util.log( util.inspect( Object.keys(require('module')._cache) ));//debug
-        res.send( vanillaResponse, { "Content-Type": "text/html" } );
-    } );
+
+    // configure Router
+    var handlers = new Handlers( suiteManager, libFilter, codeInstrumenter, codeLister );
+
+    app.get("/klujs-autoSuites.json", handlers.autoSuite );   
+    app.get("/klujs-codeList.json", handlers.codeList );
+    app.get( "/*.js", handlers.js );
+    app.get( "/", handlers.vanilla );
     
     app.listen( port );
     util.log( "Listening to " + __dirname );
+
+    if ( argv.phantom ) {
+        phanto.runPhantom( function( result ) {
+            util.log( "Phantom result: " + result );
+            process.exit(0);
+        } );
+    }
+
+
 } );
