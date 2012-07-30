@@ -1,5 +1,7 @@
 /*global define:false, jasmine:false */
-define( [ "jquery", "./widgets/Checkbox" ], function( $, Checkbox ) {
+define( [ "jquery", "../widgets/Checkbox" ], function( $, Checkbox ) {
+
+    /* NB not a Backbone view; but similar.*/
 
     // argument is optional, only for testing.
     var create = function( jasmineModel, HtmlReporterConstructor ) {

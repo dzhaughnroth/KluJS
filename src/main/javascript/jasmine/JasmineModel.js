@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false*/
-define( ["./lib/notBackbone", "./lib/notUnderscore", "jquery" ], function( Backbone, _, $ ) {
+define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery" ], function( Backbone, _, $ ) {
 
     var JasmineModel = Backbone.Model.extend( {
         defaults : { 

@@ -50,7 +50,7 @@
         // Infer and/or guess location of require
         el.src = _klujs.requireHome;
         var pathToParamSuite = "KluJS/";
-        var moduleName = "javascript/SuiteStarter.js";
+        var moduleName = "javascript/SuiteBoot.js";
         
         if ( ! window.location.search || ! window.location.search.toString().match( /suite=/ ) ) {
             moduleName = "javascript/multi/MultiStarter.js";

@@ -1,12 +1,12 @@
 /*globals define:false, klujs:false, jasmine:false */
 define( [ "jquery", "require", "./lib/purl", "./Config" ], function( $, require, purl, notKlujs ) {
 
-    var SuiteRunner = function( nameModel, errorCallback ) {
+    var SuiteRunner = function( nameModel, errorCallback, readyMethod, mockJasmine ) {
         var self = this;
         this.errorCallback = errorCallback;
         this.klujsConfig = notKlujs;
-        this.onReady = $("body").ready;
-        this.jasmine = jasmine;
+        this.ready = readyMethod;
+        this.jasmine = mockJasmine || jasmine;
         this.runSpecs = function( specs ) {
             require( specs, function() {
                 try {
@@ -21,7 +21,7 @@ define( [ "jquery", "require", "./lib/purl", "./Config" ], function( $, require,
         };
 
         this.go = function() {
-            self.onReady( function() {
+            self.ready( function() {
                 var suite = purl().param("suite");
                 nameModel.set("suiteName", suite );
                 var relSpecs = [];

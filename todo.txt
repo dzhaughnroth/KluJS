@@ -29,3 +29,5 @@ Autosuite handle errors; now logs to console.
 List dead files under main and test in coverage view.
 
 fail when tests throw exception, such as a js parse error.
+
+dead code view for suites; report in multiview suite grid.

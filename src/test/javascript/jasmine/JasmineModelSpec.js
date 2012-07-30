@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, jasmine:false */
-define( [ "JasmineModel"], function( JasmineModel ) {
+define( [ "jasmine/JasmineModel"], function( JasmineModel ) {
     var mockResults = [ {result:"passed"}, {result:"failed"}, {result:"passed"}];
     var reporter;
     var mockJasmine = {         

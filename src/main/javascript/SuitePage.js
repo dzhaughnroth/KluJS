@@ -8,10 +8,9 @@ define( [ "./SuiteAssembly", "./SuiteView", "./Config", "jquery", "require"], fu
             .attr( "href", req.toUrl( "./lib/" + name ) );
     };
 
-    var SuitePage = function( head, body, mockGlobal ) {       
+    var SuitePage = function( pageFacade, mockGlobal ) {       
         var self = this;
-        this.head = head || $("head");
-        this.body = body || $("body");
+        this.pageFacade = pageFacade;
         this.assembly = new SuiteAssembly();
         if ( mockGlobal ) {
             mockGlobal.klujsAssembly = this.assembly;
@@ -21,16 +20,16 @@ define( [ "./SuiteAssembly", "./SuiteView", "./Config", "jquery", "require"], fu
         }
         this.view = new SuiteView( { model:self.assembly } ).render();
         this.buildDom = function() {
-            self.head.append( linkToCss( "jasmine.css" ) )
+            self.pageFacade.head.append( linkToCss( "jasmine.css" ) )
                 .append( linkToCss( "data_table.css" ) )
                 .append( linkToCss( "klujs.css" ) );
 
-            self.body.append( self.view.$el );
+            self.pageFacade.body.append( self.view.$el );
         };
         this.fail = function(err) {
             var failDiv = $("<div />")
                     .addClass("klujsFailureDiv")
-                    .prependTo( this.body );
+                    .prependTo( this.pageFacade.body );
             $("<h1 />", {text:"Error: KluJS did not work"} )
                 .addClass( "klujsFailureHeadline" )
                 .appendTo( failDiv );

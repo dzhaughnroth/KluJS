@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false */
-define( [ "JasmineDivReporter", "jquery"], function( JasmineDivReporter, $ ) {
+define( [ "jasmine/JasmineView", "jquery"], function( JasmineView, $ ) {
     var mockResults = [ {result:"passed"}, {result:"failed"}, {result:"passed"}];
     var reporter;
     var mockJasmine = {
@@ -41,9 +41,9 @@ define( [ "JasmineDivReporter", "jquery"], function( JasmineDivReporter, $ ) {
             };
         }
     };
-    describe( "JasmineDivReporter", function() {
-        var mockedTopic = new JasmineDivReporter( mockJasmineModel, mockJasmine.HtmlReporter );
-        var topic = new JasmineDivReporter( mockJasmineModel );
+    describe( "JasmineView", function() {
+        var mockedTopic = new JasmineView( mockJasmineModel, mockJasmine.HtmlReporter );
+        var topic = new JasmineView( mockJasmineModel );
         it ( "Has a div and an HtmlReporter", function() {
             expect( mockedTopic.$el ).toBeDefined();
             expect( mockedTopic.reporter.foo).toBe( "foo" );
@@ -72,12 +72,20 @@ define( [ "JasmineDivReporter", "jquery"], function( JasmineDivReporter, $ ) {
                     .append( $( "<div />", { text: "NotAlert" } ).addClass( "notalert" ));
             topic.$el.append( stuff );
             var repDiv = $(topic.$el.children( ".jasmine_reporter" )[0]);
+            var alertDiv = $(topic.$el.find( ".alert span" )[0]);
             // Check set up.
             expect( repDiv.children( "*" ).length).toBe( 2 );
             expect( topic.$el.find( ".alert" ).length ).toBe( 1 );
            
+            // No change on unless status is done
+            expect( alertDiv.text() ).toBe( "foo" );
+            mockJasmineModel.callback( mockJasmineModel, "running" );
+            expect( alertDiv.text() ).toBe( "foo" );
+
             mockJasmineModel.status = "done";
             mockJasmineModel.callback( mockJasmineModel, "done" );
+            // could be better written
+            expect( alertDiv.text() ).toBe( "fooShow Specs");
 
             expect( repDiv.hasClass( "minimized" ) ).toBe( true );
 
@@ -97,7 +105,6 @@ define( [ "JasmineDivReporter", "jquery"], function( JasmineDivReporter, $ ) {
             mockJasmineModel.callback( mockJasmineModel, "done" );
             expect( repDiv.hasClass( "minimized" )) .toBe( false );
 
-//            console.log( $$_l.runLines["/src/main/javascript/JasmineDivReporter.js"] );
  
         } );
 

@@ -1,6 +1,6 @@
 /*globals define:false, $$_l:false, window:false */
 define( [ 
-    "./JasmineModel",
+    "./jasmine/JasmineModel",
     "./SuiteName",
     "./FocusFilterFactory",
     "./ParentMessagePoster",
@@ -34,11 +34,15 @@ define( [
         } );
 
         var lintFinder = new LintFinder();
-
-        var listener = function() {
-            self.testFinished();
+        this.jasmine = jasModel;
+        this.coverage = covModel;
+        this.lint = lintModel;
+        this.goalFailureCount = function() {
+            return this.coverage.goalFailureCount( self.filter );
         };
-        var testFinished = function() {
+
+        var testFinished;
+        testFinished = function( ) {
             if ( jasModel.get("status") === "running" ) {
                 postToParent( {messageType:"started"} );
             }
@@ -48,19 +52,15 @@ define( [
                 if ( ! postToParent( { messageType:"lint", lintWork: found } ) ) {
                     lintModel.addFinderResult( found );
                 }
-                jasModel.off( 'change', listener );
+                jasModel.off( 'change', testFinished );
                 postToParent( {messageType:"finished"} );
             }
         };
-        
+      
         this.testFinished = testFinished;
-        this.jasmine = jasModel;
-        this.coverage = covModel;
-        this.lint = lintModel;
-        this.goalFailureCount = function() {
-            return this.coverage.goalFailureCount( self.filter );
-        };
-        jasModel.on( 'change', listener );
+
+        jasModel.on( 'change', testFinished );
+        // check to see if already running or done.
         testFinished();
 
     };
