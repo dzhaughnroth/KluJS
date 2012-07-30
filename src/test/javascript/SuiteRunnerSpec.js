@@ -7,12 +7,12 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
         var errCallback = function( x ) {
             error = x;
         };
-        var readyCallback;
-        var readyMethod = function(x) {
-            readyCallback = x;
-        };
+//        var readyCallback;
+//        var readyMethod = function(x) {
+//            readyCallback = x;
+//        };
             
-        var topic = new SuiteRunner( nameModel, errCallback, readyMethod );
+        var topic = new SuiteRunner( nameModel, errCallback );//, readyMethod );
         var executed = false;
         var mockJasmine = {
             getEnv : function() {
@@ -24,7 +24,7 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
         it( "Invokes Jasmine", function() {
             runs( function() {
                 expect( topic.jasmine ).toBe( jasmine );
-                expect( topic.ready ).toBe( readyMethod );//$("body").ready );
+//                expect( topic.ready ).toBe( readyMethod );//$("body").ready );
                 expect( topic.klujsConfig ).toBe( notKlujs );
                 topic.jasmine = mockJasmine;
                 // gotcha: suite name for this test must be "(base)"
@@ -40,10 +40,10 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
                         }
                     } );
                 try {
-                    expect( readyCallback ).toBeUndefined();
+//                    expect( readyCallback ).toBeUndefined();
                     topic.go();                    
-                    expect( readyCallback ).toBeDefined();
-                    readyCallback();
+//                    expect( readyCallback ).toBeDefined();
+//                    readyCallback();
                 }
                 catch( x ) {
                     throw x;
@@ -62,7 +62,7 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
                            };
                 };
                 topic.go();
-                readyCallback();
+ //               readyCallback();
             } );
             waitsFor( function() { return executed; }, 200 );
             runs( function() {
@@ -71,7 +71,7 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
                 topic.errorCallback = undefined;
                 error = undefined;
                 topic.go();
-                readyCallback();
+ //               readyCallback();
             } );
             waitsFor( function() { return executed; }, 200 );
             runs( function() {

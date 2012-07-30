@@ -12,10 +12,10 @@ define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "jquer
         this.suitePage = new SuitePage( self.pageFacade );
         this.suiteRunner = new SuiteRunner( self.suitePage.assembly.name, 
                                             function( err ) { self.suitePage.fail( err ); },
-                                            self.pageFacade.ready,
+//                                            self.pageFacade.ready,
                                             self.jasmine );
         
-        this.start = function() {
+        this.start = function() {            
             // has to come first. :(
             self.jasmine.getEnv().reporter.subReporters_.unshift( 
                 self.suitePage.view.jasmineView.reporter 

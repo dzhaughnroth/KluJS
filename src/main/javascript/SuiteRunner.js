@@ -1,11 +1,10 @@
 /*globals define:false, klujs:false, jasmine:false */
 define( [ "jquery", "require", "./lib/purl", "./Config" ], function( $, require, purl, notKlujs ) {
 
-    var SuiteRunner = function( nameModel, errorCallback, readyMethod, mockJasmine ) {
+    var SuiteRunner = function( nameModel, errorCallback, mockJasmine ) {
         var self = this;
         this.errorCallback = errorCallback;
         this.klujsConfig = notKlujs;
-        this.ready = readyMethod;
         this.jasmine = mockJasmine || jasmine;
         this.runSpecs = function( specs ) {
             require( specs, function() {
@@ -21,17 +20,16 @@ define( [ "jquery", "require", "./lib/purl", "./Config" ], function( $, require,
         };
 
         this.go = function() {
-            self.ready( function() {
-                var suite = purl().param("suite");
-                nameModel.set("suiteName", suite );
-                var relSpecs = [];
-                var prefix = self.klujsConfig.test();
-                $.each( self.klujsConfig.specsForSuite(suite), function( i, spec ) {
-                    var pathToSpec = prefix + "/" + spec;
-                    relSpecs.push( pathToSpec );
-                });
-                self.runSpecs( relSpecs );
-            } );
+            
+            var suite = purl().param("suite");
+            nameModel.set("suiteName", suite );
+            var relSpecs = [];
+            var prefix = self.klujsConfig.test();
+            $.each( self.klujsConfig.specsForSuite(suite), function( i, spec ) {
+                var pathToSpec = prefix + "/" + spec;
+                relSpecs.push( pathToSpec );
+            });
+            self.runSpecs( relSpecs );
         };        
     };
     return SuiteRunner;
