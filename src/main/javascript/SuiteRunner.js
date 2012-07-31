@@ -1,11 +1,11 @@
-/*globals define:false, klujs:false, jasmine:false */
+/*globals define:false */
 define( [ "jquery", "require", "./lib/purl", "./Config" ], function( $, require, purl, notKlujs ) {
 
-    var SuiteRunner = function( nameModel, errorCallback, mockJasmine ) {
+    var SuiteRunner = function( nameModel, errorCallback, jasmineImpl ) {
         var self = this;
         this.errorCallback = errorCallback;
         this.klujsConfig = notKlujs;
-        this.jasmine = mockJasmine || jasmine;
+        this.jasmine = jasmineImpl;
         this.runSpecs = function( specs ) {
             require( specs, function() {
                 try {

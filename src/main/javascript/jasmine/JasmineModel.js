@@ -9,10 +9,6 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery" ], function( Bac
         initialize : function() { 
             // have to be slightly extra lazy that the Backbone default here.
             var jaz = this.get("jasmineImpl");
-            if ( !jaz ) {
-                jaz = jasmine;
-                this.set( "jasmineImpl", jaz );
-            }
             var listener = new jaz.Reporter();
             var apiReporter = new jaz.JsApiReporter();
             jaz.getEnv().addReporter( apiReporter );
@@ -31,6 +27,7 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery" ], function( Bac
         computeResult : function( jsApiResults ) { // allows mocking
             var failedCount = 0;
             var passedCount = 0;
+            var count = 0;
             var results = [];
             _.each( jsApiResults, function( r ) {
                 results.push( r );
@@ -40,6 +37,7 @@ define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery" ], function( Bac
                 if ( r.result === "passed" ) {
                     ++passedCount;
                 }
+                ++count;
             } );
             return {
                 count : results.length,

@@ -1,5 +1,5 @@
-/*global define:false, describe:false, it:false, expect:false, $:false, klujs:false, jasmine:false, runs:false, waitsFor:false */
-define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( SuiteRunner, SuiteName, notKlujs, ConfigFacade ) {
+/*global define:false, describe:false, it:false, expect:false, $:false, klujs:false, runs:false, waitsFor:false */
+define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade", "./MockJasmine.js" ], function( SuiteRunner, SuiteName, notKlujs, ConfigFacade, MockJasmine ) {
 
     describe( "SuiteRunner", function() {
         var nameModel = new SuiteName.Model();
@@ -7,26 +7,14 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
         var errCallback = function( x ) {
             error = x;
         };
-//        var readyCallback;
-//        var readyMethod = function(x) {
-//            readyCallback = x;
-//        };
             
-        var topic = new SuiteRunner( nameModel, errCallback );//, readyMethod );
-        var executed = false;
-        var mockJasmine = {
-            getEnv : function() {
-                return {
-                    execute : function() { executed = true; }
-                };
-            }
-        };
+        var mockJasmine = new MockJasmine();
+
+        var topic = new SuiteRunner( nameModel, errCallback, mockJasmine );
         it( "Invokes Jasmine", function() {
             runs( function() {
-                expect( topic.jasmine ).toBe( jasmine );
-//                expect( topic.ready ).toBe( readyMethod );//$("body").ready );
+                expect( topic.jasmine ).toBe( mockJasmine );
                 expect( topic.klujsConfig ).toBe( notKlujs );
-                topic.jasmine = mockJasmine;
                 // gotcha: suite name for this test must be "(base)"
                 // gotcha: depends on a fixture, which must exist.
                 
@@ -40,40 +28,36 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade"], function( Suite
                         }
                     } );
                 try {
-//                    expect( readyCallback ).toBeUndefined();
                     topic.go();                    
-//                    expect( readyCallback ).toBeDefined();
-//                    readyCallback();
                 }
                 catch( x ) {
                     throw x;
                 }
             });
-            waitsFor( function() { return executed; }, 200 );
+            waitsFor( function() { return mockJasmine.executed; }, 200 );
             runs( function() {
-                expect( executed ).toBe( true );
+                expect( mockJasmine.executed ).toBe( true );
                 expect( error ).toBeUndefined();
-                executed = false;
+                mockJasmine.executed = false;
                 mockJasmine.getEnv = function() {
                     return { execute: function() { 
-                        executed = true; 
+                        mockJasmine.executed = true; 
                         throw "Sabotage";
                     } 
                            };
                 };
                 topic.go();
- //               readyCallback();
             } );
-            waitsFor( function() { return executed; }, 200 );
+            waitsFor( function() { return mockJasmine.executed; }, 200 );
             runs( function() {
-                expect( executed ).toBe( true );
+                expect( mockJasmine.executed ).toBe( true );
                 expect( error ).toBe( "Sabotage" );
                 topic.errorCallback = undefined;
                 error = undefined;
                 topic.go();
  //               readyCallback();
             } );
-            waitsFor( function() { return executed; }, 200 );
+            waitsFor( function() { return mockJasmine.executed; }, 200 );
             runs( function() {
                 expect( error ).toBeUndefined();
             } );

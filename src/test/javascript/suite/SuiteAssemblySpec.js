@@ -1,6 +1,6 @@
 /*global define:false, describe:false, it:false, expect:false, runs:false, waits:false */
-define( [ "SuiteAssembly" ], function(SuiteAssembly) {
-
+define( [ "suite/SuiteAssembly", "../MockJasmine.js" ], function(SuiteAssembly, MockJasmine) {
+    
     describe( "SuiteAssembly", function() {
         var lastMsg, lastLoc;
         var messages = [];
@@ -14,7 +14,9 @@ define( [ "SuiteAssembly" ], function(SuiteAssembly) {
             },
             location : {here:"here"}
         };
-        var topic = new SuiteAssembly( mockWindow );
+        var mockJasmine = new MockJasmine();
+
+        var topic = new SuiteAssembly( mockWindow, mockJasmine );
         it( "Has a name model linked to a FocusFilterFactory", function() {
             expect( topic.name ).toBeDefined();
             var prevFilter = topic.filter;
@@ -23,7 +25,8 @@ define( [ "SuiteAssembly" ], function(SuiteAssembly) {
             expect( topic.filter ).not.toBe( prevFilter );
         } );
         it( "Notifies parent on test start", function() {
-            expect( topic.jasmine.get("status")).toBe( "running" );
+            expect( topic.jasmine.get("status")).toBe( "new" );
+            topic.jasmine.listener.reportRunnerStarting();
             expect( topic.jasmine.get("status")).toBe( "running" );
             expect( lastMsg ).toBe( "started" );
             expect( lastLoc ).toBe( mockWindow.location );
@@ -48,7 +51,7 @@ define( [ "SuiteAssembly" ], function(SuiteAssembly) {
                 expect( lastLoc ).toBe( mockWindow.location );
             } );
             it( "Uses lintModel if no parent", function() {
-                var noParentTopic = new SuiteAssembly( {} );
+                var noParentTopic = new SuiteAssembly( {}, mockJasmine );
                 noParentTopic.jasmine.set( "status", "done" );
                 expect( noParentTopic.lint.length >5 ).toBe( true );
             } );

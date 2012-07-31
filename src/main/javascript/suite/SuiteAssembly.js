@@ -1,27 +1,25 @@
-/*globals define:false, $$_l:false, window:false */
+/*globals define:false, $$_l:false */
 define( [ 
-    "./jasmine/JasmineModel",
-    "./SuiteName",
-    "./FocusFilterFactory",
-    "./ParentMessagePoster",
-    "./coverage/CoverageDataModel",
-    "./goals/SuiteInterpreter",
-    "./lint/LintFinder",
-    "./lint/LintCollection",
-    "./lib/notBackbone"
-], function( JasmineModel, SuiteName, FocusFilterFactory, ParentMessagePoster, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, Backbone ) {
+    "../jasmine/JasmineModel",
+    "../SuiteName",
+    "../FocusFilterFactory",
+    "../ParentMessagePoster",
+    "../coverage/CoverageDataModel",
+    "../goals/SuiteInterpreter",
+    "../lint/LintFinder",
+    "../lint/LintCollection"
+], function( JasmineModel, SuiteName, FocusFilterFactory, ParentMessagePoster, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection ) {
 
-    // optional args for testing; defaults to window, jasmine globals
-    var Assembly = function( mockWindow, mockJasmine ) {
+    var Assembly = function( windowImpl, jasmineImpl ) {
         var self = this;
-        var parentPoster = new ParentMessagePoster( mockWindow );
+        var parentPoster = new ParentMessagePoster( windowImpl );
         var postToParent = function( msg ) {
             return parentPoster.postToParent( msg );
         };
         var filterFactory = new FocusFilterFactory();
         this.filter = function() { return true; };
         this.name = new SuiteName.Model();
-        var jasModel = new JasmineModel( { jasmineImpl:mockJasmine } );
+        var jasModel = new JasmineModel( { jasmineImpl: jasmineImpl } );
         var lintModel = new LintCollection();
         lintModel.on( 'add', function( modelAdded ) {
             modelAdded.check();

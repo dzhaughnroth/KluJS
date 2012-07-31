@@ -1,5 +1,5 @@
 /*globals define:false, $$_l:false */
-define( [ "./lib/notBackbone", "./lib/notUnderscore", "jquery", "./SuiteAssembly", "./lint/LintCollectionView", "./coverage/CoverageDataView", "./jasmine/JasmineView", "./SuiteName", "./FocusFilterFactory", "./goals/SuiteInterpreter" ], function( Backbone, _, $, SuiteAssembly, LintCollectionView, CoverageDataView, JasmineView, SuiteName, FocusFilterFactory, SuiteInterpreter ) {
+define( [ "../lib/notBackbone", "../lib/notUnderscore", "jquery", "./SuiteAssembly", "../lint/LintCollectionView", "../coverage/CoverageDataView", "../jasmine/JasmineView", "../SuiteName", "../FocusFilterFactory", "../goals/SuiteInterpreter" ], function( Backbone, _, $, SuiteAssembly, LintCollectionView, CoverageDataView, JasmineView, SuiteName, FocusFilterFactory, SuiteInterpreter ) {
 
     var filterFactory = new FocusFilterFactory();
     var computeFocusFilter = function( suiteName ) {

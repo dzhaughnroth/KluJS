@@ -1,24 +1,12 @@
-/*global define:false, describe:false, it:false, expect:false, jasmine:false */
-define( [ "jasmine/JasmineModel"], function( JasmineModel ) {
+/*global define:false, describe:false, it:false, expect:false */
+define( [ "jasmine/JasmineModel", "../MockJasmine.js"], function( JasmineModel, MockJasmine ) {
     var mockResults = [ {result:"passed"}, {result:"failed"}, {result:"passed"}];
-    var reporter;
-    var mockJasmine = {         
-        addReporter : function(){},
-        getEnv : function() {
-            return this;
-        },
-        Reporter : function() {
-            reporter = this;
-        },
-        JsApiReporter : function() {
-            this.results = function() {
-                return mockResults;
-            };
-        },
-        HtmlReporter : function() {
-            
+
+    var mockJasmine = new MockJasmine(
+        function() {
+            return mockResults;
         }
-    };
+    );
     describe( "JasmineModel", function() {
         var statusChanges = [];
         var resultChanges = [];
@@ -36,12 +24,14 @@ define( [ "jasmine/JasmineModel"], function( JasmineModel ) {
             expect( resultChanges ).toEqual( [] );
         } );
         it( "Tracks that jasmine tests are starting", function() {
+            var reporter = mockJasmine.reporters[ mockJasmine.reporters.length -1 ];
             reporter.reportRunnerStarting(); // mock stating tests
             expect( jm.get("status") ).toBe( "running" );
             expect( statusChanges.length ).toEqual( 1 );
             expect( resultChanges.length ).toEqual( 0 );
         } );
         it( "Reports results when tests are finished", function() {
+            var reporter = mockJasmine.reporters[ mockJasmine.reporters.length -1 ];
             reporter.reportRunnerResults(); // mock finished tests
             expect( statusChanges.length ).toEqual( 2 ); // status and result
             expect( jm.get( "status" ) ).toBe( "done" );
@@ -56,11 +46,6 @@ define( [ "jasmine/JasmineModel"], function( JasmineModel ) {
             expect( resultChanges[0][1].failed).toBe( 1 );
             expect( resultChanges[0][1].results ).toBe( mockResults );
        } );
-        it ( "Uses unmocked jasmine by default", function() {
-            var topic = new JasmineModel();
-            expect( topic.get( "jasmineImpl" )).toBe( jasmine );
-            topic = new JasmineModel( { jasmineImpl:undefined } );
-            expect( topic.get( "jasmineImpl" )).toBe( jasmine );
-        }  );
+
     } );
 } );

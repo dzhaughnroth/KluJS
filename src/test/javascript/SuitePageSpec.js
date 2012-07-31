@@ -1,9 +1,10 @@
 /*global define:false, describe:false, it:false, expect:false, klujsAssembly:false */
-define( [ "SuitePage", "HtmlPageFacade", "jquery"], function( SuitePage, HtmlPageFacade, $ ) {
+define( [ "SuitePage", "HtmlPageFacade", "jquery", "./MockJasmine.js"], function( SuitePage, HtmlPageFacade, $, MockJasmine ) {
 
     describe( "SuitePage", function() {
         var global = {};
-        var topic = new SuitePage( new HtmlPageFacade(),global);
+        var mockJasmine = new MockJasmine();
+        var topic = new SuitePage( new HtmlPageFacade(), global, mockJasmine);
         it( "Exposes a global variable", function() {
             expect( topic.assembly ).toBe( global.klujsAssembly );
         } );
@@ -13,7 +14,7 @@ define( [ "SuitePage", "HtmlPageFacade", "jquery"], function( SuitePage, HtmlPag
         } );
         it( "Adds link elements to head", function() {
             var facade = new HtmlPageFacade( $("<div />"), $("<div />"), function(){} );
-            topic = new SuitePage( facade, $("<div />" ), global );
+            topic = new SuitePage( facade, global, mockJasmine );
             topic.buildDom();
             expect( facade.head.children("link").length ).toBe( 3 );
         } );

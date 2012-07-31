@@ -1,4 +1,4 @@
-/*global define:false, describe:false, it:false, expect:false, jasmine:false */
+/*global define:false, describe:false, it:false, expect:false */
 define( [ "multi/ChildFrameManager" ], function( ChildFrameManager ) {
 
     describe( "ChildFrameManager", function() {

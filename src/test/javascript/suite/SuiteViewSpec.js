@@ -1,8 +1,9 @@
 /*global define:false, describe:false, it:false, expect:false, runs:false, waits:false */
-define( [ "SuiteView", "SuiteAssembly", "jquery" ], function( SuiteView, SuiteAssembly, $ ) {
+define( [ "suite/SuiteView", "suite/SuiteAssembly", "jquery", "../MockJasmine.js" ], function( SuiteView, SuiteAssembly, $, MockJasmine ) {
 
     describe( "SuiteView", function() {
-        var topic = new SuiteView( { model : new SuiteAssembly() }).render();
+
+        var topic = new SuiteView( { model : new SuiteAssembly(undefined, new MockJasmine()) }).render();
         it( "Renders divs for name, jasmine, lint and coverage", function() {
             expect( $.contains( topic.$el, topic.nameView.$el ) ).toBe( true );
             expect( $.contains( topic.$el, topic.jasmineView.$el ) ).toBe( true );

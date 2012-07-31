@@ -1,5 +1,5 @@
 /*globals define:false, klujsAssembly:true */
-define( [ "./SuiteAssembly", "./SuiteView", "./Config", "jquery", "require"], function( SuiteAssembly, SuiteView, notKlujs, $, req ) {
+define( [ "./suite/SuiteAssembly", "./suite/SuiteView", "./Config", "jquery", "require"], function( SuiteAssembly, SuiteView, notKlujs, $, req ) {
 
     var linkToCss = function( name ) {
         return $("<link />")
@@ -8,10 +8,10 @@ define( [ "./SuiteAssembly", "./SuiteView", "./Config", "jquery", "require"], fu
             .attr( "href", req.toUrl( "./lib/" + name ) );
     };
 
-    var SuitePage = function( pageFacade, mockGlobal ) {       
+    var SuitePage = function( pageFacade, mockGlobal, jasmineImpl ) {       
         var self = this;
         this.pageFacade = pageFacade;
-        this.assembly = new SuiteAssembly();
+        this.assembly = new SuiteAssembly( undefined, jasmineImpl );
         if ( mockGlobal ) {
             mockGlobal.klujsAssembly = this.assembly;
         }

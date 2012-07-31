@@ -1,4 +1,4 @@
-/*global define:false, describe:false, it:false, expect:false, jasmine:false */
+/*global define:false, describe:false, it:false, expect:false */
 define( [ "multi/ChildFrameCollection", "jquery", "lib/notUnderscore" ], function( Cfc, $, _ ) {
 
     describe( "ChildFrameCollectionView and SummaryView", function() {
