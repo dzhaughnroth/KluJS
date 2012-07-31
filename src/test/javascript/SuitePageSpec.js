@@ -2,19 +2,15 @@
 define( [ "SuitePage", "HtmlPageFacade", "jquery", "./MockJasmine.js"], function( SuitePage, HtmlPageFacade, $, MockJasmine ) {
 
     describe( "SuitePage", function() {
-        var global = {};
         var mockJasmine = new MockJasmine();
-        var topic = new SuitePage( new HtmlPageFacade(), global, mockJasmine);
-        it( "Exposes a global variable", function() {
-            expect( topic.assembly ).toBe( global.klujsAssembly );
-        } );
+        var topic = new SuitePage( new HtmlPageFacade(), mockJasmine);
         it( "Uses html body, head by default", function() {            
             expect( topic.pageFacade.head.get(0).tagName ).toEqual( "HEAD" );
             expect( topic.pageFacade.body.get(0).tagName ).toEqual( "BODY" );
         } );
         it( "Adds link elements to head", function() {
             var facade = new HtmlPageFacade( $("<div />"), $("<div />"), function(){} );
-            topic = new SuitePage( facade, global, mockJasmine );
+            topic = new SuitePage( facade, mockJasmine );
             topic.buildDom();
             expect( facade.head.children("link").length ).toBe( 3 );
         } );

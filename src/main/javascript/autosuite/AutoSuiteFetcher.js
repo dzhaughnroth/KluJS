@@ -1,17 +1,16 @@
-/*globals define:false, klujs:false, jasmine:false */
+/*globals define:false */
 define( [ "jquery" ], function( $ ) {
 
-    var Fetcher = function( mockConfig, mockSrc ) {
-        var config = mockConfig || klujs;
+    var Fetcher = function( config, mockSrc ) {
         var src = mockSrc || "klujs-autoSuites.json";
         var fetch = function( callback, errorCallback ) {
-            if ( ! config.autoSuites ) {
+            if ( ! config.autoSuites() ) {
                 callback();
                 return;
             }
             $.ajax( src, { async:true, dataType:"json" } )
                 .done( function( data ) {
-                    config.suites = data;
+                    config.setSuites( data );
                     callback();
                 } )
                 .error( errorCallback );

@@ -8,16 +8,10 @@ define( [ "./suite/SuiteAssembly", "./suite/SuiteView", "./Config", "jquery", "r
             .attr( "href", req.toUrl( "./lib/" + name ) );
     };
 
-    var SuitePage = function( pageFacade, mockGlobal, jasmineImpl ) {       
+    var SuitePage = function( pageFacade, jasmineImpl ) {       
         var self = this;
         this.pageFacade = pageFacade;
         this.assembly = new SuiteAssembly( undefined, jasmineImpl );
-        if ( mockGlobal ) {
-            mockGlobal.klujsAssembly = this.assembly;
-        }
-        else {
-            klujsAssembly = this.assembly;
-        }
         this.view = new SuiteView( { model:self.assembly } ).render();
         this.buildDom = function() {
             self.pageFacade.head.append( linkToCss( "jasmine.css" ) )

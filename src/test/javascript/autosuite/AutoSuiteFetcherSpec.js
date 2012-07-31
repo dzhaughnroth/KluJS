@@ -1,8 +1,8 @@
 /*global define:false, describe:false, it:false, expect:false, beforeEach:false, runs:false, waitsFor:false, klujs:false */
-define( [ "autosuite/AutoSuiteFetcher"], function( Fetcher ) {
+define( [ "autosuite/AutoSuiteFetcher", "ConfigFacade"], function( Fetcher, ConfigFacade ) {
 
     describe( "AutoSuiteFetcher", function() {
-        var mock = { autoSuites:true };
+        var mock = new ConfigFacade( { autoSuites:true } );
         var topic = new Fetcher( mock, "src/test/javascript/autosuite/mockResult.json");
         var recd = 0,
             errs = 0;
@@ -17,11 +17,11 @@ define( [ "autosuite/AutoSuiteFetcher"], function( Fetcher ) {
             errs = 0;
         } );
         it( "Does nothing but callsback if autoSuites is falsy", function() {
-            var nonconfig = {};
+            var nonconfig = new ConfigFacade({});
             var topic2 = new Fetcher( nonconfig, "whatever" );
             topic2.fetch( callback, errorCallback );
             expect( recd ).toBe( 1 );
-            expect( nonconfig ).toEqual( {} );
+            expect( nonconfig.rawConfig ).toEqual( {} );
         } );
 
         it( "Fetches asynchonously from supplied src", function() {
@@ -36,7 +36,8 @@ define( [ "autosuite/AutoSuiteFetcher"], function( Fetcher ) {
             runs( function() {
                 expect( recd ).toBe( 1 );
                 expect( errs ).toBe( 0 );
-                expect( mock.suites ).toEqual( {"foo":"bar"} );
+                expect( mock.suiteNames() ).toEqual( ["foo"] );
+                expect( mock.specsForSuite("foo") ).toEqual( ["bar"] );
             } );                 
         } );
         it( "Handles errors", function() {
@@ -53,7 +54,6 @@ define( [ "autosuite/AutoSuiteFetcher"], function( Fetcher ) {
         it( "Is configured by default", function() {
             var x = new Fetcher();
             expect( x.src ).toBe( "klujs-autoSuites.json" );
-            expect( x.config ).toBe( klujs );
         } );
     } );
 } );

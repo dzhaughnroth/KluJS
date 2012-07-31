@@ -53,7 +53,7 @@
         var moduleName = "javascript/SuiteBoot.js";
         
         if ( ! window.location.search || ! window.location.search.toString().match( /suite=/ ) ) {
-            moduleName = "javascript/multi/MultiStarter.js";
+            moduleName = "javascript/multi/MultiBoot.js";
         }
         
         var attr = doc.createAttribute( "data-main" );

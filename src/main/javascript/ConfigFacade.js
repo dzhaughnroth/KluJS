@@ -16,6 +16,14 @@ define( ["./lib/notUnderscore", "./goals/CoverageGoalInterpreter" ], function(_,
         /** location of root of tests, relative to project base */
         this.test = function() { return raw.test; };
 
+        this.autoSuites = function() {
+            return raw.autoSuites;
+        };
+
+        this.setSuites = function( suites ) {
+            raw.suites = suites;
+        };
+
         /** Names of all suites */
         this.suiteNames = function() {
             return _.keys( raw.suites );

@@ -11,12 +11,6 @@ klujs = {
                 // cc's existence is maybe overcautious here.
                 files:[ "NodeCoverageCalculator" ],
                 max : 1
-            },
-            pageGlobal: {
-                // setting the klujsAssembly global 
-                // will never work in a unit test.
-                files:[ "SuitePage" ],
-                max : 2
             }
         }
     },

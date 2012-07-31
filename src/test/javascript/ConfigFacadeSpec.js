@@ -6,6 +6,7 @@ define( [ "ConfigFacade" ], function( ConfigFacade ) {
             main : "a",
             mainPath : "aa",
             test : "b",
+            autoSuites:true,
             suites : {
                 "foo": ["bar", "baz"],
                 "bar": ["foo", "baz"]
@@ -26,6 +27,7 @@ define( [ "ConfigFacade" ], function( ConfigFacade ) {
             expect( config.main() ).toBe("a");
             expect( config.mainPath() ).toBe("aa");
             expect( config.test() ).toBe("b");
+            expect( config.autoSuites() ).toBe( true );
             expect( config.suiteNames() ).toEqual( [ "foo", "bar" ] );
             expect( config.specsForSuite("bar") ).toEqual( ["foo", "baz"] );
             expect( config.lintFilter() ).toBe( fakeConfig.lintFilter );
@@ -34,6 +36,9 @@ define( [ "ConfigFacade" ], function( ConfigFacade ) {
 
             expect( config.lineCoverage() ).toBe( fakeConfig.lineCoverage );
             expect( config.elementCoverage() ).toBe( fakeConfig.elementCoverage );            
+            config.setSuites( { "zoo":["a","b"] } );
+            expect( config.suiteNames() ).toEqual( ["zoo"] );
+
         } );
     } );
 } );
