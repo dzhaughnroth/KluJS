@@ -174,3 +174,15 @@ div.allCoverageGoalsPassed {
 .deadCodeBanner.passed {
     background-color:#5E7D00;
 }
+
+li.dead {
+    color:blue
+}
+
+li.undead {
+    color:cyan
+}
+
+li.permitted {
+    color:green
+}

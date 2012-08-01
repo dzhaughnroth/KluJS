@@ -25,9 +25,22 @@ define( [ "deadcode/DeadCodeModel", "deadcode/CodeListModel", "lib/notBackbone" 
                 }
             } );
             expect( lastEvent[1] ).toEqual( { changes : { deadCode : true } });
-            expect( topic.get( "deadCode" ) ).toEqual( ["foo", "baz"] );
+            expect( topic.get( "deadCode" ) ).toEqual( 
+                { dead : ["foo", "baz"], permitted : [], undead : []  } );
         } );
-
+        it( "Applies exceptions", function() {
+            topic.set( "exceptions", [ "foo", "glug" ] );
+            codeListModel.set( "codeList", [ "foo", "bar", "baz", "glug" ] );
+            coverageDataModel.set( "coverageData", {
+                lines : {
+                    "bar" : [1,2,3,4],
+                    "glug" : [2]
+                }
+            } );
+            expect( topic.get( "deadCode" ) ).toEqual( 
+                { dead : ["baz"], permitted : ["foo"], undead : ["glug"]  } );
+        } );
+        
     } );
 
 } );

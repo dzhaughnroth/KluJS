@@ -51,6 +51,10 @@ define( ["./lib/notUnderscore", "./goals/CoverageGoalInterpreter" ], function(_,
         this.elementCoverage = function() {
             return raw.elementCoverage;
         };
+
+        this.deadCode = function() {
+            return raw.deadCode;
+        };
     };
 
     return ConfigFacade;

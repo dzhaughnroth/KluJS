@@ -1,5 +1,5 @@
 LATER: 
-Manage jslint better so no possible collisions. Investigate jshint instead or in addition. 
+Manage jslint better so no possible global vraiable name collisions. Investigate jshint instead or in addition. 
 
 Autosuite should merge, not clobber, other suites.
 
@@ -13,7 +13,7 @@ Browser freezes momentarily during tests or something. (not easy to repro)
 
 SOON:
 
-Style the multiview pass/fail table; Add coverage criteria when available
+Style the multiview pass/fail table; Add coverage criteria when available (second half done)
 
 Display the details of the first lint and spec failure automatically
 
@@ -28,6 +28,17 @@ Autosuite handle errors; now logs to console.
 
 List dead files under main and test in coverage view.
 
-fail when tests throw exception, such as a js parse error.
+fail when tests throw exception, such as a js parse error. (We often do not quite fail, or not omitted tests.)
 
 dead code view for suites; report in multiview suite grid.
+
+lint dead code
+
+general exception list
+
+Global variable report--where declared and used, where declared and not used.
+
+fail mode for multiview
+
+link from suite page to multi page
+

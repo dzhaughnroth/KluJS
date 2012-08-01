@@ -1,5 +1,5 @@
 /*global define:false, window:false */
-define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../deadcode/CodeListModel", "../deadcode/DeadCodeModel", "../lib/notBackbone", "jquery", "../lib/notUnderscore" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, CodeListModel, DeadCodeModel, Backbone, $, _ ) {
+define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../deadcode/CodeListModel", "../deadcode/DeadCodeModel", "../lib/notBackbone", "jquery", "../lib/notUnderscore", "../Config" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, CodeListModel, DeadCodeModel, Backbone, $, _, notKlujs ) {
 
     var PageModel = Backbone.Model.extend( {
         defaults: {
@@ -23,7 +23,8 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
             this.coverageDataModel = new CoverageDataModel();
             this.deadCodeModel = new DeadCodeModel( {
                 coverageDataModel : self.coverageDataModel,
-                codeListModel: self.codeListModel
+                codeListModel: self.codeListModel,
+                exceptions: notKlujs.deadCode()
             } );
             this.on( 'change:testDone', function( ) {
                 if ( self.get( "testDone" ) === true ) {

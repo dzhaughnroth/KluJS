@@ -12,6 +12,7 @@ define( [ "ConfigFacade" ], function( ConfigFacade ) {
                 "bar": ["foo", "baz"]
             },
             lintFilter : function() {},
+            deadCode : [ "uncool.js", "boot.js" ],
             noDefaultFilter : "zap",
             libDirs : [ "weezle" ],
             lineCoverage : {
@@ -38,7 +39,7 @@ define( [ "ConfigFacade" ], function( ConfigFacade ) {
             expect( config.elementCoverage() ).toBe( fakeConfig.elementCoverage );            
             config.setSuites( { "zoo":["a","b"] } );
             expect( config.suiteNames() ).toEqual( ["zoo"] );
-
+            expect( config.deadCode() ).toBe( fakeConfig.deadCode );
         } );
     } );
 } );

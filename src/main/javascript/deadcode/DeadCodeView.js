@@ -23,22 +23,26 @@ define( [ "../lib/notBackbone", "../lib/notUnderscore", "jquery" ], function( Ba
             var report = this.$el.find( ".deadCodeReport" );
             var deadCode = this.model.get("deadCode");
             if ( typeof deadCode !== "undefined" ) {
-                report.empty();
-                if ( deadCode.length > 0 ) {
-                    var ul = $("<ul />").appendTo( report );
-                    $.each( deadCode, function( i, x ) {
-                        $("<li />", {text:x}).appendTo( ul );
+                report.empty();                
+                var ul = $("<ul />").appendTo( report );
+                $.each( deadCode, function( type, coll ) {
+                    $.each( coll, function( i, x ) {
+                        $("<li />", {text:x})
+                            .addClass( type )
+                            .appendTo( ul );
                     } );
-                    banner.removeClass( "passed" );
-                    banner.addClass( "failed" );
-                }
-                else {
-                    report.text( "All Ok." );
+                } );
+                var notOk = (deadCode.dead && deadCode.dead.length > 0)
+                        || (deadCode.undead && deadCode.undead.length > 0 );
+                if ( !notOk ) {                    
                     banner.removeClass( "failed" );
                     banner.addClass("passed");
                 }
+                else {
+                    banner.removeClass( "passed" );
+                    banner.addClass( "failed" );
+                }
             }            
-            // display error?
             return this;
         }
     } );
