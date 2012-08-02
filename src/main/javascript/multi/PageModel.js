@@ -1,6 +1,10 @@
 /*global define:false, window:false */
 define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../deadcode/CodeListModel", "../deadcode/DeadCodeModel", "../lib/notBackbone", "jquery", "../lib/notUnderscore", "../Config" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, CodeListModel, DeadCodeModel, Backbone, $, _, notKlujs ) {
 
+    var log = function( msg ) {
+        // console.log( msg );
+    };
+
     var PageModel = Backbone.Model.extend( {
         defaults: {
             done : false
@@ -17,6 +21,14 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
             this.lintModel.on( 'add', function( modelAdded ) {
                 modelAdded.check();
             } );
+            this.lintModel.on( 'change', function() {
+                log( "Unfinished: " + self.lintModel.unfinished() );
+                if ( self.lintModel.unfinished() === 0 ) {                    
+                    self.set( "lintDone", true );
+                    log( "lintDone" );
+                }
+            } );
+
             this.lintQueue = [];
             this.codeListModel = new CodeListModel( );
             this.codeListModel.fetch();
@@ -30,8 +42,10 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
                 if ( self.get( "testDone" ) === true ) {
                     self.aggregateCoverage();
                     self.doLint();
-                    self.set( "done", true );
                 }
+            } );
+            this.on( 'change:lintDone', function() {
+                self.set("done", true );
             } );
             var built = false;
             var buildChildren = function() {
@@ -61,8 +75,8 @@ define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/Cover
             }
         },        
         lintFound : function( lf ) {
-//            this.lintModel.addFinderResult( lf );
             this.lintQueue.push( lf );
+            log( "q is " + this.lintQueue.length );
         },
         doLint : function() {
             var self = this;

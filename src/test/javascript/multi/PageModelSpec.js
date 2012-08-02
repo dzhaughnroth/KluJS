@@ -56,16 +56,26 @@ define( [ "multi/PageModel","jquery", "ConfigFacade" ], function( PageModel, $, 
                     }
                 };
             } );
-            expect( topic.coverageData().length ).toBe(2);
-            expect( topic.coverageData()[0].runLines.foo ).toEqual( {"a":1, "b":2} );
-            expect( resets.length ).toBe( 0 );
-            topic.check();
-            expect( resets.length ).toBe( 1 );
-            var fooCoverage = topic.coverageDataModel.byFile.foo;
-            expect( fooCoverage.line.missed ).toBe( 1 );
-            expect( resets.length ).toBe( 1 );
-            topic.set("testDone", false );
-            expect( resets.length ).toBe( 1 );
+            runs( function() {
+                expect( topic.coverageData().length ).toBe(2);
+                expect( topic.coverageData()[0].runLines.foo ).toEqual( {"a":1, "b":2} );
+                expect( resets.length ).toBe( 0 );
+                expect( topic.get( "testDone" )).toBeUndefined();
+                
+                topic.check();
+                expect( topic.get( "testDone" )).toBe( true );
+                expect( resets.length ).toBe( 1 );
+                expect( topic.get( "lintDone" )).toBeUndefined();                
+            } );
+            waitsFor( function() { return topic.get( "lintDone" ); }, 500 );
+            runs( function() {
+                var fooCoverage = topic.coverageDataModel.byFile.foo;
+                expect( fooCoverage.line.missed ).toBe( 1 );
+                expect( resets.length ).toBe( 1 );
+                // Not so comp
+                topic.set("testDone", false );
+                expect( resets.length ).toBe( 1 );
+            } );
         } );
         it( "Should compute lintFinder result on completion", function() {
             expect( topic.lintModel.length ).toBe( 2 );
