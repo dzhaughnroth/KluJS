@@ -42,14 +42,18 @@ define( [ "./NodeCoverageCalculator", "./CoverageAndGoalsSubSummary", "../lib/no
             this.byFile = {};
             this.on( "change", function() {
                 var coverageData = this.get( "coverageData" );
-                var calculator = new NodeCoverageCalculator( coverageData );
-                self.calculator = calculator;
-                self.byFile = computeByFile( calculator, this.get("goals") );
-                //compute stuff
+                if ( coverageData ) {
+                    var calculator = new NodeCoverageCalculator( coverageData );
+                    self.calculator = calculator;
+                    self.byFile = computeByFile( calculator, this.get("goals") );
+                }
             } );
         },
         setData : function( data ) {
             this.set( "coverageData", data );
+        },
+        noData : function() {
+            this.set( "noData", true );            
         },
         goalFailureCount: function( filter ) {
             var myFilter = filter || function() { return true; };

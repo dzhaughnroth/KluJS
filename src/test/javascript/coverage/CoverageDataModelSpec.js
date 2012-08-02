@@ -1,4 +1,4 @@
-/*global define:false, describe:false, it:false, expect:false, $$_l:false */
+/*global define:false, describe:false, it:false, expect:false, $$_l:false, beforeEach:false */
 define( [ "coverage/CoverageDataModel", "coverage/NodeCoverageCalculator", "goals/SuiteInterpreter", "lib/notUnderscore", "./fixture/trinary.js", "./fixture/simple.js", "./fixture/target.js" ], function( CoverageDataModel, NodeCoverageCalculator, SuiteInterpreter, _ ) {
 
     describe( "CoverageDataModel", function() {
@@ -6,11 +6,18 @@ define( [ "coverage/CoverageDataModel", "coverage/NodeCoverageCalculator", "goal
         var fixtures;
         var events = [];
         topic.on( 'change', function() { events.push( arguments ); } );
+        beforeEach( function() { events = []; } );
         it ( "Should be initially empty", function() {
             expect( topic.calculator).toBeUndefined();
         } );
+        it ( "Should accept noData call if there will be no coverage data", function() {
+            topic.noData();
+            expect( topic.get("coverageData" ) ).toBeUndefined();
+            expect( topic.calculator ).toBeUndefined();
+            expect( events[0][1].changes.noData ).toBe( true );
+            expect( topic.get("noData" )).toBe( true );
+        } );
         it( "Should accept node coveage data", function() {
-            expect( events.length ).toBe( 0 );
             topic.setData( $$_l );            
             expect( topic.calculator.nodeCoverage).toBe( $$_l );
             expect( events.length ).toBe( 1 );

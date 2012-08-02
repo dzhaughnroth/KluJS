@@ -32,7 +32,7 @@ define( [ "coverage/CoverageDataAggregator"], function( CoverageDataAggregator )
         var b = makeMockCoverageData( "b" );
         var c = makeMockCoverageData( "c" );
         c.conditions.zsrc.push( ["zc1a", false] );
-        var result = CoverageDataAggregator( [ a, b ] );
+        var result = CoverageDataAggregator( [ a, undefined, b ] );
         var doubledConds = [].concat( a.conditions.zsrc ).concat( a.conditions.zsrc );
 
         it( "AggrgatesCoverage", function() {

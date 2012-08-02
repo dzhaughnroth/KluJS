@@ -86,5 +86,16 @@ define( [ "coverage/CoverageDataModel", "coverage/CoverageDataView", "goals/Suit
             expect( banner.hasClass( "coverageGoalFailed" )).toBe( false );            
             expect( banner.text() ).toMatch( /All 3 goals met/ );
         } );
+        it( "Should note if there is no coverage data", function() {
+            var m = new CoverageDataModel();
+            var v = new CoverageDataView( { model : m } ).render();
+            var message = v.$el.children( "div.coverageStatusMessage" );
+            expect( message.text() ).toBe( "Pending..." );
+            m.noData();
+            message = v.$el.children( "div.coverageStatusMessage" );
+            expect( message.text() ).toMatch( "No coverage data" );
+
+            $("body").append( v.$el );
+        } );
     } );
 } );

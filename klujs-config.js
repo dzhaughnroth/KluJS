@@ -11,8 +11,13 @@ klujs = {
             ccWeird: {
                 // Code for checking for 
                 // cc's existence is maybe overcautious here.
-                files:[ "NodeCoverageCalculator" ],
+                files : [ "NodeCoverageCalculator" ],
                 max : 1
+            },
+            // The global $$_l is never undefined in testing;
+            coverageGlobalAccessor : {
+                files : [ "suite/SuiteAssembly.js" ],
+                max : 2
             }
         }
     },

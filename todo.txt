@@ -5,15 +5,15 @@ Autosuite should merge, not clobber, other suites.
 
 AutoSuite:  Support exclusion regex. GLOBAL, LOCAL, BOTH?
 
+Does manual suite make sense anymore? Vis. deadcode.
+
 Integrate with mocha node tests that need the server side. teehee.
 
 MEDIUM
 
-Browser freezes momentarily during tests or something. (not easy to repro)
-
 SOON:
 
-Style the multiview pass/fail table; Add coverage criteria when available (second half done)
+Style the multiview pass/fail table
 
 Display the details of the first lint and spec failure automatically
 
@@ -22,17 +22,10 @@ Scroll box for the iframe child div?
 Clean up aux directory. Explain what parts can't be tested and why.
 Put server side only stuff in a different place.
 
-Display an error if the suite parameter does not refer to a suite
+dead code view for suites; report in multiview suite grid. Need more
+thinking there. Ought to flag code that has no corresponding unit test suite.
 
-Autosuite handle errors; now logs to console.
-
-List dead files under main and test in coverage view.
-
-fail when tests throw exception, such as a js parse error. (We often do not quite fail, or not omitted tests.)
-
-dead code view for suites; report in multiview suite grid.
-
-lint dead code
+Run dead code against lint.
 
 general exception list
 
@@ -42,3 +35,9 @@ fail mode for multiview
 
 link from suite page to multi page
 
+General catastrophic error handling:
+        module load failure
+        suite name incorrect
+        parse error in Spec code
+        
+phantom does not wait for lint to finish

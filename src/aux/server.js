@@ -59,6 +59,7 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
     var codeLister = new AllCodeFinder( klujs.src, fs );
     var app = express.createServer();
     app.use( express.logger({ format: ':method :url' }) );
+    app.use( express.cookieParser());
     app.use( app.router );
     app.use( express.static( __dirname + "/.." ) );
 
@@ -68,7 +69,9 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
     app.get("/klujs-autoSuites.json", handlers.autoSuite );   
     app.get("/klujs-codeList.json", handlers.codeList );
     app.get( "/*.js", handlers.js );
+    app.get( "/nocov", handlers.nocov );
     app.get( "/", handlers.vanilla );
+
     
     app.listen( port );
     util.log( "Listening to " + __dirname );

@@ -38,14 +38,18 @@ define( [
         this.goalFailureCount = function() {
             return this.coverage.goalFailureCount( self.filter );
         };
-
         var testFinished;
         testFinished = function( ) {
             if ( jasModel.get("status") === "running" ) {
                 postToParent( {messageType:"started"} );
             }
             if ( jasModel.get("status") === "done" ) {
-                covModel.setData( $$_l );
+                if ( typeof $$_l !== "undefined" ) {
+                    covModel.setData( $$_l );
+                }
+                else {
+                    covModel.noData();
+                }
                 var found = lintFinder.find(); 
                 if ( ! postToParent( { messageType:"lint", lintWork: found } ) ) {
                     lintModel.addFinderResult( found );

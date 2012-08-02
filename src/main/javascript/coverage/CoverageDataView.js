@@ -70,9 +70,15 @@ define( [ "../goals/CoverageGoalInterpreter", "../lib/notBackbone", "../lib/notU
                 .appendTo( banner );
             $("<button />", {text:"node-coverage", disabled:true} )
                 .appendTo( banner );
-
+            if( this.model.get("noData") ) {
+                this.$el.append( $( "<div />", { text: "No coverage data" } )
+                                 .addClass( "coverageStatusMessage" )  );
+                return this;
+            }
             if( ! this.model.calculator ) {
-                this.$el.append( $( "<div />", { text: "Pending..." } ) );
+                this.$el.append( $( "<div />", { text: "Pending..." } )
+                                 .addClass( "coverageStatusMessage" ) 
+                               );
                 return this;
             }
             var table = $( "<table />", { } )

@@ -61,10 +61,12 @@ define( [ "jquery" ], function( $ ) {
                            conditions: {} 
                          };
             $.each( dataArray, function( i, data ) {
-                mergeLines( result.lines, data.lines );
-                mergeRunlines( result.runLines, data.runLines );
-                mergeAllConditions( result.allConditions, data.allConditions );
-                mergeConditions( result.conditions, data.conditions );
+                if ( data ) {
+                    mergeLines( result.lines, data.lines );
+                    mergeRunlines( result.runLines, data.runLines );
+                    mergeAllConditions( result.allConditions, data.allConditions );
+                    mergeConditions( result.conditions, data.conditions );
+                }
             } );
             return result;
         };
