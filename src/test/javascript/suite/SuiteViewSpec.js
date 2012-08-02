@@ -14,7 +14,7 @@ define( [ "suite/SuiteView", "suite/SuiteAssembly", "jquery", "../MockJasmine.js
             topic.model.name.set("suiteName", "anything" );
             expect( topic.nameView.$el.text() ).toMatch( "anything" );
 
-            expect( topic.$el.children("div").length ).toBe( 4 );
+            expect( topic.$el.children("div").length ).toBe( 5 );
         } );
 
         

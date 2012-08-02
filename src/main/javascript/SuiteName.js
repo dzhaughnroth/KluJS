@@ -4,7 +4,7 @@ define( [ "./lib/notBackbone", "./lib/notUnderscore", "jquery" ], function( Back
     var Model = Backbone.Model.extend( { } );
 
     var View = Backbone.View.extend( {
-        tagName: "h1",
+        tagName: "div",
         className: "suiteName",
         initialize: function() {
             _.bindAll(this, 'render');
@@ -15,7 +15,22 @@ define( [ "./lib/notBackbone", "./lib/notUnderscore", "jquery" ], function( Back
             if ( ! value ) {
                 value = "...loading...";
             }
-            this.$el.text( "KluJS: " + value );
+            this.$el.empty();
+            var title = $("<a />", {text: "KluJS",
+                                    title: "Run all suites",
+                                    href: "."} )
+                    .addClass( "klujsLink" );
+            var suiteName = $("<a />", {text: value,
+                                        title: "Run this suite again",
+                                        href: "/?suite=" + value } )
+                    .addClass( "suiteLink" );
+            var nocov = $("<a />", {text: "(Disable code coverage)",
+                                    title: "Disable code coverage",
+                                    href: "nocov?suite=" + value } )
+                    .addClass( "noCoverageLink" );
+            this.$el.append( title ).append( suiteName ).append( nocov );
+      
+
             return this;
         }
 

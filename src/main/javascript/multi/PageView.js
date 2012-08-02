@@ -34,7 +34,16 @@ define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/C
                     model:model.coverageDataModel,
                     disableGoals:true
                 } ).render();
-                this.bodyElement.append( $( "<h1 />", {text:"KluJS: All Suites" } ) );
+                var titleDiv = $("<div />" )
+                        .append( $( "<a />", { text:"KluJS: All Suites",
+                                               title: "Run all suites",
+                                               href: "."} )
+                                 .addClass( "klujsLink") )
+                        .append( $( "<a />", { text:"(Disable code coverage)",
+                                               title: "Disable code coverage",
+                                               href: "nocov"} )
+                                 .addClass( "noCoverageLink" ) );
+                titleDiv.appendTo( this.bodyElement );
                 this.bodyElement.append( view.$el );
                 this.bodyElement.append( lintView.$el );
                 this.bodyElement.append( deadCodeView.$el );
