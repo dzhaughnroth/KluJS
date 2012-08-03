@@ -7,8 +7,8 @@ var log = function(msg) {
     util.log( "PhatomJS runner: " + msg );
 };
 
-var runPhantom = function( callback ) {
-    var proc = spawn( phantomExecutable, ["KluJS/phantom-runner.js"] );
+var runPhantom = function( callback, klujsDir, port ) {
+    var proc = spawn( phantomExecutable, [ klujsDir + "/phantom-runner.js", port] );
     proc.on( 'exit', function( code, signal) {
         log( "PhantomJs ended: " + code + " " + signal );
         callback( code );

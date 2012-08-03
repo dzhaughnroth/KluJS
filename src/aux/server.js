@@ -61,7 +61,6 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
     app.use( express.logger({ format: ':method :url' }) );
     app.use( express.cookieParser());
     app.use( app.router );
-    console.log( "Dirs " + process.cwd() + " " + __dirname );
     app.use( express.static( process.cwd() ));
 
     var klujsStatic = express.static( __dirname + "/.." );
@@ -77,13 +76,13 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
     
     
     app.listen( port );
-    util.log( "Listening to " + __dirname );
+    util.log( "Listening on " + port );
 
     if ( argv.phantom ) {
         phanto.runPhantom( function( result ) {
             util.log( "Phantom result: " + result );
             process.exit(0);
-        } );
+        }, __dirname, port );
     }
 
 

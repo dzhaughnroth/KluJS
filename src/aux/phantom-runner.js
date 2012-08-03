@@ -1,6 +1,12 @@
 var page = require('webpage').create();
 var fs = require('fs');
-var url = "http://localhost:7000/";
+var system = require('system');
+console.log( "system" );
+console.log( system.args );
+var port = system.args[1] || 7000; 
+console.log( port );
+var url = "http://localhost:" + port + "/";
+console.log( url );
 var maxMillis = 30000;
 
 var timedOut = false,
