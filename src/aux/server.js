@@ -36,8 +36,8 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
     };
     klujs.noBoot = true;
     try {
-        var bootString = fs.readFileSync( "KluJS/boot.js", "UTF8" );
-        vm.runInThisContext( bootString, "KluJS/boot.js" );
+        var bootString = fs.readFileSync( __dirname + "/boot.js", "UTF8" );
+        vm.runInThisContext( bootString, __dirname + "/boot.js" );
     }
     catch( ex ) {
         throw( "Could not load KluJS/boot.js: " + ex );
@@ -61,8 +61,10 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
     app.use( express.logger({ format: ':method :url' }) );
     app.use( express.cookieParser());
     app.use( app.router );
-    app.use( express.static( __dirname + "/.." ) );
+    console.log( "Dirs " + process.cwd() + " " + __dirname );
+    app.use( express.static( process.cwd() ));
 
+    var klujsStatic = express.static( __dirname + "/.." );
     // configure Router
     var handlers = new Handlers( suiteManager, libFilter, codeInstrumenter, codeLister );
 
@@ -70,8 +72,9 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
     app.get("/klujs-codeList.json", handlers.codeList );
     app.get( "/*.js", handlers.js );
     app.get( "/nocov", handlers.nocov );
+    app.get( "/KluJS/*", klujsStatic );
     app.get( "/", handlers.vanilla );
-
+    
     
     app.listen( port );
     util.log( "Listening to " + __dirname );
