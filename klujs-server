@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+require('util').log( "KluJS server is running under node from " + __dirname );
+require("amd-loader");
+require( "./KluJS/server" );

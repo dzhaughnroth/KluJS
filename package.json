@@ -1,0 +1,9 @@
+{
+        "name":"KluJS",
+        "version":"0.0.1",
+        "description":"A disintegrated development environment for AMD modules mainly",
+        "keywords":["coverage","lint","development","test", "tdd", "bdd","quality","code"],
+        "homepage":"https://github.com/dzhaughnroth/KluJS",
+        "bin":{"klujs-server":"./klujs-server"},
+        "files":["klujsSrc"]        
+}

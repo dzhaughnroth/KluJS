@@ -1,4 +1,7 @@
-# Run after build.sh to install the result in KluJS.
-rm -rf KluJS
-cp -r build/klujsCopy/KluJS .
-
+rm -rf module
+mkdir module
+mkdir module/KluJS
+cp -r src/aux/* module/KluJS
+cp -r src/main/javascript module/KluJS/javascript
+cp package.json module
+cp klujs-server module

@@ -1,7 +1,7 @@
 /*globals window:false, klujs:false, require:true */
 (function() {
     var _require = {};
-    var _klujs = klujs;
+    var config = klujs;
 
     var setIfBlank = function( obj, name, value ) {
         if ( typeof( obj[name] ) === "undefined" ) {
@@ -11,7 +11,7 @@
     };
 
     var computeKlujsPath = function() {
-        var depth = _klujs.mainPath.match( /\//g ).length; 
+        var depth = config.mainPath.match( /\//g ).length; 
         var i;
         var result = "";
         for( i = 0; i < depth + 1; i++ ) {
@@ -20,27 +20,27 @@
         return result + "KluJS";
     };
     
-    setIfBlank( _klujs, "src", "src" );
-    setIfBlank( _klujs, "main", _klujs.src + "/main/javascript" );
-    _klujs.mainPath = "../" + _klujs.main;
-    setIfBlank( _klujs, "test", _klujs.src + "/test/javascript" );
+    setIfBlank( config, "src", "src" );
+    setIfBlank( config, "main", config.src + "/main/javascript" );
+    config.mainPath = "../" + config.main;
+    setIfBlank( config, "test", config.src + "/test/javascript" );
 
     
-    setIfBlank( _klujs, "require", {} );
-    setIfBlank( _klujs, "requireHome", _klujs.mainPath );
-    setIfBlank( _klujs, "libDirs", 
+    setIfBlank( config, "require", {} );
+    setIfBlank( config, "requireHome", config.mainPath );
+    setIfBlank( config, "libDirs", 
                 [ "src/main/javascript/lib", 
                   "src/test/javascript/lib" 
                 ] );
     
-    _require = _klujs.require;
-    _require.baseUrl = _klujs.mainPath;
+    _require = config.require;
+    _require.baseUrl = config.mainPath;
     setIfBlank( _require, "paths", {} );
 
     _require.paths.KluJS = computeKlujsPath();
 
-    if ( !_klujs.requireHome.match( "/js$" ) ) {
-        _klujs.requireHome += "/require-jquery.js";
+    if ( !config.requireHome.match( "/js$" ) ) {
+        config.requireHome += "/require-jquery.js";
     }
 
     var addBootScriptElement = function() {
@@ -48,7 +48,7 @@
         var el = doc.createElement( "script" );
         el.type = "text/javascript";
         // Infer and/or guess location of require
-        el.src = _klujs.requireHome;
+        el.src = config.requireHome;
         var pathToParamSuite = "KluJS/";
         var moduleName = "javascript/SuiteBoot.js";
         
@@ -66,9 +66,8 @@
 
     require = _require;
 
-    if ( typeof( _klujs.noBoot ) === "undefined" ) {
+    if ( typeof( config.noBoot ) === "undefined" ) {
         addBootScriptElement();
     }
-//    else { console.log( "No boot." );  }
     
 }() );
