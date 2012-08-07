@@ -5,3 +5,4 @@ cp -r src/aux/* module/KluJS
 cp -r src/main/javascript module/KluJS/javascript
 cp package.json module
 cp klujs-server module
+echo "To install locally: cd module; sudo npm link"
