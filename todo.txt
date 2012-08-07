@@ -1,15 +1,23 @@
 LATER: 
-Manage jslint better so no possible global vraiable name collisions. Investigate jshint instead or in addition. 
+
+Manage jslint better so no possible global vraiable name collisions. Investigate jshint instead or in addition. Having to always declase define really sucks; having to declare describe, expect, it, etc.. for tests also sucks.
 
 Autosuite should merge, not clobber, other suites.
 
 AutoSuite:  Support exclusion regex. GLOBAL, LOCAL, BOTH?
 
-Does manual suite make sense anymore? Vis. deadcode.
+Does manual suite make sense anymore? Vis. deadcode, focused coverage.
 
 Integrate with mocha node tests that need the server side. teehee.
 
 MEDIUM
+
+dead code view for suites; report in multiview suite grid. Need more
+thinking there. Ought to flag code that has no corresponding unit test suite.
+
+Scroll box for the iframe child div?
+
+Better examples and automated functional tests
 
 SOON:
 
@@ -17,13 +25,8 @@ Style the multiview pass/fail table
 
 Display the details of the first lint and spec failure automatically
 
-Scroll box for the iframe child div?
-
 Clean up aux directory. Explain what parts can't be tested and why.
 Put server side only stuff in a different place.
-
-dead code view for suites; report in multiview suite grid. Need more
-thinking there. Ought to flag code that has no corresponding unit test suite.
 
 Run dead code against lint.
 
@@ -33,11 +36,16 @@ Global variable report--where declared and used, where declared and not used.
 
 fail mode for multiview
 
-link from suite page to multi page
+link from suite page to multi page DONE
 
 General catastrophic error handling:
         module load failure
         suite name incorrect
         parse error in Spec code
         
-phantom does not wait for lint to finish
+phantom does not wait for lint to finish FIXED
+
+add date to results page, for phantom image output for example.
+
+manage amd-loader better
+

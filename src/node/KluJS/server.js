@@ -1,7 +1,6 @@
 /** 
  * KluJS node script
  */
-require( "amd-loader" );
 
 define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter", "./javascript/server/CodeInstrumenter", "./javascript/deadcode/AllCodeFinder", "./javascript/server/Handlers", "./phantoProc.js", "fs", "vm", "net", "http", "util", "express", "optimist", "./lib/node-coverage/lib/report", "./lib/node-coverage/lib/instrument"  ], function( SuiteManager, LibFilter, CodeInstrumenter, AllCodeFinder, Handlers, phanto, fs, vm, net, http, util, express, optimist, report, instrument ) {
 
@@ -10,7 +9,7 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
 	        .options("port", {
 		        "default" : 7000
 	        })
-            .describe("port", "Base port to use" )
+            .describe("port", "Port to use" )
             .boolean( "phantom" )
             .describe( "phantom", "Start server, run phantom-runner script, and exit." )
  	        .boolean("h").alias("h", "help")
