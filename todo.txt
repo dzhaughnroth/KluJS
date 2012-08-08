@@ -41,7 +41,8 @@ link from suite page to multi page DONE
 General catastrophic error handling:
         module load failure DONE
         suite name incorrect DONE at least it reports failure.
-        parse error in Spec code
+        module loading error in Spec code
+        parse error in Spec code (lint should catch that)
         
 phantom does not wait for lint to finish FIXED
 

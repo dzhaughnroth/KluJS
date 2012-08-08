@@ -1,7 +1,7 @@
 /*globals define:false */
-define( [ "jquery", "require", "./lib/purl", "./Config" ], function( $, require, purl, notKlujs ) {
+define( [ "jquery", "require", "./Config" ], function( $, require, notKlujs ) {
 
-    var SuiteRunner = function( nameModel, errorCallback, jasmineImpl ) {
+    var SuiteRunner = function( nameModel, errorCallback, jasmineImpl, purl ) {
         var self = this;
         this.errorCallback = errorCallback;
         this.klujsConfig = notKlujs;
@@ -19,9 +19,8 @@ define( [ "jquery", "require", "./lib/purl", "./Config" ], function( $, require,
             } );
         };
 
-        this.go = function() {
-            
-            var suite = purl().param("suite");
+        this.go = function() {           
+            var suite = purl.param("suite");
             nameModel.set("suiteName", suite );
             var relSpecs = [];
             var prefix = self.klujsConfig.test();

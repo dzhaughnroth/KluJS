@@ -176,15 +176,15 @@ div.allCoverageGoalsPassed {
 }
 
 li.dead {
-    color:blue
+    color:#B03911;
 }
 
 li.undead {
-    color:cyan
+    color:#333333;
 }
 
 li.permitted {
-    color:green
+    color:#5E7D00;
 }
 
 a.klujsLink {

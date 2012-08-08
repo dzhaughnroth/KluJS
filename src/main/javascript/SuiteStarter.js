@@ -1,6 +1,6 @@
 /*globals define:false, requirejs:false, console:false */
 
-define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "jquery" ], function( SuiteRunner, SuitePage, AutoSuiteFetcher, notKlujs, $ ) {
+define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "jquery", "./lib/purl" ], function( SuiteRunner, SuitePage, AutoSuiteFetcher, notKlujs, $, purl ) {
 
     var SuiteStarter = function( pageFacade, jasmineImpl, mockFetcher, mockRequireJs ) {
         var self = this;
@@ -13,7 +13,8 @@ define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Con
         };
         this.suiteRunner = new SuiteRunner( self.suitePage.assembly.name, 
                                             this.errorCallback,
-                                            self.jasmine );        
+                                            self.jasmine,
+                                            purl() );        
         this.start = function() {            
             // has to come first. :(
             self.jasmine.getEnv().reporter.subReporters_.unshift( 

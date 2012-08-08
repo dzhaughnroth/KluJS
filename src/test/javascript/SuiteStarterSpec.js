@@ -61,6 +61,23 @@ define( [ "SuiteStarter", "jquery", "./MockJasmine.js"], function( SuiteStarter,
             expect( failure.message ).toBeDefined();
             expect( failure.requireJsError ).toBe( "foo" );            
         } );
+        it( "Fails page on exception from suite runner", function() {
+            var failure;
+            topic.suitePage = {
+                fail:function( err ) { failure = err; }
+            };
+            topic.suiteRunner.go = function() {
+                    throw "goo";
+            };            
+            try {
+                fetcherCallback();
+            }
+            catch( x ) {
+                expect( x ).toBe( "goo" );
+            }
+            expect( failure.message ).toBeDefined();
+            expect( failure.error ).toBe( "goo" );
+        } );
 
     } );
     

@@ -9,13 +9,18 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade", "./MockJasmine.j
         };
             
         var mockJasmine = new MockJasmine();
-
-        var topic = new SuiteRunner( nameModel, errCallback, mockJasmine );
+        var suiteName = "goo";
+        var mockPurl = { 
+            param:function() {
+                return suiteName;
+            }
+        };
+        var topic = new SuiteRunner( nameModel, errCallback, mockJasmine, mockPurl );
         it( "Invokes Jasmine", function() {
             runs( function() {
                 expect( topic.jasmine ).toBe( mockJasmine );
                 expect( topic.klujsConfig ).toBe( notKlujs );
-                // gotcha: suite name for this test must be "(base)"
+
                 // gotcha: depends on a fixture, which must exist.
                 
                 topic.klujsConfig = new ConfigFacade( 
@@ -24,7 +29,7 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade", "./MockJasmine.j
                         mainPath : notKlujs.mainPath(),
                         test : notKlujs.test(),
                         suites: {
-                            "(base)" : [ "coverage/fixture/simple.js" ]
+                            "goo" : [ "coverage/fixture/simple.js" ]
                         }
                     } );
                 try {
@@ -60,6 +65,9 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade", "./MockJasmine.j
             waitsFor( function() { return mockJasmine.executed; }, 200 );
             runs( function() {
                 expect( error ).toBeUndefined();
+                suiteName = "notGoo";
+                expect( function() { topic.go(); } )
+                    .toThrow( "There is no suite named 'notGoo' to run" );
             } );
         } );
 

@@ -4,7 +4,7 @@ klujs = {
     libDirs: ["src/main/javascript/lib", "src/test/javascript/lib",
               "src/node", "src/example" ],
     deadCode: [ "/src/main/javascript/SuiteBoot.js",
-                "/src/main/javascript/multi/MultiBoot.js" ],
+                "/src/main/javascript/multi/MultiBoot.js"],
     elementCoverage : {
         max : 0,
         except : {
