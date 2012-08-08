@@ -7,7 +7,8 @@ define( ["./ChildFrameModel", "./ChildFrameView", "../lib/notBackbone", "jquery"
             return this.filter( function( x ) { return x.get("status") === "passed"; } );
         },
         failed : function() {
-            return this.filter( function( x ) { return x.get("status") === "failed"; } );
+            return this.filter( function( x ) { return x.get("status") === "failed"
+                                                || x.get("status") === "error"; } );
         },
         running: function() {
             return this.filter( function( x ) { return x.get("status") === "running"; } );
@@ -76,7 +77,7 @@ define( ["./ChildFrameModel", "./ChildFrameView", "../lib/notBackbone", "jquery"
                 running: self.model.running().length,
                 failed: self.model.failed().length,
                 count: self.model.length,
-                passed: self.model.passed().length
+                passed: self.model.passed().length                
             };
             // TODO
             this.$el.text( data.failed + " of " + data.count + " suites failed (" 
