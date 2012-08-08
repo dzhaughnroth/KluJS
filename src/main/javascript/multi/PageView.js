@@ -48,6 +48,7 @@ define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/C
                 this.bodyElement.append( lintView.$el );
                 this.bodyElement.append( deadCodeView.$el );
                 this.bodyElement.append( coverageView.$el );
+                this.bodyElement.append( $("<div />", {text:"Started at " + new Date() }));
                 this.renderedOnce = true;
             }
             return this;

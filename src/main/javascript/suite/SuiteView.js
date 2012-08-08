@@ -36,6 +36,7 @@ define( [ "../lib/notBackbone", "../lib/notUnderscore", "jquery", "./SuiteAssemb
             this.$el.append( this.lintView.render().$el );
             this.$el.append( this.focusView.render().$el );
             this.$el.append( this.coverageView.render().$el );
+            this.$el.append( $("<div />", {text: "Started at " + new Date() } ));
             return this;
         }
 

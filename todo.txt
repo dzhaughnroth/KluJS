@@ -19,6 +19,9 @@ Scroll box for the iframe child div?
 
 Better examples and automated functional tests
 
+General list of places where lint and code coverage requirements are relaxed.
+
+
 SOON:
 
 Style the multiview pass/fail table
@@ -30,27 +33,12 @@ Put server side only stuff in a different place.
 
 Run dead code against lint.
 
-general exception list
-
 Global variable report--where declared and used, where declared and not used.
 
 fail mode for multiview
 
-link from suite page to multi page DONE
-
-General catastrophic error handling:
-        module load failure DONE
-        suite name incorrect DONE at least it reports failure.
-        module loading error in Spec code
-        parse error in Spec code (lint should catch that)
-        
-phantom does not wait for lint to finish FIXED
-
-add date to results page, for phantom image output for example.
-
-manage amd-loader better
-
-Rename model code to end in Model.
+add date to results page, for phantom image output for example. DONE
+but now improve location, details (timing, for example)
 
 Load jquery like Backbone et al, not through require-jquery
 
