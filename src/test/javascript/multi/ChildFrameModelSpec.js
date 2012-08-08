@@ -72,6 +72,14 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
             expect( topic.get("status" ) ).toBe( "passed" );
             expect( topic.get("coverageGoalFailures" ) ).toBe( 171 );
         } );
+        it( "Should report errors", function() {
+            mockTopic();
+            var theError = {message:"foo"};
+            topic.plainFrame.contentWindow.klujsAssembly.error = theError;
+            topic.check();
+            expect( topic.get("status") ).toBe( "error" );
+            expect( topic.get("error") ).toBe( theError );
+        } );
 
 
     } );

@@ -3,6 +3,8 @@ define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backb
     var RUNNING = "running";
     var FAILED = "failed";
     var PASSED = "passed";
+    var ERROR = "error";
+
     var ChildFrameModel = Backbone.Model.extend( {
         defaults : {
             status : RUNNING,
@@ -30,33 +32,38 @@ define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backb
         },
         check : function() {
             var cWin = this.plainFrame.contentWindow;
-            if ( cWin 
-                 && cWin.klujsAssembly 
-                 && ( cWin.klujsAssembly.jasmine.get( "status" ) === "done" ) ) {
-                     var result = {
-                         count : 0,
-                         failedCount : 0,
-                         passedCount : 0
-                     };
-                     var jasResults = cWin.klujsAssembly.jasmine.get( "result" );
-                     result.failedCount = jasResults.failed;
-                     result.passedCount = jasResults.count - result.failedCount;
-                     result.count = jasResults.count;
-                     this.set("results", result );
-                     if ( result.failedCount > 0 ) {
-                         this.set( "status", FAILED);
-                     }
-                     else {
-                         this.set( "status", PASSED);
-                     }
-                     var goalFailures = cWin.klujsAssembly.goalFailureCount();
-                     this.set( "coverageGoalFailures", goalFailures );
-                 }
-            else {
-                this.set( "status", RUNNING );
+            if ( cWin && cWin.klujsAssembly ) {
+                if ( cWin.klujsAssembly.error ) {
+                    this.set( "status", ERROR );
+                    this.set( "error", cWin.klujsAssembly.error );
+                }
+                else if ( cWin.klujsAssembly.jasmine.get( "status" ) === "done" ) {
+                    var result = {
+                        count : 0,
+                        failedCount : 0,
+                        passedCount : 0
+                    };
+                    var jasResults = cWin.klujsAssembly.jasmine.get( "result" );
+                    result.failedCount = jasResults.failed;
+                    result.passedCount = jasResults.count - result.failedCount;
+                         result.count = jasResults.count;
+                    this.set("results", result );
+                    if ( result.failedCount > 0 ) {
+                        this.set( "status", FAILED);
+                    }
+                    else {
+                        this.set( "status", PASSED);
+                    }
+                    var goalFailures = cWin.klujsAssembly.goalFailureCount();
+                    this.set( "coverageGoalFailures", goalFailures );
+                }
+                else {
+                    this.set( "status", RUNNING );
+                }
             }
         }
-
+        
+            
     } );
 
 

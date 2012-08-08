@@ -32,8 +32,7 @@ define( [ "multi/ChildFrameView", "jquery" ], function( ChildFrameView, $ ) {
             };
             mockVals.coverageGoalFailures = 0;
             lastCallback( );
-
-            
+           
             expect( topic.$el.text() ).toBe( "SuitenessFailed 3 of 7 specsOk" );
             mockVals.status = "passed";
             mockVals.results = { 
@@ -43,7 +42,13 @@ define( [ "multi/ChildFrameView", "jquery" ], function( ChildFrameView, $ ) {
             };
             mockVals.coverageGoalFailures = 8;
             lastCallback();
-            expect( topic.$el.text() ).toBe( "SuitenessPassed all 6 specsMissed 8 goal(s)" );            
+            expect( topic.$el.text() ).toBe( "SuitenessPassed all 6 specsMissed 8 goal(s)" ); 
+        } );
+        it( "Should report errors", function() {
+            mockVals.status = "error";
+            mockVals.error = {message:"foo"};
+            lastCallback();
+            expect( topic.$el.text() ).toBe( "SuitenessErrorMissed 8 goal(s)" );            
         } );
         it( "Should alter visibility of frames, referenced by id", function() {
             expect( topic.model.frame.hasClass( "hidden" ) ).toBe( true );
@@ -51,7 +56,7 @@ define( [ "multi/ChildFrameView", "jquery" ], function( ChildFrameView, $ ) {
             expect( topic.model.frame.hasClass( "hidden" ) ).toBe( false );
             topic.selectFrame();
             expect( topic.model.frame.hasClass( "hidden" ) ).toBe( true );
-        } );
+        } );        
     } );
 
 

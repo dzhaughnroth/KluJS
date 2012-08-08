@@ -21,6 +21,7 @@ define( [ "SuitePage", "HtmlPageFacade", "jquery", "./MockJasmine.js"], function
         it( "Has failure dispay", function() {
             $("body").append( topic.pageFacade.body );
             topic.fail( { whoops: "eeDaisy" } );
+            expect( topic.assembly.error ).toEqual( { whoops: "eeDaisy" } );
             var headline = $(topic.pageFacade.body.find( ".klujsFailureHeadline" ));
             expect( headline.text() ).toBe( "Error: KluJS did not work" );
             var pre = $(topic.pageFacade.body.find( ".klujsFailureText" ));

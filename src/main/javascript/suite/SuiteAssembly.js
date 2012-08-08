@@ -18,6 +18,11 @@ define( [
         };
         var filterFactory = new FocusFilterFactory();
         this.filter = function() { return true; };
+        this.error = null;
+        this.fail = function( err ) {
+            self.error = err;
+            postToParent( { messageType:"finished" } );
+        };
         this.name = new SuiteName.Model();
         var jasModel = new JasmineModel( { jasmineImpl: jasmineImpl } );
         var lintModel = new LintCollection();

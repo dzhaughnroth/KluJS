@@ -59,5 +59,10 @@ define( [ "suite/SuiteAssembly", "../MockJasmine.js" ], function(SuiteAssembly, 
         it( "Will count goal Failures against filter", function() {
             expect( topic.goalFailureCount() ).toBe( topic.coverage.goalFailureCount( topic.filter ) );
         } );
+        it( "Posts message on failure", function() {
+            topic.fail( "foo" );
+            expect( topic.error ).toBe( "foo" );
+            expect( lastMsg ).toBe( "finished" ); 
+        } );
     } );
 } );

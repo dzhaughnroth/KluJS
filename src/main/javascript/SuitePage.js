@@ -21,6 +21,7 @@ define( [ "./suite/SuiteAssembly", "./suite/SuiteView", "./Config", "jquery", "r
             self.pageFacade.body.append( self.view.$el );
         };
         this.fail = function(err) {
+            self.assembly.fail( err );
             var failDiv = $("<div />")
                     .addClass("klujsFailureDiv")
                     .prependTo( this.pageFacade.body );

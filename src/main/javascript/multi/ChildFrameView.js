@@ -18,7 +18,10 @@ define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backb
             var model = this.model;
             var status = model.get("status");
             var text = "Huh? " + status;
-            if ( status === "running" ) {
+            if ( status === "error" ) {
+                text = "Error";
+            }
+            else if ( status === "running" ) {
                 text = "...Running...";
             }
             else {
