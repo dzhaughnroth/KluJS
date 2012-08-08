@@ -49,3 +49,9 @@ add date to results page, for phantom image output for example.
 
 manage amd-loader better
 
+Rename model code to end in Model.
+
+Load jquery like Backbone et al, not through require-jquery
+
+Handle require in klujs, rather than depending on client to have it in main? hmm.
+

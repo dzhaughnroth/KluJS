@@ -1,8 +1,8 @@
 /*global jasmineGradle: true, $: false, define:false */
-define( ["./ChildFrameManager", "./ChildFrameManagerView", "../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(ChildFrameManager,ChildFrameManagerView, Backbone, $, _) {
+define( ["./ChildFrameModel", "./ChildFrameView", "../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(ChildFrameModel,ChildFrameView, Backbone, $, _) {
 
     var Model = Backbone.Collection.extend( {
-        model : ChildFrameManager,
+        model : ChildFrameModel,
         passed : function() {
             return this.filter( function( x ) { return x.get("status") === "passed"; } );
         },
@@ -51,7 +51,7 @@ define( ["./ChildFrameManager", "./ChildFrameManagerView", "../lib/notBackbone",
             var self = this;
             this.model.forEach( function( childModel ) { 
                 if ( ! self.subviews[childModel.get("suite")] ) {
-                    var cell = new ChildFrameManagerView( { model:childModel } ).render();
+                    var cell = new ChildFrameView( { model:childModel } ).render();
                     self.subviews[childModel.get("suite")] = cell;
                     self.tbody.append( cell.$el );                   
                 }

@@ -1,7 +1,7 @@
 /*global jasmineGradle: true, $: false, define:false */
 define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backbone, $, _) {
 
-    var ChildFrameManagerView = Backbone.View.extend( {
+    var ChildFrameView = Backbone.View.extend( {
         tagName:"tr",
         className: "childFrameView",
         initialize : function() {
@@ -59,7 +59,7 @@ define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backb
     } );
 
 
-    return ChildFrameManagerView;
+    return ChildFrameView;
 
 } );
 

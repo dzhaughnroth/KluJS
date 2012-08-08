@@ -1,7 +1,7 @@
 /*global define:false, describe:false, it:false, expect:false */
-define( [ "multi/ChildFrameManagerView", "jquery" ], function( ChildFrameManagerView, $ ) {
+define( [ "multi/ChildFrameView", "jquery" ], function( ChildFrameView, $ ) {
 
-    describe( "ChildFrameManagerView", function() {
+    describe( "ChildFrameView", function() {
         var lastType, lastCallback;
         var mockVals = { status:"running", suite:"Suiteness", coverageGoalFailures:172 };
         var model = {
@@ -15,7 +15,7 @@ define( [ "multi/ChildFrameManagerView", "jquery" ], function( ChildFrameManager
             frame : $("<div />").addClass( "hidden" )
         };
 
-        var topic = new ChildFrameManagerView( { model : model } ).render();
+        var topic = new ChildFrameView( { model : model } ).render();
  //       var table = $("<table />").appendTo( $("body" ));
  //       table.append( topic.$el );
         it ( "Should report running status", function() {

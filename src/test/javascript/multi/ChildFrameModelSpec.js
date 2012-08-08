@@ -1,10 +1,10 @@
 /*global define:false, describe:false, it:false, expect:false */
-define( [ "multi/ChildFrameManager" ], function( ChildFrameManager ) {
+define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
 
-    describe( "ChildFrameManager", function() {
+    describe( "ChildFrameModel", function() {
         // FIXME muahahaha
         var suite = "Suiteness";
-        var topic = new ChildFrameManager( { suite: suite } );
+        var topic = new ChildFrameModel( { suite: suite } );
         var mockValues = [];
         var mockTopic = function() {
             topic.plainFrame = {

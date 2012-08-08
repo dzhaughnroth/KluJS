@@ -3,7 +3,7 @@ define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backb
     var RUNNING = "running";
     var FAILED = "failed";
     var PASSED = "passed";
-    var ChildFrameManager = Backbone.Model.extend( {
+    var ChildFrameModel = Backbone.Model.extend( {
         defaults : {
             status : RUNNING,
             loaded : false
@@ -60,7 +60,7 @@ define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backb
     } );
 
 
-    return ChildFrameManager;
+    return ChildFrameModel;
 
 } );
 
