@@ -22,7 +22,14 @@ define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Con
             self.suitePage.buildDom();
             self.fetcher = mockFetcher || new AutoSuiteFetcher( notKlujs );
             self.fetcher.fetch( function() { 
-                self.suiteRunner.go();
+                try {
+                    self.suiteRunner.go();
+                }
+                catch( ex ) {
+                    self.suitePage.fail( { message:"Exception running Specs",
+                                           error:ex } );
+                    throw ex;
+                }
             }, 
                                 self.errorCallback
                               );

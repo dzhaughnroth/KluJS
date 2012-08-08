@@ -39,8 +39,8 @@ fail mode for multiview
 link from suite page to multi page DONE
 
 General catastrophic error handling:
-        module load failure
-        suite name incorrect
+        module load failure DONE
+        suite name incorrect DONE at least it reports failure.
         parse error in Spec code
         
 phantom does not wait for lint to finish FIXED

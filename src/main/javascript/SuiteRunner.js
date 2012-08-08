@@ -25,6 +25,9 @@ define( [ "jquery", "require", "./lib/purl", "./Config" ], function( $, require,
             nameModel.set("suiteName", suite );
             var relSpecs = [];
             var prefix = self.klujsConfig.test();
+            if ( ! self.klujsConfig.specsForSuite( suite ) ) {
+                throw( "There is no suite named '" + suite + "' to run");
+            }
             $.each( self.klujsConfig.specsForSuite(suite), function( i, spec ) {
                 var pathToSpec = prefix + "/" + spec;
                 relSpecs.push( pathToSpec );
