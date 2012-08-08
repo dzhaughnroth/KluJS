@@ -1,8 +1,8 @@
-/*globals define:false */
+/*globals define:false, requirejs:false, console:false */
 
 define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "jquery" ], function( SuiteRunner, SuitePage, AutoSuiteFetcher, notKlujs, $ ) {
 
-    var SuiteStarter = function( pageFacade, jasmineImpl, mockFetcher ) {
+    var SuiteStarter = function( pageFacade, jasmineImpl, mockFetcher, mockRequireJs ) {
         var self = this;
         this.jasmine = jasmineImpl;
         this.pageFacade = pageFacade;
@@ -27,6 +27,22 @@ define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Con
                                 self.errorCallback
                               );
         };
+
+        var prevErrorHandler = mockRequireJs.onError;
+        this.errorHandler = function( err ) {
+            console.log( "KluJS suite failing due to RequireJS error" );
+            console.log( err );
+            self.suitePage.fail( {
+                message:"RequireJS caught error: see console.",
+                requireJsError:err
+            } );
+            if ( prevErrorHandler ) {
+                prevErrorHandler( err );
+            }
+        };
+
+        mockRequireJs.onError = this.errorHandler;
+
     };
 
     return SuiteStarter;
