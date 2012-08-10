@@ -5,28 +5,38 @@ define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCo
         var model = new LintCollection( );
         model.add( new LintModel( { src: "src/test/javascript/lint/LintCollectionViewSpec.js" } ) );
         var view = new LintCollectionView( { model:model } ).render();
-                
+        $("body").append( view.$el );
         it( "Renders as a div with certain class name", function() {
             expect( model.modelsBySrc ).toEqual( {} );
             expect( view.$el.hasClass( "lintCollectionView" ) ).toBe( true );
             expect( view.$el.is( "div" ) ).toBe( true );
         } );
+        it( "Has toggle for global variable view", function() {
+            expect( view.$el.find(".lintGlobalVariableReport").hasClass( "hidden" ) ).toBe( true );
+            view.showGlobalsModel.set("checked", true );
+            expect( view.$el.find(".lintGlobalVariableReport").hasClass( "hidden" ) ).toBe( false );
+            view.showGlobalsModel.set("checked", false );
+            expect( view.$el.find(".lintGlobalVariableReport").hasClass( "hidden" ) ).toBe( true );
+        } );
         it( "Can handle an empty state", function() {
             var view2 = new LintCollectionView( { model: new LintCollection() } ).render();
             expect( view2.$el.find( "div.lintItem" ).length ).toBe( 0 );            
-            expect( view2.$el.find( "div" ).length ).toBe( 1 );            
+            expect( view2.$el.children( "div" ).length ).toBe( 2 );            
+            expect( view2.$el.find( "div.lintGlobalVariableReport" ).length ).toBe( 1 );            
         } );
         it( "Can initializes to non-empty initial state", function() {
             expect( view.model ).toBe( model );
             expect( view.$el.find( "div.lintItem" ).length ).toBe( 1 );
-           $("body").append( view.$el );
         } );
         it( "Adds LintViews for each LintModel", function() {
-            model.add( new LintModel( { src: "src/test/javascript/lint/LintViewSpec.js" } ) );
+            model.add( new LintModel( { src: "src/test/javascript/lint/LintViewSpec.js" } ));
             expect( view.$el.find( ".lintCollectionBanner" ).text() )
                 .toMatch( /JSLint: 2 issue\(s\) in 2 files out of 2/ );
             expect( view.$el.find( ".lintCollectionBanner" ).text() )
                 .not.toMatch( /iltered/ );
+            model.at(0).set("lintData", { globals: ["foo", "bar"] });
+            expect( view.$el.find( "div.lintGlobalVariableReport" ).find("li").length ).toBe( 2 );            
+
         } );
         it( "Adds LintFinder results", function() {
             var mockFound = {

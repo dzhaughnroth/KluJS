@@ -55,6 +55,7 @@ define( ["../notBackbone", "../notUnderscore", "../notJQuery", "../widgets/Check
         template: _.template( TemplateText ),
         // containing div may listen on this model to show/hide passing items
         showHideModel: new Checkbox.Model( {label: "Show passed" } ),
+        showGlobalsModel: new Checkbox.Model( {label: "Show some globals" } ),
         initialize : function() {
             _.bindAll(this, 'render' );
             this.model.on('add', this.render);
@@ -69,6 +70,12 @@ define( ["../notBackbone", "../notUnderscore", "../notJQuery", "../widgets/Check
                              .addClass( "summary" ) );            
             this.$el.append( cbox.$el );
             this.$el.append( label.$el );
+
+            var globalBox = new Checkbox.View( { model: this.showGlobalsModel, label:"Show globals" } ).render();
+            var globalLabel = new Checkbox.Label( { model: this.showGlobalsModel,
+                                                    label: "Show globals" } ).render();
+            this.$el.append( globalBox.$el );
+            this.$el.append( globalLabel.$el );
             this.$el.addClass( "running" );
         },
         render: function() {
@@ -92,6 +99,10 @@ define( ["../notBackbone", "../notUnderscore", "../notJQuery", "../widgets/Check
                 }
             } );
             this.$el.addClass( clazz );
+            var globals = self.model.globals();
+            var vars = _.keys( globals ) || [];
+            self.showGlobalsModel.set("label", "Show " + vars.length + " globals" );
+
             return this;
         }
     });

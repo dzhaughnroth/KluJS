@@ -1,4 +1,4 @@
-/*global define:false, jasmine:false, JSLINT:false */
+/*global define:false, jasmine:false, JSLINT:false, foo:true, zap:false */
 define( ["../notBackbone", "../notUnderscore", "../notJSLint", "../notJQuery"], function( Backbone, _, notjslint, $ ) {
 
     var ajaxStrategy = function( src, onSuccess, onError ) {

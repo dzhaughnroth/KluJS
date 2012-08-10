@@ -59,6 +59,16 @@ define( [ "lint/LintCollection", "lint/LintModel" ], function( LintCollection, L
             var q = new LintCollection();
             expect( q.modelsBySrc ).toEqual( {} );
         } );
+        it( "Tracks globals", function() {
+            var coll = new LintCollection();
+            coll.add( new LintModel( { src:"Foo.js", lintData:{ globals: [ "fred", "barney" ] } } ) );
+            coll.add( new LintModel( { src:"Bar.js", lintData:{ globals: [ "barney", "betty" ] } } ) );
+            coll.add( new LintModel( { src:"Knee.js" } ));
+            expect( coll.globals() ).toEqual( {
+                fred : [ 'Foo.js' ], 
+                barney : [ 'Bar.js', 'Foo.js' ], 
+                betty : [ 'Bar.js' ] } );
+        } );
 
     } );
 } );

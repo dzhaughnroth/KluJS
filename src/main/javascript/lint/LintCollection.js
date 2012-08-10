@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false */
-define( ["../notBackbone", "./LintModel", "../notUnderscore" ], function( Backbone, LintModel, _ ) {
+define( [ "./GlobalVariableAccumulator", "../notBackbone", "./LintModel", "../notUnderscore" ], function( GlobalVariableAccumulator, Backbone, LintModel, _ ) {
     
     var LintCollection = Backbone.Collection.extend( {
         initialize: function() {
@@ -58,6 +58,13 @@ define( ["../notBackbone", "./LintModel", "../notUnderscore" ], function( Backbo
         },
         failed : function() {
             return this.length - this.passed();
+        },
+        globals : function() {
+            var accum = new GlobalVariableAccumulator();
+            this.forEach( function( lm ) {
+                accum.addLintData( lm.get("lintData"), lm.get("src") );
+            } );
+            return accum.globalsAndFiles;
         }
     } );
     
