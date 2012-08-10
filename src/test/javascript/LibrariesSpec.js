@@ -1,5 +1,5 @@
-/*global define:false, describe:false, it:false, expect:false, $:false, Backbone:false, _:false */
-define( [ "notJQuery", "notBackbone", "notUnderscore" ], function( x$, xBb, x_ ) {
+/*global define:false, describe:false, it:false, expect:false, $:false, Backbone:false, _:false, JSLINT:false */
+define( [ "notJQuery", "notBackbone", "notUnderscore", "notJSLint" ], function( x$, xBb, x_, xlint ) {
     describe( "The notJQuery library", function() {
         it( "Should not be $", function() {
             expect( typeof $ ).toBe( "undefined" );
@@ -53,8 +53,11 @@ define( [ "notJQuery", "notBackbone", "notUnderscore" ], function( x$, xBb, x_ )
             catch( ex2 ) {
                 expect( ex2 ).toEqual( "no" );
             }
-
-
+        } );
+        describe( "Ths notJSLint library", function() {
+            it( "Should be the JSLINT global", function() {
+                expect( JSLINT ).toBe( xlint );
+            } );
         } );
     } );
 } );
