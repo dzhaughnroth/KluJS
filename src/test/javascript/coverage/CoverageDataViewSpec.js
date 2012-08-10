@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, $$_l:false */
-define( [ "coverage/CoverageDataModel", "coverage/CoverageDataView", "goals/SuiteInterpreter", "SuiteName", "jquery", "./fixture/trinary.js", "./fixture/simple.js", "./fixture/target.js" ], function( CoverageDataModel, CoverageDataView, SuiteInterpreter, SuiteName, $ ) {
+define( [ "coverage/CoverageDataModel", "coverage/CoverageDataView", "goals/SuiteInterpreter", "SuiteName", "notJQuery", "./fixture/trinary.js", "./fixture/simple.js", "./fixture/target.js" ], function( CoverageDataModel, CoverageDataView, SuiteInterpreter, SuiteName, $ ) {
 
     describe( "CoverageDataView", function() {
         var filter = function(x) {

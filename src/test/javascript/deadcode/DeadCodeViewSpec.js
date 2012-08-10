@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, beforeEach:false, runs:false, waitsFor:false, klujs:false */
-define( [ "deadcode/DeadCodeView", "deadcode/DeadCodeModel", "jquery" ], function( DeadCodeView, DeadCodeModel, $ ) {
+define( [ "deadcode/DeadCodeView", "deadcode/DeadCodeModel", "notJQuery" ], function( DeadCodeView, DeadCodeModel, $ ) {
 
     describe( "DeadCodeView", function() {
         var mockModel = { get: function() { return; },

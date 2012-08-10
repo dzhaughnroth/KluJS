@@ -1,5 +1,5 @@
 /*global define:false */
-define( [ "jquery" ], function( $ ) {
+define( [ "../notJQuery" ], function( $ ) {
 
     var CoverageSummary = function( count, missed, firstLine, lastLine ) {
         this.count = count || 0;

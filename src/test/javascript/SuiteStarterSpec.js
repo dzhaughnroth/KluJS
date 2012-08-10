@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, $:false, runs:false, waitsFor:false */
-define( [ "SuiteStarter", "jquery", "./MockJasmine.js"], function( SuiteStarter, $, MockJasmine ) {
+define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js"], function( SuiteStarter, $, MockJasmine ) {
 
     var mockJasmine = new MockJasmine();
     var fetcherCallback;

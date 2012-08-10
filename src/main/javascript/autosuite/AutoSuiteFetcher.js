@@ -1,5 +1,5 @@
 /*globals define:false */
-define( [ "jquery" ], function( $ ) {
+define( [ "../notJQuery" ], function( $ ) {
 
     var Fetcher = function( config, mockSrc ) {
         var src = mockSrc || "klujs-autoSuites.json";

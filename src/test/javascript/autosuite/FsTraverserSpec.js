@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, beforeEach:false, runs:false, waitsFor:false, klujs:false */
-define( [ "autosuite/FsTraverser", "./MockFs.js", "jquery" ], function( FsTraverser, MockFs, $ ) {
+define( [ "autosuite/FsTraverser", "./MockFs.js", "notJQuery" ], function( FsTraverser, MockFs, $ ) {
 
    var anFs = { 
        root : {

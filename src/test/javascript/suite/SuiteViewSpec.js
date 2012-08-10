@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, runs:false, waits:false */
-define( [ "suite/SuiteView", "suite/SuiteAssembly", "jquery", "../MockJasmine.js" ], function( SuiteView, SuiteAssembly, $, MockJasmine ) {
+define( [ "suite/SuiteView", "suite/SuiteAssembly", "notJQuery", "../MockJasmine.js" ], function( SuiteView, SuiteAssembly, $, MockJasmine ) {
 
     describe( "SuiteView", function() {
 

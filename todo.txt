@@ -40,7 +40,8 @@ fail mode for multiview
 add date to results page, for phantom image output for example. DONE
 but now improve location, details (timing, for example)
 
-Load jquery like Backbone et al, not through require-jquery
+Load jquery like Backbone et al, not through require-jquery, move notBackbone, notUnderscore out of lib and test them.
 
 Handle require in klujs, rather than depending on client to have it in main? hmm.
+
 

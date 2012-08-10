@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, runs:false, waitsFor:false */
-define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCollectionSummaryView", "jquery" ], function( LintView, LintModel, LintCollection, LintCollectionSummaryView, $ ) {
+define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCollectionSummaryView", "notJQuery" ], function( LintView, LintModel, LintCollection, LintCollectionSummaryView, $ ) {
 
     describe( "LintCollectionSummaryView", function() {
         var model = new LintCollection( );

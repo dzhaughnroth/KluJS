@@ -1,5 +1,5 @@
 /*global define:false */
-define( [ "jquery" ], function(  $ ) {
+define( [ "notJQuery" ], function(  $ ) {
 
     var MockFs = function( object ) {
         var objectForPath = function( path ) {

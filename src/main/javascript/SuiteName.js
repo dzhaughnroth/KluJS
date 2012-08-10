@@ -1,5 +1,5 @@
 /*globals define:false, $$_l:false */
-define( [ "./lib/notBackbone", "./lib/notUnderscore", "jquery" ], function( Backbone, _, $ ) {
+define( [ "./lib/notBackbone", "./lib/notUnderscore", "./notJQuery" ], function( Backbone, _, $ ) {
 
     var Model = Backbone.Model.extend( { } );
 

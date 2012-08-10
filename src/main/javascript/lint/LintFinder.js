@@ -1,5 +1,5 @@
 /*globals define:false, klujs:false */
-define( [ "jquery", "./DirectoryNamePruner", "../Config" ], function( $, pruner, notKlujs ) {
+define( [ "../notJQuery", "./DirectoryNamePruner", "../Config" ], function( $, pruner, notKlujs ) {
 
     var LintFinder = function() {
         var _defaultFilter = function( src ) {
@@ -11,6 +11,7 @@ define( [ "jquery", "./DirectoryNamePruner", "../Config" ], function( $, pruner,
             if ( src === "boot.js" ) { return false; }
             if ( src.match( /KluJS/ ) ) { return false; }
             if ( src.match( /require\-jquery\.js$/ ) ) { return false; }
+            if ( src.match( /require\.js$/ ) ) { return false; }
             return true;
         };
         

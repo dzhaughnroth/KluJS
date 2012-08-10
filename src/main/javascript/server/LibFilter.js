@@ -17,7 +17,8 @@ define( [ ], function() {
                 if ( path.match( /^\/KluJS\// ) ) {
                     return false;
                 }
-                if ( path.match( /require-jquery\.js$/ ) ) {
+                if ( path.match( /require-jquery\.js$/ ) 
+                     || path.match( /require\.js$/ ) ) {
                     return false;
                 }        
             }

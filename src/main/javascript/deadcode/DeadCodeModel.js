@@ -1,5 +1,5 @@
 /*globals define:false, klujs:false, jasmine:false */
-define( [ "../lib/notBackbone", "../lib/notUnderscore", "jquery" ], function( Backbone, _, $ ) {
+define( [ "../lib/notBackbone", "../lib/notUnderscore", "../notJQuery" ], function( Backbone, _, $ ) {
 
     var checkExceptions = function( name, list ) {
         var result = false;

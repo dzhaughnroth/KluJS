@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false */
-define( [ "./MockFs.js", "jquery" ], function( MockFs, $ ) {
+define( [ "./MockFs.js", "notJQuery" ], function( MockFs, $ ) {
 
     var anFs = { 
         "plainFile.js":"File contents",

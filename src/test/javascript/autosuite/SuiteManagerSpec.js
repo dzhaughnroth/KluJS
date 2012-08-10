@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, beforeEach:false, runs:false, waitsFor:false, klujs:false */
-define( [ "autosuite/SuiteManager", "./MockFs.js", "jquery" ], function( SuiteManager, MockFs, $ ) {
+define( [ "autosuite/SuiteManager", "./MockFs.js", "notJQuery" ], function( SuiteManager, MockFs, $ ) {
 
    var anFs = { 
        root : {

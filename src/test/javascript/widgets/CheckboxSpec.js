@@ -1,4 +1,4 @@
-/*global define:false, describe:false, it:false, expect:false, runs:false, waits:false, Backbone:false, _:false */
+/*global define:false, describe:false, it:false, expect:false */
 define( [ "widgets/Checkbox" ], function( Checkbox ) {
     describe( "Checkbox", function() {
         var model = new Checkbox.Model( { label : "Hiyawlol" } );

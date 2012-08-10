@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false */
-define( [ "jasmine/JasmineView", "jquery"], function( JasmineView, $ ) {
+define( [ "jasmine/JasmineView", "notJQuery"], function( JasmineView, $ ) {
     var mockResults = [ {result:"passed"}, {result:"failed"}, {result:"passed"}];
     var reporter;
     var mockJasmine = {

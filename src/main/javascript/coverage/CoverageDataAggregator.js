@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false*/
-define( [ "jquery" ], function( $ ) {
+define( [ "../notJQuery" ], function( $ ) {
 
         var mergeLines = function( accumLines, lines ) {
             $.each( lines, function( fileName, lineList ) {

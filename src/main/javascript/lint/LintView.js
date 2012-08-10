@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false */
-define( ["../lib/notBackbone", "../lib/notUnderscore", "jquery", "../lib/text!./lintTemplate.html" ], function( Backbone, _, $, lintTemplate ) {
+define( ["../lib/notBackbone", "../lib/notUnderscore", "../notJQuery", "../lib/text!./lintTemplate.html" ], function( Backbone, _, $, lintTemplate ) {
 
     var messages = function( lintData ) {
         var result = [];

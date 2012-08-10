@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false */
-define( [ "multi/ChildFrameView", "jquery" ], function( ChildFrameView, $ ) {
+define( [ "multi/ChildFrameView", "notJQuery" ], function( ChildFrameView, $ ) {
 
     describe( "ChildFrameView", function() {
         var lastType, lastCallback;

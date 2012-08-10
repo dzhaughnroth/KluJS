@@ -1,5 +1,5 @@
 /*global jasmineGradle: true, $: false, define:false, window:false */
-define( ["../lib/notBackbone", "jquery", "../lib/notUnderscore"], function(Backbone, $, _) {
+define( ["../lib/notBackbone", "../notJQuery", "../lib/notUnderscore"], function(Backbone, $, _) {
     var RUNNING = "running";
     var FAILED = "failed";
     var PASSED = "passed";

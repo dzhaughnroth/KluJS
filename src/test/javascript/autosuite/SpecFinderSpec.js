@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, beforeEach:false, runs:false, waitsFor:false, klujs:false */
-define( [ "autosuite/SpecFinder", "./MockFs.js", "jquery" ], function( SpecFinder, MockFs, $ ) {
+define( [ "autosuite/SpecFinder", "./MockFs.js", "notJQuery" ], function( SpecFinder, MockFs, $ ) {
 
    var anFs = { 
        root : {

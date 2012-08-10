@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false */
-define( [ "multi/MultiStarter", "Config", "jquery" ], function( MultiStarter, notKlujs, $ ) {
+define( [ "multi/MultiStarter", "Config", "notJQuery" ], function( MultiStarter, notKlujs, $ ) {
 
     describe( "MultiStarter", function() {
         var type;

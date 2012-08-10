@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, klujsAssembly:false */
-define( [ "SuitePage", "HtmlPageFacade", "jquery", "./MockJasmine.js"], function( SuitePage, HtmlPageFacade, $, MockJasmine ) {
+define( [ "SuitePage", "HtmlPageFacade", "notJQuery", "./MockJasmine.js"], function( SuitePage, HtmlPageFacade, $, MockJasmine ) {
 
     describe( "SuitePage", function() {
         var mockJasmine = new MockJasmine();

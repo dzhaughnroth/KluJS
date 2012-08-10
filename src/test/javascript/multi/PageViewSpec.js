@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false */
-define( [ "multi/PageView", "multi/PageModel", "jquery", "ConfigFacade" ], function( PageView, PageModel, $, ConfigFacade ) {
+define( [ "multi/PageView", "multi/PageModel", "notJQuery", "ConfigFacade" ], function( PageView, PageModel, $, ConfigFacade ) {
 
     describe( "PageView", function() {
         var config = new ConfigFacade( {

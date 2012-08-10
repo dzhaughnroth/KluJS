@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false */
-define( [ "jquery", "../widgets/Checkbox" ], function( $, Checkbox ) {
+define( [ "../notJQuery", "../widgets/Checkbox" ], function( $, Checkbox ) {
 
     /* NB not a Backbone view; but similar.*/
 

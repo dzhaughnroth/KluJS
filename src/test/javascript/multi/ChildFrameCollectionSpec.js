@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false */
-define( [ "multi/ChildFrameCollection", "jquery", "lib/notUnderscore" ], function( Cfc, $, _ ) {
+define( [ "multi/ChildFrameCollection", "notJQuery", "lib/notUnderscore" ], function( Cfc, $, _ ) {
 
     describe( "ChildFrameCollectionView and SummaryView", function() {
         var model = new Cfc.Model();

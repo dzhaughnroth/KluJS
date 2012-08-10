@@ -76,7 +76,7 @@ define( [ "lint/LintFinder", "lib/notUnderscore" ], function( LintFinder, _ ) {
             var x = lf.find();
             expect( x.filterMap.custom.length ).toBe( 1 );
             expect( x.filterMap["default"].length > 0 ).toBe( true );
-            expect( x.filterMap.lib.length > 0 ).toBe( true );
+            expect( x.filterMap.lib.length > 0 ).toBe( true ); 
             expect( x.nonModules.length ).toBe( 1 );
             expect( x.mainModules.length > 5 ).toBe( true );
             expect( x.otherModules.length > 5 ).toBe( true );

@@ -1,6 +1,6 @@
 /*globals define:false, requirejs:false, console:false */
 
-define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "jquery", "./lib/purl" ], function( SuiteRunner, SuitePage, AutoSuiteFetcher, notKlujs, $, purl ) {
+define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuery", "./lib/purl" ], function( SuiteRunner, SuitePage, AutoSuiteFetcher, notKlujs, $, purl ) {
 
     var SuiteStarter = function( pageFacade, jasmineImpl, mockFetcher, mockRequireJs ) {
         var self = this;

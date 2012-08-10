@@ -1,5 +1,5 @@
 /*global define:false */
-define( [ "../lib/order!./PageModel", "../lib/order!./PageView", "../lib/order!../autosuite/AutoSuiteFetcher", "../Config", "jquery"], function( PageModel, PageView, AutoSuiteFetcher, notKlujs, $ ) {
+define( [ "../lib/order!./PageModel", "../lib/order!./PageView", "../lib/order!../autosuite/AutoSuiteFetcher", "../Config", "../notJQuery"], function( PageModel, PageView, AutoSuiteFetcher, notKlujs, $ ) {
     
     var MultiStarter = function( headEl, bodyEl, windowImpl ) {
        

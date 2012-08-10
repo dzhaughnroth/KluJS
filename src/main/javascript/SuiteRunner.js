@@ -1,5 +1,5 @@
 /*globals define:false */
-define( [ "jquery", "require", "./Config" ], function( $, require, notKlujs ) {
+define( [ "./notJQuery", "require", "./Config" ], function( $, require, notKlujs ) {
 
     var SuiteRunner = function( nameModel, errorCallback, jasmineImpl, purl ) {
         var self = this;

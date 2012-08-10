@@ -40,7 +40,7 @@
     _require.paths.KluJS = computeKlujsPath();
 
     if ( !config.requireHome.match( "/js$" ) ) {
-        config.requireHome += "/require-jquery.js";
+        config.requireHome += "/require.js";//-jquery.js";
     }
 
     var addBootScriptElement = function() {

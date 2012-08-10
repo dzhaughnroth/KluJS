@@ -1,5 +1,5 @@
 /*globals define:false */
-define( [ "jquery"], function( $ ) {
+define( [ "./notJQuery"], function( $ ) {
 
     var HtmlPageFacade = function( mockHead, mockBody, mockReady ) {
         this.head = mockHead || $( "head" );

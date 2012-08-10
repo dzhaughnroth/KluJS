@@ -8,6 +8,7 @@ define( [ "server/LibFilter" ], function( LibFilter ) {
             expect( topic.test( "/javascript/lib/bar" ) ).toBe( true );
             expect( topic.test( "/KluJS/goo" ) ).toBe( false );
             expect( topic.test( "src/require-jquery.js" ) ).toBe( false );
+            expect( topic.test( "src/require.js" ) ).toBe( false );
         } );
         it( "Can suspend default filtering", function() {
             var topic = new LibFilter( { noDefaultFilter : true } );

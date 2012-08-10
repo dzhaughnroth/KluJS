@@ -17,7 +17,7 @@ define( ["./lib/notUnderscore", "./goals/CoverageGoalInterpreter" ], function(_,
         this.test = function() { return raw.test; };
 
         this.autoSuites = function() {
-            return raw.autoSuites;
+            return typeof raw.autoSuites !== "undefined" && raw.autoSuites !== false;
         };
 
         this.setSuites = function( suites ) {
@@ -55,6 +55,7 @@ define( ["./lib/notUnderscore", "./goals/CoverageGoalInterpreter" ], function(_,
         this.deadCode = function() {
             return raw.deadCode;
         };
+
     };
 
     return ConfigFacade;
