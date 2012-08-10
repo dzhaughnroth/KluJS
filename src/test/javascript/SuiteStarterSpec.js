@@ -23,9 +23,8 @@ define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js"], function( SuiteStart
         var topic = new SuiteStarter( facade, mockJasmine, mockFetcher, mockReqJs );
         topic.start();
         it( "Orchestrates startup", function() {
-
             expect( fetcherCallback ).toBeDefined();
-            expect( fetcherErrorCallback ).toBeDefined();            
+            expect( fetcherErrorCallback ).toBeDefined(); 
             expect( mockJasmine.executed ).toBe( false );
             fetcherCallback();
             expect( mockJasmine.executed ).toBe( true );    

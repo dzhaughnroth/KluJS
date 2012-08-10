@@ -8,8 +8,8 @@ define( [ "ConfigFacade" ], function( ConfigFacade ) {
             test : "b",
             autoSuites:true,
             suites : {
-                "foo": ["bar", "baz"],
-                "bar": ["foo", "baz"]
+                "foo": { specs:["bar", "baz"], targets:["BarTarg"] },
+                "bar": { specs:["foo", "baz"], targets:["FooTarg", "BazTarg"] }
             },
             lintFilter : function() {},
             deadCode : [ "uncool.js", "boot.js" ],
@@ -31,10 +31,11 @@ define( [ "ConfigFacade" ], function( ConfigFacade ) {
             expect( config.autoSuites() ).toBe( true );
             expect( config.suiteNames() ).toEqual( [ "foo", "bar" ] );
             expect( config.specsForSuite("bar") ).toEqual( ["foo", "baz"] );
+            expect( config.targetsForSuite("bar") ).toEqual( [ "FooTarg", "BazTarg"] );
+            expect( config.targetsForSuite("blip") ).toBeUndefined();
             expect( config.lintFilter() ).toBe( fakeConfig.lintFilter );
             expect( config.libDirs() ).toBe( fakeConfig.libDirs );
             expect( config.noDefaultFilter() ).toBe( fakeConfig.noDefaultFilter );
-
             expect( config.lineCoverage() ).toBe( fakeConfig.lineCoverage );
             expect( config.elementCoverage() ).toBe( fakeConfig.elementCoverage );            
             config.setSuites( { "zoo":["a","b"] } );

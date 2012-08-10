@@ -42,7 +42,7 @@ define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter",
         throw( "Could not load KluJS/boot.js: " + ex );
     }
     
-    var suiteManager = SuiteManager.create( klujs.test, fs );   
+    var suiteManager = SuiteManager.create( klujs.main, klujs.libDirs, klujs.test, fs );   
     
     var libFilter = new LibFilter( klujs );
 

@@ -31,7 +31,17 @@ define( ["./notUnderscore", "./goals/CoverageGoalInterpreter" ], function(_,Cove
 
         /** Location of specs for suite, each relative to test root */
         this.specsForSuite = function( suiteName ) {
-            return raw.suites[suiteName];
+            if ( ! raw.suites[suiteName] ) {
+                return undefined;
+            }
+            return raw.suites[suiteName].specs;
+        };
+
+        this.targetsForSuite = function( suiteName ) {
+            if ( ! raw.suites[suiteName] ) {
+                return undefined;
+            }
+            return raw.suites[suiteName].targets;
         };
 
         this.libDirs = function() {

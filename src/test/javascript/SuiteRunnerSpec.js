@@ -29,7 +29,8 @@ define( [ "SuiteRunner", "SuiteName", "Config", "ConfigFacade", "./MockJasmine.j
                         mainPath : notKlujs.mainPath(),
                         test : notKlujs.test(),
                         suites: {
-                            "goo" : [ "coverage/fixture/simple.js" ]
+                            "goo" : { specs:[ "coverage/fixture/simple.js" ],
+                                      targets:[] }
                         }
                     } );
                 try {

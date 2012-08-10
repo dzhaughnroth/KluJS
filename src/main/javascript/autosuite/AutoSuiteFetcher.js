@@ -19,6 +19,23 @@ define( [ "../notJQuery" ], function( $ ) {
         this.fetch = fetch;
         this.src = src;
         this.config = config;
+
+        this.specs = function( callbackData ) {
+            var result = {};
+            $.each( callbackData, function( i, x ) {
+                result[i] = x.specs;
+            } );
+            return result;
+        };
+
+        this.targets = function( callbackData ) {
+            var result = {};
+            $.each( callbackData, function( i, x ) {
+                result[i] = x.targets;
+            } );
+            return result;
+        };
+
     };
     
     return Fetcher;    

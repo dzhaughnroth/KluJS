@@ -1,10 +1,10 @@
 /*global define:false */
 define( [ "./FsTraverser"], function(FsTraverser) {
 
-    var SpecFinder = function( basedir, fs ) {
-        var suites;
+    var CodeFinder = function( basedir, fs ) {
+        var suites; // a hashset with keys that are the relative paths.
         var traverser = new FsTraverser( basedir, fs );
-        var regex = /Spec\.js$/;
+        var regex = /\.js$/;
         traverser.foundDirectory = function() {
 
         };
@@ -37,5 +37,5 @@ define( [ "./FsTraverser"], function(FsTraverser) {
         };
     };
 
-    return SpecFinder;
+    return CodeFinder;
 });

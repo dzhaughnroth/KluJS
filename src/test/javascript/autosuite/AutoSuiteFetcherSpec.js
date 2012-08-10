@@ -37,7 +37,8 @@ define( [ "autosuite/AutoSuiteFetcher", "ConfigFacade"], function( Fetcher, Conf
                 expect( recd ).toBe( 1 );
                 expect( errs ).toBe( 0 );
                 expect( mock.suiteNames() ).toEqual( ["foo"] );
-                expect( mock.specsForSuite("foo") ).toEqual( ["bar"] );
+                expect( mock.specsForSuite("foo") ).toEqual( ["barSpec"] );
+                expect( mock.targetsForSuite("foo") ).toEqual( ["bar"] );
             } );                 
         } );
         it( "Handles errors", function() {
@@ -54,6 +55,14 @@ define( [ "autosuite/AutoSuiteFetcher", "ConfigFacade"], function( Fetcher, Conf
         it( "Is configured by default", function() {
             var x = new Fetcher();
             expect( x.src ).toBe( "klujs-autoSuites.json" );
+        } );
+        it( "Has helpers to parse results", function() {
+            var response = {
+                x:{specs:["x/gooSpec.js"], targets:["x/goo.js"]},
+                y:{specs:["y/gooSpec.js"], targets:["y/goo.js", "y/foo.js"]}
+            };
+            expect( topic.specs(response) ).toEqual( { x:response.x.specs, y:response.y.specs} );
+            expect( topic.targets(response) ).toEqual( { x:response.x.targets, y:response.y.targets} );
         } );
     } );
 } );

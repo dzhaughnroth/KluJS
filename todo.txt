@@ -1,26 +1,40 @@
 LATER: 
 
-Manage jslint better so no possible global vraiable name collisions. Investigate jshint instead or in addition. Having to always declase define really sucks; having to declare describe, expect, it, etc.. for tests also sucks.
+Manage jslint better so no possible global vraiable name
+collisions. Investigate jshint instead or in addition. Having to
+always declase define really sucks; having to declare describe,
+expect, it, etc.. for tests also sucks.
 
-Autosuite should merge, not clobber, other suites.
+Autosuite should merge, not clobber, other suites. AutoSuite: Support
+exclusion regex. GLOBAL, LOCAL, BOTH? Does manual suite make sense
+anymore? Vis. deadcode, focused coverage.
 
-AutoSuite:  Support exclusion regex. GLOBAL, LOCAL, BOTH?
-
-Does manual suite make sense anymore? Vis. deadcode, focused coverage.
-
-Integrate with mocha node tests that need the server side. teehee.
+Integrate with mocha node tests that need the server
+side. teehee. Argument against is that mocha works fine as a build
+tool, and these are functional tests, not work-a-day (work-a-minute)
+unit tests. Argument for is that they need lint and coverage too.
 
 MEDIUM
 
-dead code view for suites; report in multiview suite grid. Need more
-thinking there. Ought to flag code that has no corresponding unit test suite.
+Dead code view for suites; report deadcode in multiview suite
+grid. Need more thinking there. Ought to flag code that has no
+corresponding unit test suite.
 
 Scroll box for the iframe child div?
 
 Better examples and automated functional tests
 
-General list of places where lint and code coverage requirements are relaxed.
+Display general list of places where lint and code coverage
+requirements are relaxed, and perhaps where those exceptions end up
+getting applied.
 
+Global variable report--where declared and used, where declared and
+not used. Separate by test. Declare a set of boring globals like
+define, describe, it, expect. Perhaps define a threshold (number of
+file) for each, ala {define:*, describe:[0,*], it:[0,*], _:[0,1]}
+
+KluJS config can include a callback to indicate pass/fail. Esp. for
+phantom runner.
 
 SOON:
 
@@ -28,20 +42,38 @@ Style the multiview pass/fail table
 
 Display the details of the first lint and spec failure automatically
 
-Clean up aux directory. Explain what parts can't be tested and why.
+Clean up node directory. Explain what parts can't be tested and why.
 Put server side only stuff in a different place.
 
 Run dead code against lint.
 
-Global variable report--where declared and used, where declared and not used.
-
-fail mode for multiview
+Fail mode for multiview
 
 add date to results page, for phantom image output for example. DONE
 but now improve location, details (timing, for example)
 
-Load jquery like Backbone et al, not through require-jquery, move notBackbone, notUnderscore out of lib and test them.
+Handle require in klujs, rather than depending on client to have it in
+main? hmm. At least by default.
 
-Handle require in klujs, rather than depending on client to have it in main? hmm.
+Allow running of a single Spec or a set of Specs for purposes of
+viewing code coverage.
 
+Fix the line numbers in coverage range
+
+----------------------
+
+What are the suites, Really?
+
+Every directory under main with a .js file has a corresponding test
+suite, perhaps with zero specs. Every directory under test with a
+Spec.js file is also a suite, whether it corresponds to one in the
+main or not. 
+
+(What this leaves out is dead code in the test directory. There are no
+dead specs, but maybe dead fixture code. This dead fixture code is at
+most only a global concern, not a per suite concern; it maybe shared
+between suites. Hrmph. Let's treat it separately?)
+
+(Arguably every file should have a conventionally named file. Why not
+enforce this? Good idea, but I think it is complicated.)
 

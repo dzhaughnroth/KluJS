@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, beforeEach:false, runs:false, waitsFor:false, klujs:false */
-define( [ "autosuite/SpecFinder", "./MockFs.js", "notJQuery" ], function( SpecFinder, MockFs, $ ) {
+define( [ "autosuite/CodeFinder", "./MockFs.js", "notJQuery" ], function( CodeFinder, MockFs, $ ) {
 
    var anFs = { 
        root : {
@@ -7,24 +7,33 @@ define( [ "autosuite/SpecFinder", "./MockFs.js", "notJQuery" ], function( SpecFi
            "aSpec.js":"Another file contenst",
            "anotherSpec.js": "",
            aDir: {
-               "subdirFile.js":"Stuff",
+               "blah.json" : "json",
                subsub: {
                    "gooSpec.js":"goostuff"
+               }
+           },
+           bDir : {
+               "subdirFile.js":"Stuff"
+           },
+           cDir : {
+               dDir: {
+                   "kust.html":"h"
                }
            }
        }
     };
 
-    describe( "SpecFinder", function() {
-        var topic = new SpecFinder( "root", new MockFs( anFs ));
+    describe( "CodeFinder", function() {
+        var topic = new CodeFinder( "root", new MockFs( anFs ));
         it( "Initially blank", function() {
             expect( topic.suites ).toBeUndefined();
         } );           
         it( "Finds Specs from fs", function() {
             topic.find();
             expect( topic.suites ).toEqual( {
-                "(base)":["aSpec.js", "anotherSpec.js"],
-                "aDir/subsub":["aDir/subsub/gooSpec.js"]
+                "(base)": ["plainFile.js", "aSpec.js", "anotherSpec.js"],
+                "aDir/subsub":["aDir/subsub/gooSpec.js"],
+                "bDir":[ "bDir/subdirFile.js"]
             } );
         } );
 

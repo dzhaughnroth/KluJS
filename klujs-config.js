@@ -18,6 +18,11 @@ klujs = {
             coverageGlobalAccessor : {
                 files : [ "suite/SuiteAssembly.js" ],
                 max : 2
+            },
+            // a hasOwnProperty is never false
+            suiteManagerHasOwnPropertyForLoop : {
+                files : [ "autosuite/SuiteManager.js" ], 
+                max : 2
             }
         }
     },
