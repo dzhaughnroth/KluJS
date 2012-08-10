@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false*/
-define( [ "./NodeCoverageCalculator", "./CoverageAndGoalsSubSummary", "../lib/notBackbone", "../lib/notUnderscore" ], function( NodeCoverageCalculator, SubSummary, Backbone, _ ) {
+define( [ "./NodeCoverageCalculator", "./CoverageAndGoalsSubSummary", "../notBackbone", "../notUnderscore" ], function( NodeCoverageCalculator, SubSummary, Backbone, _ ) {
 
 
     var goalsForFile = function( src, goals ) { // string, SuiteInterpreter

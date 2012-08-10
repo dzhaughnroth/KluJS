@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, $$_l:false, beforeEach:false */
-define( [ "coverage/CoverageDataModel", "coverage/NodeCoverageCalculator", "goals/SuiteInterpreter", "lib/notUnderscore", "./fixture/trinary.js", "./fixture/simple.js", "./fixture/target.js" ], function( CoverageDataModel, NodeCoverageCalculator, SuiteInterpreter, _ ) {
+define( [ "coverage/CoverageDataModel", "coverage/NodeCoverageCalculator", "goals/SuiteInterpreter", "notUnderscore", "./fixture/trinary.js", "./fixture/simple.js", "./fixture/target.js" ], function( CoverageDataModel, NodeCoverageCalculator, SuiteInterpreter, _ ) {
 
     describe( "CoverageDataModel", function() {
         var topic = new CoverageDataModel();

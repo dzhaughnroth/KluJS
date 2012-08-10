@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, beforeEach:false, runs:false, waitsFor:false, klujs:false */
-define( [ "deadcode/DeadCodeModel", "deadcode/CodeListModel", "lib/notBackbone" ], function( DeadCodeModel, CodeListModel, Backbone ) {
+define( [ "deadcode/DeadCodeModel", "deadcode/CodeListModel", "notBackbone" ], function( DeadCodeModel, CodeListModel, Backbone ) {
 
     describe( "DeadCodeModel", function() {
         var codeListModel = new CodeListModel();

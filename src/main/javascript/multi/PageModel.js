@@ -1,5 +1,5 @@
 /*global define:false, window:false */
-define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../deadcode/CodeListModel", "../deadcode/DeadCodeModel", "../lib/notBackbone", "../notJQuery", "../lib/notUnderscore", "../Config" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, CodeListModel, DeadCodeModel, Backbone, $, _, notKlujs ) {
+define( [ "./ChildFrameCollection", "../lint/LintCollection", "../coverage/CoverageDataModel", "../coverage/CoverageDataAggregator", "../deadcode/CodeListModel", "../deadcode/DeadCodeModel", "../notBackbone", "../notJQuery", "../notUnderscore", "../Config" ], function( ChildFrameCollection, LintCollection, CoverageDataModel, CoverageDataAggregator, CodeListModel, DeadCodeModel, Backbone, $, _, notKlujs ) {
 
     var log = function( msg ) {
         // console.log( msg );

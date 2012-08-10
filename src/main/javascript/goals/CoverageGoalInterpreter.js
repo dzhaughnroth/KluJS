@@ -1,5 +1,5 @@
 /*globals define:false */
-define( [ "../lib/notUnderscore" ], function( _ ) {
+define( [ "../notUnderscore" ], function( _ ) {
     var noGoal = { rules : [] };
     
     var CoverageGoalInterpreter = function( goalConfig ) {

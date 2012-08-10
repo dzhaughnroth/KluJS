@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false */
-define( ["../lib/notBackbone", "../lib/notUnderscore"], function( Backbone, _ ) {
+define( ["../notBackbone", "../notUnderscore"], function( Backbone, _ ) {
 
     /** 
      * View of a LintCollection that summarizes counts of passed and

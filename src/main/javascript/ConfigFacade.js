@@ -1,5 +1,5 @@
 /*globals define:false, klujs:false */
-define( ["./lib/notUnderscore", "./goals/CoverageGoalInterpreter" ], function(_,CoverageGoalInterpreter) {
+define( ["./notUnderscore", "./goals/CoverageGoalInterpreter" ], function(_,CoverageGoalInterpreter) {
 
 
     // Facade for the JSON config file.

@@ -1,3 +1,5 @@
+// KluJS: Modification is to use "./notUnderscore" in place of 'underscore' just below
+
 //     Backbone.js 0.9.2
 
 //     (c) 2010-2012 Jeremy Ashkenas, DocumentCloud Inc.
@@ -5,7 +7,6 @@
 //     For all details and documentation:
 //     http://backbonejs.org
 
-// Modification is to use "./notUnderscore" in place of 'underscore' just below
 
 (function(root, factory) {
   // Set up Backbone appropriately for the environment.
@@ -14,7 +15,7 @@
     factory(root, exports, require('underscore'));
   } else if (typeof define === 'function' && define.amd) {
     // AMD
-    define(['./notUnderscore', '../notJQuery', 'exports'], function(_, $, exports) {
+    define(['../notUnderscore', '../notJQuery', 'exports'], function(_, $, exports) {
       // Export global even in AMD case in case this script is loaded with
       // others that may still expect a global Backbone.
       root.Backbone = factory(root, exports, _, $);

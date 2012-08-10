@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false, JSLINT:false */
-define( ["../lib/notBackbone", "../lib/notUnderscore", "../lib/notJSLint", "../notJQuery"], function( Backbone, _, notjslint, $ ) {
+define( ["../notBackbone", "../notUnderscore", "../lib/notJSLint", "../notJQuery"], function( Backbone, _, notjslint, $ ) {
 
     var ajaxStrategy = function( src, onSuccess, onError ) {
         var loc = src + "?KluJSplain";

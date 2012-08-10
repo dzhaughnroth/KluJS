@@ -1,6 +1,6 @@
 /*globals define:false, describe:false, it:false, expect:false, JSLINT:false */
 
-define( [ "lint/LintFinder", "lib/notUnderscore" ], function( LintFinder, _ ) {
+define( [ "lint/LintFinder", "notUnderscore" ], function( LintFinder, _ ) {
     var lf = new LintFinder();
 //    lf.noDefaultFilter = undefined;
     describe( "LintFinder", function() {

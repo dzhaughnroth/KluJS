@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false*/
-define( [ "../goals/CoverageGoalInterpreter", "../lib/notBackbone", "../lib/notUnderscore", "../notJQuery" ], function( CoverageGoalInterpreter, Backbone, _, $ ) {
+define( [ "../goals/CoverageGoalInterpreter", "../notBackbone", "../notUnderscore", "../notJQuery" ], function( CoverageGoalInterpreter, Backbone, _, $ ) {
     var magicValue = function( row ) {
         // Hack to enable passing of rich data to datatable plugin
         // Issue is fnRender overwrites values sent to fnCellCreate,

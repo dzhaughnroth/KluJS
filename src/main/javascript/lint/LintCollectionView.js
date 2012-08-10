@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false */
-define( ["../lib/notBackbone", "../lib/notUnderscore", "./LintView", "./LintCollectionSummaryView" ], function( Backbone, _, LintView, LintCollectionSummaryView ) {
+define( ["../notBackbone", "../notUnderscore", "./LintView", "./LintCollectionSummaryView" ], function( Backbone, _, LintView, LintCollectionSummaryView ) {
 
     var LintCollectionView = Backbone.View.extend( {
         tagName:"div",

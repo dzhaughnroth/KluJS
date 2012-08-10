@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false*/
-define( [ "../lib/notBackbone", "../lib/notUnderscore", "../notJQuery" ], function( Backbone, _, $ ) {
+define( [ "../notBackbone", "../notUnderscore", "../notJQuery" ], function( Backbone, _, $ ) {
 
 
     var DeadCodeView = Backbone.View.extend( {

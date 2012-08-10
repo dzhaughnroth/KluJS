@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false */
-define( ["../lib/notBackbone", "./LintModel", "../lib/notUnderscore" ], function( Backbone, LintModel, _ ) {
+define( ["../notBackbone", "./LintModel", "../notUnderscore" ], function( Backbone, LintModel, _ ) {
     
     var LintCollection = Backbone.Collection.extend( {
         initialize: function() {

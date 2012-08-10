@@ -1,5 +1,5 @@
 /*global define:false, window:false */
-define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/CoverageDataView", "../deadcode/DeadCodeView", "../lib/notBackbone", "../notJQuery", "../lib/notUnderscore", "require" ], function( ChildFrameCollection, LintCollectionView, CoverageDataView, DeadCodeView, Backbone, $, _, req ) {
+define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/CoverageDataView", "../deadcode/DeadCodeView", "../notBackbone", "../notJQuery", "../notUnderscore", "require" ], function( ChildFrameCollection, LintCollectionView, CoverageDataView, DeadCodeView, Backbone, $, _, req ) {
 
     var linkToCss = function( name ) {
         return $("<link />")
