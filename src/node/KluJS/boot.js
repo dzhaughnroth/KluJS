@@ -22,7 +22,7 @@
     
     setIfBlank( config, "src", "src" );
     setIfBlank( config, "main", config.src + "/main/javascript" );
-    config.mainPath = "../" + config.main;
+    config.mainPath = config.main;
     setIfBlank( config, "test", config.src + "/test/javascript" );
 
     
