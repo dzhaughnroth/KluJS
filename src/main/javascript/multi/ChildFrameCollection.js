@@ -22,9 +22,15 @@ define( ["./ChildFrameModel", "./ChildFrameView", "../notBackbone", "../notJQuer
         summarize : function() {
             var result = {};
             this.forEach( function( x ) {
+                var deadCode = x.get("deadCodeResult");                
+                var deadFailures = 0;
+                if( deadCode ) {
+                    deadFailures = deadCode.dead.length + deadCode.undead.length;
+                }                
                 result[x.get("suite")] = {
                     status: x.get("status"),
-                    coverageGoalFailures: x.get("coverageGoalFailures")
+                    coverageGoalFailures: x.get("coverageGoalFailures"),
+                    deadCodeFailures : deadFailures
                 };
             } );
             return result;

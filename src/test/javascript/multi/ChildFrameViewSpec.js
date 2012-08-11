@@ -22,6 +22,11 @@ define( [ "multi/ChildFrameView", "notJQuery" ], function( ChildFrameView, $ ) {
         var expectedText = [];
         var checkText = function( ) {
             $.each( topic.$el.find("td"), function( i, td ) {
+//                var actual = $(td).text();
+//                if ( actual !== expectedText[i] ) {
+//                    console.log( "Failed at " + i );
+//                    console.log( actual + " vs. " + expectedText[i] );
+//                }
                 expect( $(td).text() ).toBe( expectedText[i] );
             } );
         };
@@ -76,16 +81,16 @@ define( [ "multi/ChildFrameView", "notJQuery" ], function( ChildFrameView, $ ) {
             expect( topic.model.frame.hasClass( "hidden" ) ).toBe( true );
         } );
         it( "Should display dead code information", function() {
-            expect( cell(3).hasClass( "deadCodeOk" ) );
+            expect( cell(3).hasClass( "cellPassed" ) );
             mockVals.deadCodeResult = { dead: ["Noo"], undead: ["Zoo"], permitted:["Xoo","Yoo"] };
             topic.render();
             expectedText[3] = '1 dead; 1 undead; 2 permitted';
             checkText();
-            expect( cell(3).hasClass( "deadCodeFailed" ) );
+            expect( cell(3).hasClass( "cellFailed" ) );
             mockVals.deadCodeResult = { dead: [], undead: [], permitted:["Xoo","Yoo"] };
             topic.render();
             expectedText[3] = 'Ok; 2 permitted';
-            expect( cell(3).hasClass( "deadCodeFailed" ) );
+            expect( cell(3).hasClass( "cellFailed" ) );
         } );
     } );
 

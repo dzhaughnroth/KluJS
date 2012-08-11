@@ -133,20 +133,15 @@ body {
 }
 
 .coverageGoalFailed {
-    background-color:#FFDCDA;//#B03911;
- //   color:yellow;
-
+    background-color:#FFDCDA;
 }
 
-tr.even td.coverageGoalFailed {
-    background-color:#FFDCDA;//#B03911;
- //   color:yellow;
-
+.failedCell {
+    background-color:#FFDCDA;
 }
 
-tr.odd td.coverageGoalFailed {
-    background-color:#FFDCDA;//#B03911;
- //   color:yellow;
+.passedCell {
+    background-color:#DCFFDA;
 }
 
 div.coverageGoalFailed {
@@ -169,7 +164,6 @@ div.allCoverageGoalsPassed {
 .deadCodeBanner.failed {
     background-color:#B03911;
 }
-
 
 .deadCodeBanner.passed {
     background-color:#5E7D00;

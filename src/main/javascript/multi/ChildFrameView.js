@@ -1,6 +1,8 @@
 /*global jasmineGradle: true, $: false, define:false */
 define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbone, $, _) {
-
+    var okClass = "passedCell";
+    var failClass = "failedCell";
+    
     var ChildFrameView = Backbone.View.extend( {
         tagName:"tr",
         className: "childFrameView",
@@ -16,6 +18,13 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
         },
         render : function() {
             var model = this.model;
+
+            this.$el.empty();
+            this.$el.append( $("<td />")
+                             .append( $("<a />", {href: model.path, 
+                                                  text: model.get( "suite" ) } )));
+            
+            var resultCell = $("<td />").addClass( "resultCell" );
             var status = model.get("status");
             var text = "Huh? " + status;
             if ( status === "error" ) {
@@ -28,16 +37,15 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
                 var results = model.get("results" );
                 if ( results.failedCount > 0 ) {
                     text = "Failed " + results.failedCount + " of " + results.count + " specs";
+                    resultCell.addClass( failClass );
                 }
                 else {
                     text = "Passed all " +results.count + " specs";
+                    resultCell.addClass( okClass );
                 }
             }
-            this.$el.empty();
-            this.$el.append( $("<td />")
-                             .append( $("<a />", {href: model.path, 
-                                                  text: model.get( "suite" ) } )));
-            this.$el.append( $("<td />", { text: text } ).addClass( "resultCell" ) );
+            resultCell.text( text );
+            this.$el.append( resultCell );
 
             var goalTd = $("<td />", { text:"---" } );
             
@@ -46,11 +54,11 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
             if( typeof failureCount !== "undefined") {
                 if ( failureCount > 0 ) {
                     goalTd.text( "Missed " + model.get("coverageGoalFailures") + " goal(s)" );
-                    goalTd.addClass("coverageGoalFailed");                    
+                    goalTd.addClass( failClass );                    
                 }
                 else {
                     goalTd.text( "Ok" );
-                    goalTd.addClass("allCoverageGoalsPassed");
+                    goalTd.addClass( okClass );
                 }
                 
             }
@@ -59,17 +67,13 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
             var deadTd = $("<td />", { text:"---" } ).appendTo( this.$el );
             var deadCode = model.get( "deadCodeResult" );
             if ( typeof deadCode !== "undefined" ) {               
-                var okClass = "deadCodeOk";
-                var failClass = "deadCodeFailed";
                 var msg = "";
                 if ( deadCode.dead.length + deadCode.undead.length > 0 ) {
-                    deadTd.removeClass( okClass );
                     deadTd.addClass( failClass );
                     msg = deadCode.dead.length + " dead; " 
                         + deadCode.undead.length + " undead"; 
                 }
                 else {
-                    deadTd.removeClass( failClass );
                     deadTd.addClass( okClass );
                     msg = "Ok";
                 }

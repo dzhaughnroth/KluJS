@@ -84,8 +84,13 @@ define( [ "multi/ChildFrameCollection", "notJQuery", "notUnderscore" ], function
         it( "Produces summary", function() {
             var summary = model.summarize();
             expect( _.keys( summary )).toEqual( ["foo", "bar"] );
-            expect( summary.foo ).toEqual( { status:"passed", coverageGoalFailures:173} );
+            expect( summary.foo ).toEqual( { status:"passed", coverageGoalFailures:173, deadCodeFailures:0} );
+            model.at( 0 ).set( "deadCodeResult", { dead:["a","b"], undead:["c"], permitted:["d"] } );
+            expect( model.summarize().foo ).toEqual( 
+                 { status:"passed", coverageGoalFailures:173, deadCodeFailures:3 }
+            );
         } );
+        
 
 
     } );

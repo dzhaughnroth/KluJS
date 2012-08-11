@@ -53,6 +53,7 @@ var summary = function(res) {
     summary.suitesPassed = [];
     summary.suitesFailed = [];
     summary.suiteCoverageFailed = [];
+    summary.deadCodeFailed = [];
     for( var i in res.suites ) {
         if ( res.suites.hasOwnProperty(i) ) {
             var suite = res.suites[i];
@@ -65,10 +66,14 @@ var summary = function(res) {
             if ( suite.coverageGoalFailures > 0 ) {
                 summary.suiteCoverageFailed.push( i );
             }
+            if ( suite.deadCodeFailures > 0 ) {
+                summary.deadCodeFailed.push( i );
+            }
         }       
     }
     summary.allTestsPassed = summary.suitesFailed.length === 0;
     summary.allCoverageOk = summary.suiteCoverageFailed.length === 0;
+    summary.allDeadCodeOk = summary.deadCodeFailed.length === 0;
     return summary;
 
 };
@@ -81,6 +86,7 @@ var exit = function( ) {
         var res = results();
         fs.write( "phantom-klujs-result.json", JSON.stringify( res, null, 3 ), "w" );
         var sum = summary(res);
+        console.log( "Summary:" );
         console.log( JSON.stringify( sum ));
         fs.write( "phantom-klujs-summary.json", JSON.stringify( sum, null, 3 ), "w" );
 
@@ -92,6 +98,9 @@ var exit = function( ) {
         }
         if ( !sum.allCoverageOk ) {
             code += 4;
+        }
+        if ( !sum.allDeadCodeOk ) {
+            code += 2;
         }
     }
     catch( x ) {
