@@ -56,6 +56,8 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
                     }
                     var goalFailures = cWin.klujsAssembly.goalFailureCount();
                     this.set( "coverageGoalFailures", goalFailures );
+                    var deadCodeResult = cWin.klujsAssembly.deadCode.get("deadCode");
+                    this.set( "deadCodeResult", deadCodeResult );
                 }
                 else {
                     this.set( "status", RUNNING );

@@ -3,6 +3,7 @@ define( [ "autosuite/CodeFinder", "./MockFs.js", "notJQuery" ], function( CodeFi
 
    var anFs = { 
        root : {
+           "require.js" : "ignored",
            "plainFile.js":"File contents",
            "aSpec.js":"Another file contenst",
            "anotherSpec.js": "",

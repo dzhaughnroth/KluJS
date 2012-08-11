@@ -8,7 +8,15 @@ define( [ "./FsTraverser"], function(FsTraverser) {
         traverser.foundDirectory = function() {
 
         };
-
+        var filterRegex = [ /require\.js$/, /require-jquery\.js$/ ];
+        var filter = function( path ) {
+            var result = false;
+            var i;
+            for ( i = 0; i < filterRegex.length; i++ ) {
+                result = result || filterRegex[i].test( path );
+            }                
+            return result;
+        };
         traverser.foundFile = function( fileName ) {
             if ( regex.test( fileName ) ) {
                 var testPath = traverser.currentRelativePath + "/" + fileName;
@@ -22,7 +30,9 @@ define( [ "./FsTraverser"], function(FsTraverser) {
                     suite = [];
                     suites[suiteName] = suite;
                 }
-                suite.push( testPath );
+                if ( ! filter( testPath ) ) {
+                    suite.push( testPath );
+                }
             }
         };
         

@@ -60,6 +60,8 @@ viewing code coverage.
 
 Fix the line numbers in coverage range
 
+Is CodeFinder the right place to apply require.js filter? doubt it.
+
 ----------------------
 
 What are the suites, Really?

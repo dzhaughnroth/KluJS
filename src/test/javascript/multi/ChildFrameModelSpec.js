@@ -6,6 +6,7 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
         var suite = "Suiteness";
         var topic = new ChildFrameModel( { suite: suite } );
         var mockValues = [];
+        var mockDead = [];
         var mockTopic = function() {
             topic.plainFrame = {
                 contentWindow : {
@@ -17,6 +18,11 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
                         },
                         goalFailureCount : function() {
                             return 171;
+                        },
+                        deadCode : {
+                            get : function() {
+                                return mockDead.shift();
+                            }
                         }
                             
                         
@@ -58,6 +64,7 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
         it( "Should be able to report pass/fail counts after checking", function() {
             mockTopic();
             mockValues = [ "done", {failed: 7, count:31092} ];
+            mockDead = [ { dead : [], undead : [], exceptions : [] } ];
             topic.check();
             expect( topic.get("results").failedCount ).toBe( 7 );
             expect( topic.get("results").passedCount ).toBe( 31085 );

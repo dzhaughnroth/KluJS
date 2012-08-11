@@ -1,5 +1,5 @@
 /*globals define:false */
-define( [ "./SpecFinder", "./CodeFinder" ], function(SpecFinder, CodeFinder) {
+define( [ "./SpecFinder", "./CodeFinder" ], function(SpecFinder, CodeFinder ) {
 
 
     var create = function( mainDir, libDirs, testDir, fs ) {

@@ -16,6 +16,12 @@ define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuer
         this.go = function() {
             var suite = self.purl.param("suite");
             self.suitePage.assembly.name.set( "suiteName", suite );
+            self.suitePage.assembly.deadCode.set( "exceptions", self.klujsConfig.deadCode() );
+            var targets = self.klujsConfig.targetsForSuite( suite );
+            if ( targets ) {
+                var main = self.klujsConfig.main();
+                self.suitePage.assembly.codeList.set( "codeList", targets.map( function(x) { return "/" + main + "/" + x; } ) );
+            }
             var relSpecs = [];
             var prefix = self.klujsConfig.test();
             if ( ! self.klujsConfig.specsForSuite( suite ) ) {
@@ -25,7 +31,6 @@ define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuer
                 var pathToSpec = prefix + "/" + spec;
                 relSpecs.push( pathToSpec );
             });
-            self.suitePage.assembly.codeList.set( "codeList", relSpecs.map( function(x) { return "/" + x; } ) );
             self.suitePage.assembly.jasmine.runSpecs( relSpecs, self.errorCallback );
         };        
         this.start = function() { 

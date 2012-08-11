@@ -18,7 +18,7 @@ define( [ "multi/ChildFrameCollection", "notJQuery", "notUnderscore" ], function
         } );
         it ( "TableView start as an empty table", function() {
             expect( tableView.$el.is( "table" ) ).toBe( true );
-            expect( tableView.$el.find( "th" ).length ).toBe( 3 );
+            expect( tableView.$el.find( "th" ).length ).toBe( 4 );
             expect( tableView.$el.find( "thead tr" ).length ).toBe( 1 );
             expect( tableView.$el.find( "td" ).length ).toBe( 0 );
             expect( tableView.$el.find( "tbody tr" ).length ).toBe( 0 );

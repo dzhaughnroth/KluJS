@@ -18,9 +18,21 @@ define( [ "multi/ChildFrameView", "notJQuery" ], function( ChildFrameView, $ ) {
         var topic = new ChildFrameView( { model : model } ).render();
  //       var table = $("<table />").appendTo( $("body" ));
  //       table.append( topic.$el );
+
+        var expectedText = [];
+        var checkText = function( ) {
+            $.each( topic.$el.find("td"), function( i, td ) {
+                expect( $(td).text() ).toBe( expectedText[i] );
+            } );
+        };
+        var cell = function( i ) {
+            return $(topic.$el.find("td")[i] );
+        };
+
         it ( "Should report running status", function() {
             expect( topic.$el.is( "tr" ) ).toBe( true );
-            expect( topic.$el.text() ).toBe( "Suiteness...Running...Missed 172 goal(s)" );
+            expectedText = [ "Suiteness", "...Running...", "Missed 172 goal(s)", "---" ];
+            checkText();
             expect( lastType ).toBe( "change" );
         } );
         it( "Should show failed/passed message on completion", function() {
@@ -30,10 +42,13 @@ define( [ "multi/ChildFrameView", "notJQuery" ], function( ChildFrameView, $ ) {
                 count : 7,
                 passedCount : 4
             };
+            mockVals.deadCodeResult = { dead: [], undead: [], permitted:[] };
             mockVals.coverageGoalFailures = 0;
             lastCallback( );
-           
-            expect( topic.$el.text() ).toBe( "SuitenessFailed 3 of 7 specsOk" );
+            expectedText[1] = "Failed 3 of 7 specs";
+            expectedText[2] = "Ok"; 
+            expectedText[3] = "Ok";
+            checkText();            
             mockVals.status = "passed";
             mockVals.results = { 
                 failedCount : 0,
@@ -42,13 +57,16 @@ define( [ "multi/ChildFrameView", "notJQuery" ], function( ChildFrameView, $ ) {
             };
             mockVals.coverageGoalFailures = 8;
             lastCallback();
-            expect( topic.$el.text() ).toBe( "SuitenessPassed all 6 specsMissed 8 goal(s)" ); 
+            expectedText[1] = "Passed all 6 specs";
+            expectedText[2] = "Missed 8 goal(s)";
+            checkText();
         } );
         it( "Should report errors", function() {
             mockVals.status = "error";
             mockVals.error = {message:"foo"};
             lastCallback();
-            expect( topic.$el.text() ).toBe( "SuitenessErrorMissed 8 goal(s)" );            
+            expectedText[1] = "Error";
+            checkText();
         } );
         it( "Should alter visibility of frames, referenced by id", function() {
             expect( topic.model.frame.hasClass( "hidden" ) ).toBe( true );
@@ -56,7 +74,19 @@ define( [ "multi/ChildFrameView", "notJQuery" ], function( ChildFrameView, $ ) {
             expect( topic.model.frame.hasClass( "hidden" ) ).toBe( false );
             topic.selectFrame();
             expect( topic.model.frame.hasClass( "hidden" ) ).toBe( true );
-        } );        
+        } );
+        it( "Should display dead code information", function() {
+            expect( cell(3).hasClass( "deadCodeOk" ) );
+            mockVals.deadCodeResult = { dead: ["Noo"], undead: ["Zoo"], permitted:["Xoo","Yoo"] };
+            topic.render();
+            expectedText[3] = '1 dead; 1 undead; 2 permitted';
+            checkText();
+            expect( cell(3).hasClass( "deadCodeFailed" ) );
+            mockVals.deadCodeResult = { dead: [], undead: [], permitted:["Xoo","Yoo"] };
+            topic.render();
+            expectedText[3] = 'Ok; 2 permitted';
+            expect( cell(3).hasClass( "deadCodeFailed" ) );
+        } );
     } );
 
 

@@ -44,6 +44,9 @@ define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js", "ConfigFacade"], func
                 assembly : {
                     name : { 
                         set : function() { }
+                    },
+                    deadCode: {
+                        set : function() { }
                     }
                 }
             };

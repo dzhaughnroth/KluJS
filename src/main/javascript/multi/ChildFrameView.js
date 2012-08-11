@@ -55,6 +55,30 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
                 
             }
             this.$el.append( goalTd );
+            
+            var deadTd = $("<td />", { text:"---" } ).appendTo( this.$el );
+            var deadCode = model.get( "deadCodeResult" );
+            if ( typeof deadCode !== "undefined" ) {               
+                var okClass = "deadCodeOk";
+                var failClass = "deadCodeFailed";
+                var msg = "";
+                if ( deadCode.dead.length + deadCode.undead.length > 0 ) {
+                    deadTd.removeClass( okClass );
+                    deadTd.addClass( failClass );
+                    msg = deadCode.dead.length + " dead; " 
+                        + deadCode.undead.length + " undead"; 
+                }
+                else {
+                    deadTd.removeClass( failClass );
+                    deadTd.addClass( okClass );
+                    msg = "Ok";
+                }
+                if ( deadCode.permitted.length > 0 ) {
+                    msg += "; " + deadCode.permitted.length + " permitted";
+                }
+                deadTd.text( msg );
+            }
+            
             return this;
         }
 

@@ -40,7 +40,8 @@ define( ["./ChildFrameModel", "./ChildFrameView", "../notBackbone", "../notJQuer
             var header = $( "<tr />" )
                     .append( $( "<th />", {text: "Suite" } ) )
                     .append( $( "<th />", {text: "Results"} ) )
-                    .append( $( "<th />", {text: "Suite Coverage" } ));
+                    .append( $( "<th />", {text: "Coverage" } ) )
+                    .append( $( "<th />", {text: "Dead code" } ) );
             this.header = $( "<thead />" ).append( header );
             this.tbody = $( "<tbody />" );
             this.$el.append( this.header );
