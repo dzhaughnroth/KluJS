@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false*/
-define( ["../notBackbone", "../notUnderscore", "../notJQuery" ], function( Backbone, _, $ ) {
+define( ["../notBackbone", "../notUnderscore", "../notJQuery", "require" ], function( Backbone, _, $, require ) {
 
     var JasmineModel = Backbone.Model.extend( {
         defaults : { 
@@ -23,6 +23,20 @@ define( ["../notBackbone", "../notUnderscore", "../notJQuery" ], function( Backb
                 self.set( "result", self.computeResult( apiReporter.results() ) );
             };
             this.listener = listener;
+        },
+        runSpecs : function( specs, errorCallback ) {
+            var self = this;
+            require( specs, function() {
+                try {
+                    self.get("jasmineImpl").getEnv().execute();
+                }
+                catch( x ) {
+                    self.set("status", "error");
+                    if ( errorCallback ) {
+                        errorCallback( x );
+                    }
+                }
+            } );
         },
         computeResult : function( jsApiResults ) { // allows mocking
             var failedCount = 0;

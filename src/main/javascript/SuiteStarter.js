@@ -1,9 +1,11 @@
 /*globals define:false, requirejs:false, console:false */
 
-define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuery", "./lib/purl" ], function( SuiteRunner, SuitePage, AutoSuiteFetcher, notKlujs, $, purl ) {
+define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuery", "./lib/purl" ], function( SuitePage, AutoSuiteFetcher, notKlujs, $, purlPkg ) {
 
     var SuiteStarter = function( pageFacade, jasmineImpl, mockFetcher, mockRequireJs ) {
         var self = this;
+        this.klujsConfig = notKlujs;
+        this.purl = purlPkg();
         this.jasmine = jasmineImpl;
         this.pageFacade = pageFacade;
         this.fetcher = undefined;
@@ -11,10 +13,21 @@ define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Con
         this.errorCallback = function( err ) {
             self.suitePage.fail( err );
         };
-        this.suiteRunner = new SuiteRunner( self.suitePage.assembly.name, 
-                                            this.errorCallback,
-                                            self.jasmine,
-                                            purl() );        
+        this.go = function() {
+            var suite = self.purl.param("suite");
+            self.suitePage.assembly.name.set( "suiteName", suite );
+//            self.suitePage.assembly.codeList.set( "codeList", notKlujs.targetsForSuite( suite ) ); 
+            var relSpecs = [];
+            var prefix = self.klujsConfig.test();
+            if ( ! self.klujsConfig.specsForSuite( suite ) ) {
+                throw( "There is no suite named '" + suite + "' to run");
+            }
+            $.each( self.klujsConfig.specsForSuite(suite), function( i, spec ) {
+                var pathToSpec = prefix + "/" + spec;
+                relSpecs.push( pathToSpec );
+            });
+            self.suitePage.assembly.jasmine.runSpecs( relSpecs, self.errorCallback );
+        };        
         this.start = function() { 
             // has to come first. :(
             self.jasmine.getEnv().reporter.subReporters_.unshift( 
@@ -24,11 +37,11 @@ define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Con
             self.fetcher = mockFetcher || new AutoSuiteFetcher( notKlujs );
             self.fetcher.fetch( function() { 
                 try {
-                    self.suiteRunner.go();
+                    self.go();
                 }
                 catch( ex ) {
-                    self.suitePage.fail( { message:"Exception running Specs",
-                                           error:ex } );
+                    self.errorCallback( { message:"Exception running Specs",
+                                          error:ex } );
                     throw ex;
                 }
             }, 

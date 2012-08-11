@@ -1,4 +1,4 @@
-/*global define:false, describe:false, it:false, expect:false */
+/*global define:false, describe:false, it:false, expect:false, runs:false, waitsFor:false, waits:false */
 define( [ "jasmine/JasmineModel", "../MockJasmine.js"], function( JasmineModel, MockJasmine ) {
     var mockResults = [ {result:"passed"}, {result:"failed"}, {result:"passed"}];
 
@@ -45,7 +45,39 @@ define( [ "jasmine/JasmineModel", "../MockJasmine.js"], function( JasmineModel, 
             expect( resultChanges[0][1].count).toBe( 3 );
             expect( resultChanges[0][1].failed).toBe( 1 );
             expect( resultChanges[0][1].results ).toBe( mockResults );
-       } );
+        } );
+        it( "Runs specs asynchronously", function() {
+            var err;
+            var errback = function( x ) { err = x; };               
+            runs( function() {
+                expect( mockJasmine.executed ).toBe( false );            
+                jm.runSpecs( [ "src/test/javascript/coverage/fixture/simple.js" ], errback );
+            } );
+            waitsFor( function() { return mockJasmine.executed; }, 1000 );
+            runs( function() {
+                mockJasmine.executed = false;
+                mockJasmine.getEnv().execute = function() { throw "sabotage"; };
+                jm.runSpecs( [  ], errback );
+            } );
+            waitsFor( function() { return err; } );
+            runs( function() {
+                //expect( mockJasmine.executed ).toBe( true );
+                expect( err ).toBe( "sabotage" );
+                expect(jm.get("status")).toBe( "error" );
+                jm.set("status", "new" );
+                err = undefined;
+                jm.runSpecs( [ ] );
+            } );
+            waits( 100 );
+            runs( function() {
+                expect( jm.get("status")).toBe( "error" );
+            } );
+                  
+
+            
+            
+        } );
+
 
     } );
 } );

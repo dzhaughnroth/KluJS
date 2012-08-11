@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, $:false, runs:false, waitsFor:false */
-define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js"], function( SuiteStarter, $, MockJasmine ) {
+define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js", "ConfigFacade"], function( SuiteStarter, $, MockJasmine, ConfigFacade ) {
 
     var mockJasmine = new MockJasmine();
     var fetcherCallback;
@@ -40,6 +40,11 @@ define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js"], function( SuiteStart
             topic.suitePage = {
                 fail:function( err ) {
                     failure = err;
+                },
+                assembly : {
+                    name : { 
+                        set : function() { }
+                    }
                 }
             };
             topic.errorHandler( "foo" );
@@ -60,13 +65,22 @@ define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js"], function( SuiteStart
             expect( failure.message ).toBeDefined();
             expect( failure.requireJsError ).toBe( "foo" );            
         } );
+        it( "Fails specifically on bad suiteName", function() {
+            topic.klujsConfig = new ConfigFacade( { suites: { goo : { specs : [], targets: [] } } } );
+            topic.purl = { 
+                param: function() { return "notGoo"; } 
+            };
+            expect( function() { topic.go(); } )
+                .toThrow( "There is no suite named 'notGoo' to run" );
+        } );
+
         it( "Fails page on exception from suite runner", function() {
             var failure;
             topic.suitePage = {
                 fail:function( err ) { failure = err; }
             };
-            topic.suiteRunner.go = function() {
-                    throw "goo";
+            topic.go = function() {
+                throw "goo";
             };            
             try {
                 fetcherCallback();
