@@ -15,7 +15,7 @@ define( [ "./SuiteRunner", "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Con
                                             this.errorCallback,
                                             self.jasmine,
                                             purl() );        
-        this.start = function() {            
+        this.start = function() { 
             // has to come first. :(
             self.jasmine.getEnv().reporter.subReporters_.unshift( 
                 self.suitePage.view.jasmineView.reporter 

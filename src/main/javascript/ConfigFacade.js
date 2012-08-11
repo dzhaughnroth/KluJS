@@ -34,14 +34,14 @@ define( ["./notUnderscore", "./goals/CoverageGoalInterpreter" ], function(_,Cove
             if ( ! raw.suites[suiteName] ) {
                 return undefined;
             }
-            return raw.suites[suiteName].specs;
+            return raw.suites[suiteName].specs || [];
         };
 
         this.targetsForSuite = function( suiteName ) {
             if ( ! raw.suites[suiteName] ) {
                 return undefined;
             }
-            return raw.suites[suiteName].targets;
+            return raw.suites[suiteName].targets || [];
         };
 
         this.libDirs = function() {

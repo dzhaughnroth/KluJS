@@ -1,3 +1,5 @@
+rm -rf module.bak
+cp -r module module.bak
 rm -rf module
 mkdir module
 mkdir module/KluJS
