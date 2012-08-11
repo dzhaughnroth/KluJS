@@ -10,11 +10,12 @@ define( [ "suite/SuiteView", "suite/SuiteAssembly", "notJQuery", "../MockJasmine
             expect( $.contains( topic.$el, topic.lintView.$el ) ).toBe( true );
             expect( $.contains( topic.$el, topic.coverageView.$el ) ).toBe( true );
             expect( $.contains( topic.$el, topic.focusView.$el ) ).toBe( true );
+            expect( $.contains( topic.$el, topic.deadCodeView.$el ) ).toBe( true );
             expect( topic.nameView.$el.text() ).not.toMatch( "anything" );
             topic.model.name.set("suiteName", "anything" );
             expect( topic.nameView.$el.text() ).toMatch( "anything" );
 
-            expect( topic.$el.children("div").length ).toBe( 6 );
+            expect( topic.$el.children("div").length ).toBe( 7 );
         } );
 
         

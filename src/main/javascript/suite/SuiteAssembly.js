@@ -7,8 +7,10 @@ define( [
     "../coverage/CoverageDataModel",
     "../goals/SuiteInterpreter",
     "../lint/LintFinder",
-    "../lint/LintCollection"
-], function( JasmineModel, SuiteName, FocusFilterFactory, ParentMessagePoster, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection ) {
+    "../lint/LintCollection",
+    "../deadcode/CodeListModel",
+    "../deadcode/DeadCodeModel"
+], function( JasmineModel, SuiteName, FocusFilterFactory, ParentMessagePoster, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, CodeListModel, DeadCodeModel ) {
 
     var Assembly = function( windowImpl, jasmineImpl ) {
         var self = this;
@@ -24,7 +26,7 @@ define( [
             postToParent( { messageType:"finished" } );
         };
         this.name = new SuiteName.Model();
-        var jasModel = new JasmineModel( { jasmineImpl: jasmineImpl } );
+        var jasmineModel = new JasmineModel( { jasmineImpl: jasmineImpl } );
         var lintModel = new LintCollection();
         lintModel.on( 'add', function( modelAdded ) {
             modelAdded.check();
@@ -36,19 +38,26 @@ define( [
             self.filter = filterFactory.create( self.name.get("suiteName" ) );
         } );
 
+        var codeListModel = new CodeListModel();
+        var deadCodeModel = new DeadCodeModel( {
+            codeListModel: codeListModel,
+            coverageDataModel: covModel
+        } );
         var lintFinder = new LintFinder();
-        this.jasmine = jasModel;
+        this.jasmine = jasmineModel;
         this.coverage = covModel;
         this.lint = lintModel;
+        this.codeList = codeListModel;
+        this.deadCode = deadCodeModel;
         this.goalFailureCount = function() {
             return this.coverage.goalFailureCount( self.filter );
         };
         var testFinished;
         testFinished = function( ) {
-            if ( jasModel.get("status") === "running" ) {
+            if ( jasmineModel.get("status") === "running" ) {
                 postToParent( {messageType:"started"} );
             }
-            if ( jasModel.get("status") === "done" ) {
+            if ( jasmineModel.get("status") === "done" ) {
                 if ( typeof $$_l !== "undefined" ) {
                     covModel.setData( $$_l );
                 }
@@ -59,14 +68,14 @@ define( [
                 if ( ! postToParent( { messageType:"lint", lintWork: found } ) ) {
                     lintModel.addFinderResult( found );
                 }
-                jasModel.off( 'change', testFinished );
+                jasmineModel.off( 'change', testFinished );
                 postToParent( {messageType:"finished"} );
             }
         };
       
         this.testFinished = testFinished;
 
-        jasModel.on( 'change', testFinished );
+        jasmineModel.on( 'change', testFinished );
         // check to see if already running or done.
         testFinished();
 

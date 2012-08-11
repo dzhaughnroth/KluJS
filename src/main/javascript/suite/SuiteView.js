@@ -1,5 +1,5 @@
 /*globals define:false, $$_l:false */
-define( [ "../notBackbone", "../notUnderscore", "../notJQuery", "./SuiteAssembly", "../lint/LintCollectionView", "../coverage/CoverageDataView", "../jasmine/JasmineView", "../SuiteName", "../FocusFilterFactory", "../goals/SuiteInterpreter" ], function( Backbone, _, $, SuiteAssembly, LintCollectionView, CoverageDataView, JasmineView, SuiteName, FocusFilterFactory, SuiteInterpreter ) {
+define( [ "../notBackbone", "../notUnderscore", "../notJQuery", "./SuiteAssembly", "../lint/LintCollectionView", "../coverage/CoverageDataView", "../jasmine/JasmineView", "../SuiteName", "../FocusFilterFactory", "../deadcode/DeadCodeView" ], function( Backbone, _, $, SuiteAssembly, LintCollectionView, CoverageDataView, JasmineView, SuiteName, FocusFilterFactory, DeadCodeView ) {
 
     var filterFactory = new FocusFilterFactory();
     var computeFocusFilter = function( suiteName ) {
@@ -25,6 +25,9 @@ define( [ "../notBackbone", "../notUnderscore", "../notJQuery", "./SuiteAssembly
                 model : assembly.coverage,
                 label : "Focused code coverage"
             } );
+            this.deadCodeView = new DeadCodeView( {
+                model : assembly.deadCode
+            } );
             assembly.name.on( "change", function() {
                 var filter = computeFocusFilter( assembly.name.get( "suiteName" ));
                 self.focusView.options.filter = filter;
@@ -34,6 +37,7 @@ define( [ "../notBackbone", "../notUnderscore", "../notJQuery", "./SuiteAssembly
             this.$el.append( this.nameView.render().$el );
             this.$el.append( this.jasmineView.$el );
             this.$el.append( this.lintView.render().$el );
+            this.$el.append( this.deadCodeView.render().$el );
             this.$el.append( this.focusView.render().$el );
             this.$el.append( this.coverageView.render().$el );
             this.$el.append( $("<div />", {text: "Started at " + new Date() } ));

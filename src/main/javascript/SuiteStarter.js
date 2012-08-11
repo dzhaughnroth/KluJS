@@ -16,7 +16,6 @@ define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuer
         this.go = function() {
             var suite = self.purl.param("suite");
             self.suitePage.assembly.name.set( "suiteName", suite );
-//            self.suitePage.assembly.codeList.set( "codeList", notKlujs.targetsForSuite( suite ) ); 
             var relSpecs = [];
             var prefix = self.klujsConfig.test();
             if ( ! self.klujsConfig.specsForSuite( suite ) ) {
@@ -26,6 +25,7 @@ define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuer
                 var pathToSpec = prefix + "/" + spec;
                 relSpecs.push( pathToSpec );
             });
+            self.suitePage.assembly.codeList.set( "codeList", relSpecs.map( function(x) { return "/" + x; } ) );
             self.suitePage.assembly.jasmine.runSpecs( relSpecs, self.errorCallback );
         };        
         this.start = function() { 
