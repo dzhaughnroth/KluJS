@@ -14,11 +14,10 @@ side. teehee. Argument against is that mocha works fine as a build
 tool, and these are functional tests, not work-a-day (work-a-minute)
 unit tests. Argument for is that they need lint and coverage too.
 
-MEDIUM
+Handle require in klujs, rather than depending on client to have it in
+main? hmm. At least by default.
 
-Dead code view for suites; report deadcode in multiview suite
-grid. Need more thinking there. Ought to flag code that has no
-corresponding unit test suite.
+MEDIUM
 
 Scroll box for the iframe child div?
 
@@ -38,22 +37,15 @@ phantom runner.
 
 SOON:
 
-Style the multiview pass/fail table
-
-Display the details of the first lint and spec failure automatically
+Display the details of the first lint failure automatically
 
 Clean up node directory. Explain what parts can't be tested and why.
 Put server side only stuff in a different place.
 
 Run dead code against lint.
 
-Fail mode for multiview
-
 add date to results page, for phantom image output for example. DONE
 but now improve location, details (timing, for example)
-
-Handle require in klujs, rather than depending on client to have it in
-main? hmm. At least by default.
 
 Allow running of a single Spec or a set of Specs for purposes of
 viewing code coverage.
@@ -64,7 +56,9 @@ Is CodeFinder the right place to apply require.js filter? doubt it.
 
 ----------------------
 
-What are the suites, Really?
+DONE: 
+
+But What are the suites, Really?
 
 Every directory under main with a .js file has a corresponding test
 suite, perhaps with zero specs. Every directory under test with a
@@ -78,4 +72,20 @@ between suites. Hrmph. Let's treat it separately?)
 
 (Arguably every file should have a conventionally named file. Why not
 enforce this? Good idea, but I think it is complicated.)
+
+-----------------
+
+Functional tests
+
+Take the examples directory and do the following
+
+Run it; lint fail.
+Remove test/js/lint; pass
+Move UncovereredTwoSpec to a new direcotyr; cov fail
+Use line instead of element coverage: pass.
+Add element exception in cov; pass
+Replace UncoveredTwoSpec; Move UncoveredSpec to a new diectory; deadcode
+Add deadcode exception for Uncovered; pass
+Replace FineSpec with one that does the same and fails. fail spec
+
 

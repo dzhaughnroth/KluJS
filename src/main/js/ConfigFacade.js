@@ -17,7 +17,7 @@ define( ["./notUnderscore", "./goals/CoverageGoalInterpreter" ], function(_,Cove
         this.test = function() { return raw.test; };
 
         this.autoSuites = function() {
-            return typeof raw.autoSuites !== "undefined" && raw.autoSuites !== false;
+            return typeof( raw.autoSuites ) === "undefined" || raw.autoSuites !== false;
         };
 
         this.setSuites = function( suites ) {

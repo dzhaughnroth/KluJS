@@ -1,0 +1,10 @@
+/*global define:false, describe:false, it:false, expect:false */
+
+define( [], function() {
+
+    describe( "NotFine", function() {
+        it( "Fails", function() {
+            expect( 2 + 2 ).toBe( 5 );
+        } );
+    });
+});
