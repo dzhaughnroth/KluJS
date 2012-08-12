@@ -44,9 +44,6 @@ Put server side only stuff in a different place.
 
 Run dead code against lint.
 
-add date to results page, for phantom image output for example. DONE
-but now improve location, details (timing, for example)
-
 Allow running of a single Spec or a set of Specs for purposes of
 viewing code coverage.
 
@@ -54,9 +51,21 @@ Fix the line numbers in coverage range
 
 Is CodeFinder the right place to apply require.js filter? doubt it.
 
+Splash screen and KluJS global status indicator so we can tell if its
+done.  Add timstamps.
+
+Firefox issues. Firefox performance is bad, eh what?
+
+Throttle the number child iframes in child view; that means a starting
+and running status, if you will.
+
+Provide timing details.
+
+Detect klujs-config change on server.
+
 ----------------------
 
-DONE: 
+This is DONE: 
 
 But What are the suites, Really?
 

@@ -1,6 +1,7 @@
 /*global klujs:true */
 klujs = {
-    libDirs: ["src/main/js/lib", "src/test/js/lib"],
+    libDirs: ["src/main/js/lib", "src/test/js/lib",
+              "src/node", "src/examples", "src/example"],
     deadCode: [ "/src/main/js/SuiteBoot.js",
                 "/src/main/js/multi/MultiBoot.js"],
     elementCoverage : {
