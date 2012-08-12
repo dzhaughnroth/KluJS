@@ -73,19 +73,7 @@ between suites. Hrmph. Let's treat it separately?)
 (Arguably every file should have a conventionally named file. Why not
 enforce this? Good idea, but I think it is complicated.)
 
------------------
 
-Functional tests
 
-Take the examples directory and do the following
-
-Run it; lint fail.
-Remove test/js/lint; pass
-Move UncovereredTwoSpec to a new direcotyr; cov fail
-Use line instead of element coverage: pass.
-Add element exception in cov; pass
-Replace UncoveredTwoSpec; Move UncoveredSpec to a new diectory; deadcode
-Add deadcode exception for Uncovered; pass
-Replace FineSpec with one that does the same and fails. fail spec
 
 
