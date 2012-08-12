@@ -45,8 +45,8 @@ define( [ "../notJQuery" ], function( $ ) {
                     lineCoverages[lnum].covered = true;
                 }
                 else {
-                    firstLine = Math.min( lnum, firstLine );
-                    lastLine = Math.max( lnum, lastLine );
+                    firstLine = Math.min( lnum + 1 , firstLine );
+                    lastLine = Math.max( lnum + 1, lastLine );
                 }
             } );
             if ( firstLine > lastLine ) {
@@ -96,14 +96,14 @@ define( [ "../notJQuery" ], function( $ ) {
                 if ( ! cov.t ) {
                     ++elementCoverage.missed;
                     ++branchCoverage.missed;
-                    firstLine = Math.min( firstLine, ln );
-                    lastLine = Math.max( lastLine, ln );
+                    firstLine = Math.min( firstLine, ln + 1);
+                    lastLine = Math.max( lastLine, ln + 1 );
                 }
                 if ( ! cov.f ) {
                     ++elementCoverage.missed;
                     ++branchCoverage.missed;
-                    firstLine = Math.min( firstLine, ln );
-                    lastLine = Math.max( lastLine, ln );
+                    firstLine = Math.min( firstLine, ln + 1 );
+                    lastLine = Math.max( lastLine, ln + 1 );
                 }
 
             };
@@ -119,8 +119,8 @@ define( [ "../notJQuery" ], function( $ ) {
                     ++elementCoverage.count;
                     if ( ! cov.covered ) {
                         ++elementCoverage.missed;
-                        firstLine = Math.min( firstLine, lnum );
-                        lastLine = Math.max( lastLine, lnum );
+                        firstLine = Math.min( firstLine, lnum + 1);
+                        lastLine = Math.max( lastLine, lnum + 1);
                     }
                 }
             } );

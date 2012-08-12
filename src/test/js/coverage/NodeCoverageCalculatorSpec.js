@@ -26,10 +26,10 @@ define( [ "coverage/NodeCoverageCalculator", "./fixture/simple.js", "./fixture/t
             expect( x.line.rate ).toBe( 1 - missedLines/lines );
             expect( x.element.count ).toBe( elements );
             expect( x.element.missed ).toBe( missedElements );
-            expect( x.line.firstLine ).toBe( 17 );
-            expect( x.line.lastLine ).toBe( 48 );
-            expect( x.element.firstLine ).toBe( 17 );
-            expect( x.element.lastLine ).toBe( 50 );
+            expect( x.line.firstLine ).toBe( 18 );
+            expect( x.line.lastLine ).toBe( 49 );
+            expect( x.element.firstLine ).toBe( 18 );
+            expect( x.element.lastLine ).toBe( 51 );
         } );
         it( "Fudges trinary operators", function() {
             var x = calc.coverageByFile["/src/test/js/coverage/fixture/trinary.js"];
@@ -43,8 +43,8 @@ define( [ "coverage/NodeCoverageCalculator", "./fixture/simple.js", "./fixture/t
 
             expect( x.line.firstLine ).toBeUndefined();
             expect( x.line.lastLine ).toBeUndefined();
-            expect( x.element.firstLine ).toBe(1);
-            expect( x.element.lastLine ).toBe(1);
+            expect( x.element.firstLine ).toBe(2);
+            expect( x.element.lastLine ).toBe(2);
         } );
         it( "Deals with simple files", function() {
             var x = calc.coverageByFile[ "/src/test/js/coverage/fixture/simple.js" ];
