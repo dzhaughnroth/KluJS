@@ -1,8 +1,7 @@
 /*global klujs:true */
 klujs = {
-    autoSuites:true,    
-    libDirs: ["src/main/js/lib", "src/test/js/lib",
-              "src/node", "src/example" ],
+    libDirs: ["src/main/js/lib", "src/test/js/lib"],
+//              "src/node", "src/example" ],
     deadCode: [ "/src/main/js/SuiteBoot.js",
                 "/src/main/js/multi/MultiBoot.js"],
     elementCoverage : {
