@@ -21,16 +21,16 @@
     };
     
     setIfBlank( config, "src", "src" );
-    setIfBlank( config, "main", config.src + "/main/javascript" );
+    setIfBlank( config, "main", config.src + "/main/js" );
     config.mainPath = config.main;
-    setIfBlank( config, "test", config.src + "/test/javascript" );
+    setIfBlank( config, "test", config.src + "/test/js" );
 
     
     setIfBlank( config, "require", {} );
     setIfBlank( config, "requireHome", config.mainPath );
     setIfBlank( config, "libDirs", 
-                [ "src/main/javascript/lib", 
-                  "src/test/javascript/lib" 
+                [ "src/main/js/lib", 
+                  "src/test/js/lib" 
                 ] );
     
     _require = config.require;
@@ -39,7 +39,7 @@
 
     _require.paths.KluJS = computeKlujsPath();
 
-    if ( !config.requireHome.match( "/js$" ) ) {
+    if ( !config.requireHome.match( "/\.js$" ) ) {
         config.requireHome += "/require.js";//-jquery.js";
     }
 
@@ -50,10 +50,10 @@
         // Infer and/or guess location of require
         el.src = config.requireHome;
         var pathToParamSuite = "KluJS/";
-        var moduleName = "javascript/SuiteBoot.js";
+        var moduleName = "js/SuiteBoot.js";
         
         if ( ! window.location.search || ! window.location.search.toString().match( /suite=/ ) ) {
-            moduleName = "javascript/multi/MultiBoot.js";
+            moduleName = "js/multi/MultiBoot.js";
         }
         
         var attr = doc.createAttribute( "data-main" );

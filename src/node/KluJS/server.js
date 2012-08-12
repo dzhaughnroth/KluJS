@@ -2,7 +2,7 @@
  * KluJS node script
  */
 
-define( ["./javascript/autosuite/SuiteManager", "./javascript/server/LibFilter", "./javascript/server/CodeInstrumenter", "./javascript/deadcode/AllCodeFinder", "./javascript/server/Handlers", "./phantoProc.js", "fs", "vm", "net", "http", "util", "express", "optimist", "./lib/node-coverage/lib/report", "./lib/node-coverage/lib/instrument"  ], function( SuiteManager, LibFilter, CodeInstrumenter, AllCodeFinder, Handlers, phanto, fs, vm, net, http, util, express, optimist, report, instrument ) {
+define( ["./js/autosuite/SuiteManager", "./js/server/LibFilter", "./js/server/CodeInstrumenter", "./js/deadcode/AllCodeFinder", "./js/server/Handlers", "./phantoProc.js", "fs", "vm", "net", "http", "util", "express", "optimist", "./lib/node-coverage/lib/report", "./lib/node-coverage/lib/instrument"  ], function( SuiteManager, LibFilter, CodeInstrumenter, AllCodeFinder, Handlers, phanto, fs, vm, net, http, util, express, optimist, report, instrument ) {
 
     var argv = optimist
             .usage("Start the KluJS server. It serves instrumented Javascript code, and other stuff")
