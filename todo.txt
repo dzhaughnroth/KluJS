@@ -47,8 +47,6 @@ Run dead code against lint.
 Allow running of a single Spec or a set of Specs for purposes of
 viewing code coverage.
 
-Fix the line numbers in coverage range
-
 Is CodeFinder the right place to apply require.js filter? doubt it.
 
 Splash screen and KluJS global status indicator so we can tell if its

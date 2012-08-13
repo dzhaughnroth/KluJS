@@ -85,17 +85,14 @@ define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCo
                 var passed = view.$el.find( ".lintItem.passed" );
                 expect( passed.length > 0 ).toBe( true );
                 _.each( passed, function(x) {
-                    expect( $(x).css( "display" ) ).toBe( "none" );
                     expect( $(x).hasClass( "hidden" )).toBe( true );
                 } );
                 view.showHideModel.set( "checked", true );
                 _.each( passed, function(x) {
-                    expect( $(x).css( "display" ) ).toBe( "block" );
                     expect( $(x).hasClass( "hidden" )).toBe( false );
                 } );
                 view.showHideModel.set( "checked", false );
                 _.each( passed, function(x) {
-                    expect( $(x).css( "display" ) ).toBe( "none" );
                     expect( $(x).hasClass( "hidden" )).toBe( true );
                 } );
 
