@@ -3,13 +3,14 @@ define( [ "lint/LintCollection", "lint/LintModel" ], function( LintCollection, L
 
     describe( "LintCollectionModel", function() {
         var lints = new LintCollection( );
+        var empty = new LintCollection();
         it( "Initializes to empty state", function() {
             expect( lints.length ).toBe( 0 );
         } );
         it( "Builds, adds LintModels, computes counts", function() {
             lints.add( new LintModel( { src : "foofoo" } ) );
             expect( lints.length ).toBe( 1 );
-
+            expect( empty.length ).toBe( 0 );
             var z = lints.at( 0 );
             expect( z.get("src") ).toBe( "foofoo" );
             expect( z.issueCount ).toBeDefined();

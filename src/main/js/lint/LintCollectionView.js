@@ -5,8 +5,12 @@ define( ["../notJQuery", "../notBackbone", "../notUnderscore", "./LintView", "./
         tagName:"div",
         className:"lintCollectionView",
         initialize : function() {
-            _.bindAll(this, 'render', 'addModel', 'add', 'adjustPassedVisibility', "adjustGlobalsVisibility" );
+            _.bindAll(this, 'render', 'addModel', 'showFirstIssue', 
+                      'add', 'adjustPassedVisibility', "adjustGlobalsVisibility" );
+            this.lintViews = [];
             this.model.on('add', this.add);
+            this.model.on('add', this.showFirstIssue );
+            this.model.on('change', this.showFirstIssue );
             var summaryView = new LintCollectionSummaryView( { model:this.model } );
             var globalVariableView = new GlobalVariableView( { model:this.model } );
             this.showHideModel = summaryView.showHideModel;
@@ -38,10 +42,31 @@ define( ["../notJQuery", "../notBackbone", "../notUnderscore", "./LintView", "./
             }
         },
         addModel: function( lModel ) {
-            var lView = new LintView( { model: lModel } );
+            var lView = new LintView( { model : lModel } );
             lView.render();
             this.$el.append( lView.$el );
             this.adjustPassedVisibility();
+            this.lintViews.push( lView );
+        },
+        showFirstIssue : function() {
+            var unhidden = this.$el.find( ".lintDetail:not(.hidden)" );
+            if ( unhidden.length === 0 ) {
+                var firstFailure = this.model.find( function(x) { 
+                    var result = false;
+                    if ( x.get("done") ) {
+                        result = x.get("error") || x.issueCount() > 0;
+                    }
+                    return result;
+                } );
+
+                if ( firstFailure ) {
+                    $.each( this.lintViews, function(i, lv) {
+                        if ( lv.model.cid === firstFailure.cid ) {
+                            lv.showDetail();
+                        }
+                    } );
+                } // else there is nothing to show                   
+            } // else there is something showing already
         },
         add: function( event, coll, options ) {
             this.addModel( event );

@@ -1,46 +1,62 @@
 /*global define:false, describe:false, it:false, expect:false, runs:false, waitsFor:false */
-define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCollectionView", "notUnderscore", "notJQuery" ], function( LintView, LintModel, LintCollection, LintCollectionView, _, $ ) {
+define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCollectionView", "notBackbone", "notUnderscore", "notJQuery" ], function( LintView, LintModel, LintCollection, LintCollectionView, Backbone, _, $ ) {
 
     describe( "LintCollectionView", function() {
+        var failSrc = "src/test/js/lint/LintFailureSample.js.not";
+        var passSrc = "src/test/js/lint/LintSuccessSample.js.not";
+        var failingA = new LintModel( { src: failSrc } );
+        var failingB = new LintModel( { src: failSrc } );
+        var passingA = new LintModel( { src: passSrc } );
+        var passingB = new LintModel( { src: passSrc } );
         var model = new LintCollection( );
-        model.add( new LintModel( { src: "src/test/js/lint/LintCollectionViewSpec.js" } ) );
+        model.add( passingA );
+        model.add( failingA );
+        model.add( passingB );
+        model.add( failingB );
+        var passingModel = new LintCollection();
+        passingModel.add( passingA );
+//        passingModel.add( passingB );
         var view = new LintCollectionView( { model:model } ).render();
-        $("body").append( view.$el );
+        var passingView = new LintCollectionView( { model:passingModel } ).render();
+        var emptyView = new LintCollectionView( { model:new LintCollection() } ).render();
+
+        // $("body").append( $("<div />", { text : "lcv" } ) ).append( view.$el );
+        
         it( "Renders as a div with certain class name", function() {
-            expect( model.modelsBySrc ).toEqual( {} );
-            expect( view.$el.hasClass( "lintCollectionView" ) ).toBe( true );
-            expect( view.$el.is( "div" ) ).toBe( true );
+            expect( emptyView.$el.hasClass( "lintCollectionView" ) ).toBe( true );
+            expect( emptyView.$el.is( "div" ) ).toBe( true );
         } );
-        it( "Has toggle for global variable view", function() {
-            expect( view.$el.find(".lintGlobalVariableReport").hasClass( "hidden" ) ).toBe( true );
-            view.showGlobalsModel.set("checked", true );
-            expect( view.$el.find(".lintGlobalVariableReport").hasClass( "hidden" ) ).toBe( false );
-            view.showGlobalsModel.set("checked", false );
-            expect( view.$el.find(".lintGlobalVariableReport").hasClass( "hidden" ) ).toBe( true );
+        it( "Holds LintViews for each LintModel in collection", function() {
+            expect( emptyView.lintViews ).toEqual( [] );
+            expect( view.lintViews.map( function(x) { return x.model.get("src"); } )).toEqual(                 
+                [ passSrc, failSrc, passSrc, failSrc ]
+            );
+            expect( view.$el.find( "div.lintItem" ).length ).toBe( 4 );
         } );
         it( "Can handle an empty state", function() {
-            var view2 = new LintCollectionView( { model: new LintCollection() } ).render();
-            expect( view2.$el.find( "div.lintItem" ).length ).toBe( 0 );            
-            expect( view2.$el.children( "div" ).length ).toBe( 2 );            
-            expect( view2.$el.find( "div.lintGlobalVariableReport" ).length ).toBe( 1 );            
+            expect( emptyView.$el.find( "div.lintItem" ).length ).toBe( 0 );            
+            expect( emptyView.$el.children( "div" ).length ).toBe( 2 );
+            expect( emptyView.$el.find( "div.lintGlobalVariableReport" ).length ).toBe( 1 );
         } );
-        it( "Can initializes to non-empty initial state", function() {
-            expect( view.model ).toBe( model );
-            expect( view.$el.find( "div.lintItem" ).length ).toBe( 1 );
-        } );
-        it( "Adds LintViews for each LintModel", function() {
-            model.add( new LintModel( { src: "src/test/js/lint/LintViewSpec.js" } ));
-            expect( view.$el.find( ".lintCollectionBanner" ).text() )
-                .toMatch( /JSLint: 2 issue\(s\) in 2 files out of 2/ );
-            expect( view.$el.find( ".lintCollectionBanner" ).text() )
+        it( "Updates as items are added", function() {
+            var passingBannerText = function() {
+                return passingView.$el.find( ".lintCollectionBanner" ).text();
+            };
+            expect( passingBannerText() ).toMatch( /Loading/ );
+            passingA.check(); // start check
+            expect( passingBannerText() )
+                .toMatch( /1 files out of 1/ );
+            passingModel.add( passingB );
+            expect( passingView.$el.find( ".lintCollectionBanner" ).text() )
+                .toMatch( /2 files out of 2/ );
+            expect( passingView.$el.find( ".lintCollectionBanner" ).text() )
                 .not.toMatch( /iltered/ );
-            model.at(0).set("lintData", { globals: ["foo", "bar"] });
-            expect( view.$el.find( "div.lintGlobalVariableReport" ).find("li").length ).toBe( 2 );            
-
+            passingModel.at(0).set("lintData", { globals: ["foo", "bar"] });
+            expect( view.$el.find( "div.lintGlobalVariableReport" ).find("li").length ).toBe( 2 );
         } );
         it( "Adds LintFinder results", function() {
             var mockFound = {
-                allModules : [ "src/test/js/lint/LintModelSpec.js" ],
+                allModules : [ failSrc ],
                 filtered : [ "glug", "foo", "bar", "baz" ],
                 filterMap : {
                     custom : ["glug"],
@@ -49,10 +65,10 @@ define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCo
                 }
             };
             model.addFinderResult( mockFound );
-            expect( view.$el.find( "div.lintItem" ).length ).toBe( 3 );
+            expect( view.$el.find( "div.lintItem" ).length ).toBe( 5 );
             var banner = view.$el.find( ".lintCollectionBanner" );
             expect( banner.text() )
-                .toMatch( /JSLint: 3 issue\(s\) in 3 files out of 3/ );
+                .toMatch( /out of 5/ );
             expect( banner.text() )
                 .toMatch( /\(4 filtered\)/ );
             expect( banner.hasClass( "hidden" ) ).toBe( false );
@@ -61,19 +77,16 @@ define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCo
                 expect( tooltip.indexOf( x ) > 0 ).toBe( true );
             } );
         } );
-        it( "Updates summary counts when models change", function() {
+        it( "Updates as models change", function() {
             var initialText;
             runs( function() { 
                 initialText = view.$el.find(".lintCollectionBanner").text();
                 model.each( function( lm ) { lm.check(); } );                
             } );
             waitsFor( function() {
-                var workingVals = model.map( function( lm ) {
-                    return lm.get("done");
-                } );
-                return _.reduce( workingVals, 
-                                 function( a, memo ) {return a && memo;},
-                                 true );               
+                return typeof (model.find( function( lm ) { 
+                    return ! lm.get("done");
+                } )) === "undefined";
             }, "Too long to compute lint", 2000 );
             runs( function() {
                 var banner = view.$el.find( ".lintCollectionBanner" );
@@ -81,9 +94,11 @@ define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCo
                 expect( banner.hasClass( "hidden" ) ).toBe( false );
                 var text = view.$el.find( ".lintCollectionBanner" ).text();
                 expect( text === initialText ).toBe( false );
+                expect( text ).toMatch( /3 issue.*3 files out of 5/ );
                 // GOTCHA at least one of our test things must have no lint error
                 var passed = view.$el.find( ".lintItem.passed" );
                 expect( passed.length > 0 ).toBe( true );
+                
                 _.each( passed, function(x) {
                     expect( $(x).hasClass( "hidden" )).toBe( true );
                 } );
@@ -97,6 +112,20 @@ define( [ "lint/LintView", "lint/LintModel", "lint/LintCollection", "lint/LintCo
                 } );
 
             } );
+        } );
+        it( "Shows the first failing detail automatically", function() {
+            var detailsShown = function() {
+                return view.$el.find( ".lintDetail:not(.hidden)" );
+            };
+
+            expect( detailsShown().length ).toBe( 1 );
+        } );
+        it( "Has toggle for global variable view", function() {
+            expect( view.$el.find(".lintGlobalVariableReport").hasClass( "hidden" ) ).toBe( true );
+            view.showGlobalsModel.set("checked", true );
+            expect( view.$el.find(".lintGlobalVariableReport").hasClass( "hidden" ) ).toBe( false );
+            view.showGlobalsModel.set("checked", false );
+            expect( view.$el.find(".lintGlobalVariableReport").hasClass( "hidden" ) ).toBe( true );
         } );
     } );
 } );

@@ -56,6 +56,7 @@ define( ["../notBackbone", "../notUnderscore", "../notJQuery", "../lib/text!./li
             this.model.check();
         },
         toggleHidden : function() {
+            this.toggled = true;
             this.$el.children( ".lintDetail" ).toggleClass("hidden");
         },
         showDetail: function() {
