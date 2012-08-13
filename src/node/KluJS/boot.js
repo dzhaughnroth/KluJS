@@ -29,8 +29,8 @@
     setIfBlank( config, "require", {} );
     setIfBlank( config, "requireHome", config.mainPath );
     setIfBlank( config, "libDirs", 
-                [ "src/main/js/lib", 
-                  "src/test/js/lib" 
+                [ config.main + "/lib", 
+                  config.test + "/lib" 
                 ] );
     
     _require = config.require;

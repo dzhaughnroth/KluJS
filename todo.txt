@@ -37,8 +37,6 @@ phantom runner.
 
 SOON:
 
-Display the details of the first lint failure automatically
-
 Clean up node directory. Explain what parts can't be tested and why.
 Put server side only stuff in a different place.
 
@@ -60,6 +58,11 @@ and running status, if you will.
 Provide timing details.
 
 Detect klujs-config change on server.
+
+DeadCode issue: The global dead code should not display failure on
+undead code, because the exception may be declared locally for code
+that is exercised globally. (Phantom-runner does not fail, actullay, but
+disaply is red.).
 
 ----------------------
 

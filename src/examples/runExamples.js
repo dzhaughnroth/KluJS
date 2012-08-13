@@ -121,11 +121,47 @@ var examples = [
               && summary.allCoverageOk && summary.allDeadCodeOk; 
       }
     },
+    { name : "customSrcDirs", 
+      prep: function() {
+          mv( "src/main/js", "src/main/javascript" );
+          mv( "src/test/js", "src/test/ickscript" );
+      },
+      klujs: { elementCoverage : { max : 0 }, 
+               main : "src/main/javascript",
+               test : "src/test/ickscript",
+               deadCode : [ "/src/main/javascript/cov/Uncovered.js" ]
+             },
+      check : function( summary, result ) {
+          return summary.allLintPassed && summary.allTestsPassed 
+              && summary.allCoverageOk && summary.allDeadCodeOk; 
+      }
+    },
+    { name : "customLibDirs", 
+      prep: function() {
+      },
+      klujs: { elementCoverage : { max : 0 }, 
+               main : "src/main/javascript",
+               test : "src/test/ickscript",
+               libDirs : [ "src/main/javascript/lib", 
+                           "src/main/javascript/cov",
+                           "src/test/ickscript/lib" ]
+             },
+      check : function( summary, result ) {
+          return summary.allLintPassed && summary.allTestsPassed 
+              && summary.allCoverageOk && summary.allDeadCodeOk; 
+      }
+    },
     { name : "specFail",
       prep: function() {
-          mv( "src/test/js/fine/FailSpec.later", "src/test/js/fine/FailSpec.js" );
+          mv( "src/test/ickscript/fine/FailSpec.later", "src/test/ickscript/fine/FailSpec.js" );
       },
-      klujs: { deadCode : [ "/src/main/js/cov/Uncovered.js" ] },
+      klujs: { elementCoverage : { max : 0 }, 
+               main : "src/main/javascript",
+               test : "src/test/ickscript",
+               libDirs : [ "src/main/javascript/lib", 
+                           "src/main/javascript/cov",
+                           "src/test/ickscript/lib" ]
+             },
       check : function( summary, result ) {
           return summary.allLintPassed && !summary.allTestsPassed 
               && summary.allCoverageOk && summary.allDeadCodeOk; 
