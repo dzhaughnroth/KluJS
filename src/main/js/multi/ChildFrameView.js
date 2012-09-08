@@ -40,7 +40,7 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
                     resultCell.addClass( failClass );
                 }
                 else {
-                    text = "Passed all " +results.count + " specs";
+                    text = "Passed all " +results.totalCount + " specs";
                     resultCell.addClass( okClass );
                 }
             }

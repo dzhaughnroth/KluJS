@@ -57,7 +57,7 @@ define( [ "multi/ChildFrameView", "notJQuery" ], function( ChildFrameView, $ ) {
             mockVals.status = "passed";
             mockVals.results = { 
                 failedCount : 0,
-                count : 6,
+                totalCount : 6,
                 passedCount : 6
             };
             mockVals.coverageGoalFailures = 8;

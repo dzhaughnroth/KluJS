@@ -1,6 +1,7 @@
 /*globals define:false, requirejs:false, console:false */
 
-define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuery", "./lib/purl" ], function( SuitePage, AutoSuiteFetcher, notKlujs, $, purlPkg ) {
+define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuery", "./lib/purl", "require"], function( SuitePage, AutoSuiteFetcher, notKlujs, $, purlPkg, require ) {
+
 
     var SuiteStarter = function( pageFacade, jasmineImpl, mockFetcher, mockRequireJs ) {
         var self = this;
@@ -13,6 +14,22 @@ define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuer
         this.errorCallback = function( err ) {
             self.suitePage.fail( err );
         };
+        this.runSpecs = function( specs ) {
+            var self = this;
+            require( specs, function() {
+                try {
+                    jasmineImpl.getEnv().execute();
+                }
+                catch( x ) {
+                    self.suitePage.fail( { message: "Error executing jasmine",
+                                           error: x } );
+                    if ( self.errorCallback ) {
+                        self.errorCallback( x );
+                    }
+                }
+            } );
+        };
+
         this.go = function() {
             var suite = self.purl.param("suite");
             self.suitePage.assembly.name.set( "suiteName", suite );
@@ -31,7 +48,8 @@ define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuer
                 var pathToSpec = prefix + "/" + spec;
                 relSpecs.push( pathToSpec );
             });
-            self.suitePage.assembly.jasmine.runSpecs( relSpecs, self.errorCallback );
+            this.runSpecs( relSpecs, self.errorCallback );
+//            self.suitePage.assembly.jasmine.runSpecs( relSpecs, self.errorCallback );
         };        
         this.start = function() { 
             // has to come first. :(

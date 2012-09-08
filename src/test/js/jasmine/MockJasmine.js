@@ -80,12 +80,43 @@ define( [ ], function( ) {
             var ss = standardSuite();
             return makeMockRunner( [ss, ss.mockSuites[0] ] );
         };
+
+        var MockImpl = function( jsApiResultsFunction ) {
+            
+            this.reporters = [];
+            this.executed = false;
+            this.Reporter = function() { };
+            this.JsApiReporter = function() {
+                this.results = jsApiResultsFunction;
+            };
+            this.HtmlReporter = function() {
+                
+            };
+            
+            var self = this;
+            var env = {
+                addReporter : function( x ) {                
+                self.reporters.push( x );
+                },
+                reporter : {
+                    subReporters_ : []
+                },
+                execute : function() {
+                    self.executed = true;
+                }
+            };
+            self.getEnv = function() {
+                return env;
+            };
+        };
+
         
         this.standardRunner = standardRunner;
         this.standardSuite = standardSuite;
         this.simpleSuite = simpleSuite;
         this.makeMockSpec = makeMockSpec;
         this.makeMockResults = makeMockResults;
+        this.mockImpl = new MockImpl();
 
     };
     

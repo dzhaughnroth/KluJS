@@ -1,6 +1,6 @@
 /*globals define:false, $$_l:false */
 define( [ 
-    "../jasmine/JasmineModel",
+//    "../jasmine/JasmineModel",
     "../jasmine/RunnerModel",
     "../SuiteName",
     "../FocusFilterFactory",
@@ -11,7 +11,7 @@ define( [
     "../lint/LintCollection",
     "../deadcode/CodeListModel",
     "../deadcode/DeadCodeModel"
-], function( JasmineModel, RunnerModel, SuiteName, FocusFilterFactory, ParentMessagePoster, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, CodeListModel, DeadCodeModel ) {
+], function( RunnerModel, SuiteName, FocusFilterFactory, ParentMessagePoster, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, CodeListModel, DeadCodeModel ) {
 
     var Assembly = function( windowImpl, jasmineImpl ) {
         var self = this;
@@ -27,7 +27,7 @@ define( [
             postToParent( { messageType:"finished" } );
         };
         this.name = new SuiteName.Model();
-        var jasmineModel = new JasmineModel( { jasmineImpl: jasmineImpl } );
+//        var jasmineModel = new JasmineModel( { jasmineImpl: jasmineImpl } );
         var runnerModel = new RunnerModel();
         jasmineImpl.getEnv().addReporter( runnerModel.jasmineReporter );
         var lintModel = new LintCollection();
@@ -47,7 +47,7 @@ define( [
             coverageDataModel: covModel
         } );
         var lintFinder = new LintFinder();
-        this.jasmine = jasmineModel;
+//        this.jasmine = jasmineModel;
         this.runnerModel = runnerModel;
         this.coverage = covModel;
         this.lint = lintModel;
@@ -58,10 +58,10 @@ define( [
         };
         var testFinished;
         testFinished = function( ) {
-            if ( jasmineModel.get("status") === "running" ) {
+            if ( runnerModel.get("status") === "running" ) {
                 postToParent( {messageType:"started"} );
             }
-            if ( jasmineModel.get("status") === "done" ) {
+            if ( runnerModel.get("done") ) {
                 if ( typeof $$_l !== "undefined" ) {
                     covModel.setData( $$_l );
                 }
@@ -72,14 +72,14 @@ define( [
                 if ( ! postToParent( { messageType:"lint", lintWork: found } ) ) {
                     lintModel.addFinderResult( found );
                 }
-                jasmineModel.off( 'change', testFinished );
+                runnerModel.off( 'change', testFinished );
                 postToParent( {messageType:"finished"} );
             }
         };
       
         this.testFinished = testFinished;
 
-        jasmineModel.on( 'change', testFinished );
+        runnerModel.on( 'change', testFinished );
         // check to see if already running or done.
         testFinished();
 

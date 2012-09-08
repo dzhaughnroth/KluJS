@@ -94,6 +94,22 @@ define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js", "ConfigFacade"], func
             expect( failure.message ).toBeDefined();
             expect( failure.error ).toBe( "goo" );
         } );
+        it ( "Handles jasmine errors", function() {
+            mockJasmine.getEnv = function() {
+                throw "zot";
+            };
+            var callbackVal;
+            topic.errorCallback = function( q ) {
+                callbackVal = q;
+            };
+            topic.runSpecs( [] );            
+            expect( callbackVal ).toBe( "zot" ); 
+            // cover the case with not errorCallback
+            topic.errorCallback = undefined;
+            callbackVal = undefined;
+            topic.runSpecs( [] );
+            expect( callbackVal ).toBeUndefined();
+        } );
 
     } );
     

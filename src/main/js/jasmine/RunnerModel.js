@@ -44,6 +44,7 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SuiteModel"],
                         suiteModel.rollupIdMaps( self.suiteMap, self.specMap );
                     }
                 } );
+                self.set("status", "running");
             };
             this.on( "change:runner", computeChildren );
             this.on( "change:done", function() {

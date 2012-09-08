@@ -37,16 +37,19 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
                     this.set( "status", ERROR );
                     this.set( "error", cWin.klujsAssembly.error );
                 }
-                else if ( cWin.klujsAssembly.jasmine.get( "status" ) === "done" ) {
-                    var result = {
-                        count : 0,
-                        failedCount : 0,
-                        passedCount : 0
-                    };
-                    var jasResults = cWin.klujsAssembly.jasmine.get( "result" );
-                    result.failedCount = jasResults.failed;
-                    result.passedCount = jasResults.count - result.failedCount;
-                         result.count = jasResults.count;
+                else if ( cWin.klujsAssembly.runnerModel.get("done") ) {
+//                else if ( cWin.klujsAssembly.runnerModel.get( "status" ) === "done" ) {
+ //                   var result = {
+ //                       count : 0,
+ //                       failedCount : 0,
+ //                       passedCount : 0
+ //                   };
+//                    var jasResults = cWin.klujsAssembly.jasmine.get( "result" );
+//                    result.failedCount = jasResults.failed;
+//                    result.passedCount = jasResults.count - result.failedCount;
+//                    result.count = jasResults.count;
+                    var jasRunner = cWin.klujsAssembly.runnerModel.get( "runner" );
+                    var result = jasRunner.results();
                     this.set("results", result );
                     if ( result.failedCount > 0 ) {
                         this.set( "status", FAILED);

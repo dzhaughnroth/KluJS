@@ -5,15 +5,29 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
         // FIXME muahahaha
         var suite = "Suiteness";
         var topic = new ChildFrameModel( { suite: suite } );
+        var mockStatus = "new";
+        var counts = { };
+        var mockRunner = {
+            results : function() { return counts; }
+        };
         var mockValues = [];
         var mockDead = [];
         var mockTopic = function() {
             topic.plainFrame = {
                 contentWindow : {
                     klujsAssembly : {
-                        jasmine : {
-                            get : function() {
-                                return mockValues.shift();
+                        runnerModel : {
+                            get : function(x) {
+                                if ( x === "status" ) {
+                                    return mockStatus;
+                                }
+                                if ( x === "runner" ) {
+                                    return mockRunner;
+                                }
+                                if ( x === "done" ) {
+                                    return mockStatus === "failed" 
+                                        || mockStatus === "passed";
+                                }
                             }
                         },
                         goalFailureCount : function() {
@@ -24,8 +38,6 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
                                 return mockDead.shift();
                             }
                         }
-                            
-                        
                     }
                 }
             };
@@ -46,7 +58,7 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
         } );
         it( "Should reflect if child is running", function() {
             mockTopic();
-            mockValues = [ "running" ];
+            mockStatus = "running";
             topic.check();
             expect( topic.get("status" ) ).toBe( "running" );
             expect( topic.get("coverageGoalFailures" ) ).toBeUndefined();
@@ -63,19 +75,21 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
         
         it( "Should be able to report pass/fail counts after checking", function() {
             mockTopic();
-            mockValues = [ "done", {failed: 7, count:31092} ];
+            mockStatus = "failed";
+            counts.failedCount = 2;
+            counts.totalCount = 12;
+            counts.passedCount = 10;
             mockDead = [ { dead : [], undead : [], exceptions : [] } ];
             topic.check();
-            expect( topic.get("results").failedCount ).toBe( 7 );
-            expect( topic.get("results").passedCount ).toBe( 31085 );
-            expect( topic.get("results").count ).toBe( 31092 );
+            expect( topic.get("results") ).toBe( counts );
             expect( topic.get("status" ) ).toBe( "failed" );
             expect( topic.get("coverageGoalFailures" ) ).toBe( 171 );
 
-            mockValues = [ "done", { failed: 0, count:8 } ];
+            counts.failedCount = 0;
+            counts.totalCount = 8;
+            mockValues = [ { results : function() { return counts; }} ];
             topic.check();
-            expect( topic.get("results").failedCount ).toBe( 0 );
-            expect( topic.get("results").passedCount ).toBe( 8 );
+            expect( topic.get("results") ).toBe( counts );
             expect( topic.get("status" ) ).toBe( "passed" );
             expect( topic.get("coverageGoalFailures" ) ).toBe( 171 );
         } );
