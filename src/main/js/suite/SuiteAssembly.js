@@ -1,6 +1,7 @@
 /*globals define:false, $$_l:false */
 define( [ 
     "../jasmine/JasmineModel",
+    "../jasmine/RunnerModel",
     "../SuiteName",
     "../FocusFilterFactory",
     "../ParentMessagePoster",
@@ -10,7 +11,7 @@ define( [
     "../lint/LintCollection",
     "../deadcode/CodeListModel",
     "../deadcode/DeadCodeModel"
-], function( JasmineModel, SuiteName, FocusFilterFactory, ParentMessagePoster, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, CodeListModel, DeadCodeModel ) {
+], function( JasmineModel, RunnerModel, SuiteName, FocusFilterFactory, ParentMessagePoster, CoverageDataModel, SuiteInterpreter, LintFinder, LintCollection, CodeListModel, DeadCodeModel ) {
 
     var Assembly = function( windowImpl, jasmineImpl ) {
         var self = this;
@@ -27,6 +28,8 @@ define( [
         };
         this.name = new SuiteName.Model();
         var jasmineModel = new JasmineModel( { jasmineImpl: jasmineImpl } );
+        var runnerModel = new RunnerModel();
+        jasmineImpl.getEnv().addReporter( runnerModel.jasmineReporter );
         var lintModel = new LintCollection();
         lintModel.on( 'add', function( modelAdded ) {
             modelAdded.check();
@@ -45,6 +48,7 @@ define( [
         } );
         var lintFinder = new LintFinder();
         this.jasmine = jasmineModel;
+        this.runnerModel = runnerModel;
         this.coverage = covModel;
         this.lint = lintModel;
         this.codeList = codeListModel;

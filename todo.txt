@@ -83,7 +83,3 @@ between suites. Hrmph. Let's treat it separately?)
 (Arguably every file should have a conventionally named file. Why not
 enforce this? Good idea, but I think it is complicated.)
 
-
-
-
-

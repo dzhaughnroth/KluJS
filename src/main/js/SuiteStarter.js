@@ -35,9 +35,9 @@ define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuer
         };        
         this.start = function() { 
             // has to come first. :(
-            self.jasmine.getEnv().reporter.subReporters_.unshift( 
-                self.suitePage.view.jasmineView.reporter 
-            );
+//            self.jasmine.getEnv().reporter.subReporters_.unshift( 
+//                self.suitePage.view.jasmineView.reporter 
+//            );
             self.suitePage.buildDom();
             self.fetcher = mockFetcher || new AutoSuiteFetcher( notKlujs );
             self.fetcher.fetch( function() { 

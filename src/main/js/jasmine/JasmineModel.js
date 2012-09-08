@@ -11,6 +11,7 @@ define( ["../notBackbone", "../notUnderscore", "../notJQuery", "require" ], func
             var jaz = this.get("jasmineImpl");
             var listener = new jaz.Reporter();
             var apiReporter = new jaz.JsApiReporter();
+
             jaz.getEnv().addReporter( apiReporter );
             jaz.getEnv().addReporter( listener );
             var self = this;

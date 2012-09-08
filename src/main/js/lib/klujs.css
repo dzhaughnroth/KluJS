@@ -13,6 +13,50 @@ body {
   display: none;
 }
 
+.banner {
+    line-height: 28px;
+    padding: 0px 9px 0px 9px;
+    margin: 0 0 14px 0;
+    color: white;
+    background-color: #AAAAAA
+}
+
+.banner.failed {
+    background-color:#B03911;
+}
+
+.banner.passed {
+    background-color:#5E7D00;
+}
+
+.itemTitle {
+    padding : 0 0 0 14px;
+    color: #AAAAAA;
+    background-color: whitew
+}
+
+.itemTitle.failed {
+    color: #B03911;
+}
+
+.itemTitle.passed {
+    color: #5E7D00;
+}
+
+.itemTitle.running {
+    color: #1139B0;
+}
+
+.itemDetail {
+    font-size : .9em;
+    margin-left : 1em;    
+}
+
+.itemDetail ul {
+    list-style-type : none;
+    margin-top : 0em;
+}
+
 .lintCollectionView {
   margin: 14px 0 0 0;
   color: #303;
@@ -193,4 +237,79 @@ a.suiteLink {
 
 a.nocovLink {
 
+}
+
+.jasmineSpecView {
+    margin: 0 1em 0 1em;   
+}
+
+.jasmineSpecView { 
+    color:blue;
+}
+
+.jasmineSpecView.passed { 
+    color:#5E7D00;
+}
+
+.jasmineSpecView.failed { 
+    color:#B03911;
+}
+
+.jasmineSuiteView {
+    margin: 0 1em 0 1em;
+}
+
+
+//div.jasmineBlinkyView {
+//    display:block;
+//    height : 1px;
+//}
+
+.jasmineBlinkyViewList { 
+    display:inline;
+}
+.jasmineBlinkyViewName {
+    display:inline;
+    margin-left : 1em;
+}
+
+.jasmineBlinkyView { 
+    margin-left : 1em;
+//    float:none;
+}
+
+.specBlinker {
+    color:blue;    
+}
+
+.specBlinker:hover {
+    background-color : #AAAAAA;//gray;
+}
+
+.specBlinker.passed {
+    color:#5E7D00;
+}
+
+.specBlinker.failed {
+    color:#B03911;
+}
+
+//.jasmineBannerView > span {
+//    margin-left : 1em;
+//}
+
+//.jasmineFailedSpecView {
+//    margin-left: 1em;
+//}
+
+.detailItem {
+    margin-left: 1em;
+}
+
+.specViewTitle {
+    color:#B03911;
+}
+
+.klujsTraceLine {
+    color:#AAAAAA;
 }

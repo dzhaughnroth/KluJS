@@ -41,9 +41,6 @@ define( [ "widgets/Checkbox" ], function( Checkbox ) {
             cb2.toggle();
             checkSame();
             expect( model.get("checked") ).toBe( false );
-//            $("body").append( cb1.$el );
-//            $("body").append( cb2.$el );
-//            $("body").append( lab.$el );
         } );
         it ( "Label view tracks label changes, toggles on click", function() {
             model.set("label", "Other" );
