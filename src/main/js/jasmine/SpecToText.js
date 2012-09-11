@@ -8,11 +8,11 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "../lib/purl" ],
         }
         return text;
     };
-    var fullDescription = function(spec) {
+    var fullDescription = function(specOrSuite) {
         var text = "";
-        if ( spec ) {
-            text = spec.description;
-            var parent = spec.suite;
+        if ( specOrSuite ) {
+            text = specOrSuite.description;
+            var parent = specOrSuite.suite || specOrSuite.parentSuite;
             while( parent ) {
                 text = parent.description + " " + text;
                 parent = parent.parentSuite;
@@ -21,11 +21,11 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "../lib/purl" ],
         return text;
     };
 
-    var link = function( spec, text ) {
+    var link = function( specOrSuite, text ) {
         var href = "?";
         var suite = purl.param("suite");
         href += "suite=" + suite + "&";
-        href += "filter=" + fullDescription( spec );
+        href += "filter=" + fullDescription( specOrSuite );
         var t = text || fullDescription(spec);
 
         return $("<a />", { text: t, 

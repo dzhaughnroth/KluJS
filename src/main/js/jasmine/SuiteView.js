@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false */
-define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SpecView"], function( $, _, Backbone, SpecView ) {
+define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SpecView", "./SpecToText"], function( $, _, Backbone, SpecView, SpecToText ) {
 
     var SuiteView;
     SuiteView = Backbone.View.extend( {
@@ -20,7 +20,9 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SpecView"], f
             if ( s ) {
                 self.$el.empty();
                 self.$el.append( self.descriptionDiv );
-                self.descriptionDiv.text( s.description );
+                self.descriptionDiv.append(
+                    SpecToText.link( s, s.description );
+                );
                 $.each( this.model.specModels, function( i, specModel ) {
                     var specView = new SpecView( { model : specModel } );
                     specView.autoHide = this.autoHide;

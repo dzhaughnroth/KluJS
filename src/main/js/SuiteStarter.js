@@ -2,7 +2,6 @@
 
 define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuery", "./lib/purl", "require", "./jasmine/SpecToText"], function( SuitePage, AutoSuiteFetcher, notKlujs, $, purlPkg, require, SpecToText ) {
 
-
     var SuiteStarter = function( pageFacade, jasmineImpl, mockFetcher, mockRequireJs ) {
         var self = this;
         this.klujsConfig = notKlujs;
