@@ -10,6 +10,15 @@ define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js", "ConfigFacade"], func
             fetcherErrorCallback = errCallback;
         }
     };
+    var mockParams = { 
+        suite:"(base)", 
+        filter:"FilterMe"
+    };
+    var mockPurl = { 
+        param: function( name ) {
+            return mockParams[name];
+        }
+    };
 
     describe( "SuiteStarter", function() {
         var facade = { head : $("<div />"),
@@ -21,6 +30,7 @@ define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js", "ConfigFacade"], func
             }
         };
         var topic = new SuiteStarter( facade, mockJasmine, mockFetcher, mockReqJs );
+        topic.purl = mockPurl;
         topic.start();
         it( "Orchestrates startup", function() {
             expect( fetcherCallback ).toBeDefined();
@@ -34,6 +44,21 @@ define( [ "SuiteStarter", "notJQuery", "./MockJasmine.js", "ConfigFacade"], func
             fetcherErrorCallback( mockError );
             expect( failed ).toBe( mockError );
         } );
+        it( "Creates a spec filter", function() {
+            expect( mockJasmine.getEnv().specFilter ).toBeDefined();
+            expect( mockJasmine.getEnv().specFilter( { description:"Foo" } )).toBe( false );
+            expect( mockJasmine.getEnv().specFilter( { description:"FilterMe" } ))
+                .toBe( true );
+            mockJasmine.getEnv.specFilter = function() { return false; };
+        } );
+        it( "Works without a filter", function() {
+            mockJasmine.getEnv().specFilter = undefined;
+            topic.buildFilter( undefined );
+            expect( mockJasmine.getEnv().specFilter ).toBeUndefined();
+            topic.buildFilter( "Zot" );
+            expect( mockJasmine.getEnv().specFilter ).toBeDefined();
+        } );
+
         it( "Calls suitePage.fail on requirejs error", function() {
             expect( mockReqJs.onError ).toBe( topic.errorHandler );
             var failure;

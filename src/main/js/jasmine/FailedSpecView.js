@@ -1,5 +1,5 @@
 /*global define:false, jasmine:false */
-define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceView" ], function( $, _, Backbone, StackTraceView ) {
+define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceView", "./SpecToText" ], function( $, _, Backbone, StackTraceView, SpecToText ) {
 
     var View = Backbone.View.extend( {
         tagName: "div",
@@ -49,7 +49,7 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceVie
             return list;
         },
         initialize : function() {
-            _.bindAll( this, "render", "detailList", "toggleShowPassed", "showPassed", "passedUpdate", "failedUpdate", "runningUpdate", "errorUpdate" );
+            _.bindAll( this, "render", "detailList", "toggleShowPassed", "showPassed", "passedUpdate", "failedUpdate", "runningUpdate", "errorUpdate", "setText" );
             this.model.on( "change", this.render );
             this.titleEl = $("<div />").addClass( "specViewTitle" )
                 .addClass( "itemTitle" )
@@ -60,11 +60,16 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceVie
                 .appendTo( this.$el );
             
         },
+        setText : function( extra ) {
+            var spec = this.model.get("spec");
+            this.titleEl.empty()
+                .append( SpecToText.link( spec ) )
+                .append( $("<span />", { text: extra } ) );
+        },
         passedUpdate : function() {
             this.$el.addClass( "passed" );
             this.$el.removeClass( "failed" );
-            this.titleEl.text( this.model.fullDescription() + " passed");
-            
+            this.setText(": passed" );          
             var results = this.model.get("spec").results();
             this.detailEl.empty();
             this.detailEl.append( this.detailList( results ) );
@@ -79,22 +84,24 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceVie
             var failures = _.filter( r.getItems(), 
                                      function(item) { return !item.passed(); } 
                                    );
-            var text = this.model.fullDescription() + ": " 
+            var text = ": " //this.model.fullDescription() + ": " 
                     + failures.length + "/" + r.getItems().length + " failed";    
-            this.titleEl.text( text );
+            this.setText( text );
+//            this.titleEl.text( text );
             var results = this.model.get("spec").results();
             this.detailEl.empty();
             this.detailEl.append( this.detailList( results ) );
         },
         runningUpdate : function() {
-            this.titleEl.text( this.model.fullDescription(  ) );
+            this.setText("");//this.titleEl.text( this.model.fullDescription(  ) );
         },
         errorUpdate : function() {
             this.$el.addClass( "error" );
             this.$el.removeClass( "passed" );
             this.$el.removeClass( "failed" );
             this.$el.removeClass( "hidden" );
-            this.titleEl.text( this.titleEl.text() + ": Error" );
+            this.setText(": error" );
+//            this.titleEl.text( this.titleEl.text() + ": Error" );
             this.detailEl.text( "Error." );
         },
         render : function() {
@@ -105,7 +112,7 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceVie
                 update();
             }
             else {
-                this.titleEl.text( this.model.fullDescription() );
+                this.setText( "" );
             }
             return this;
         }

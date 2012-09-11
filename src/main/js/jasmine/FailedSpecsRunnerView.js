@@ -14,7 +14,8 @@ define( [ "./FailedSpecView", "../notJQuery", "../notUnderscore", "../notBackbon
             if ( runner && this.model.get("status" ) === "failed" ) {
                 this.$el.empty();
                 $.each( this.model.specMap, function( id, specModel ) {
-                    if ( specModel.get("status") !== "passed" ) {
+                    if ( specModel.get("status") !== "passed" 
+                       && specModel.get("status" ) !== "skipped" ) {
                         var subView = new FailedSpecView( { model:specModel } ).render();
                         self.$el.append( subView.$el );                       
                     }

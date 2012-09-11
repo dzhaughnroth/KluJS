@@ -1,20 +1,24 @@
 /*global define:false, jasmine:false */
-define( [ "../notJQuery", "../notUnderscore", "../notBackbone"], function( $, _, Backbone ) {
-
-    var fullDescription = function( spec ) {
-        return spec.description;
-    };
+define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SpecToText"], function( $, _, Backbone, SpecToText ) {
 
     var View = Backbone.View.extend( {
         tagName: "div",
         className : "jasmineSpecView",
         autoHide : true,
         initialize : function() {
-            _.bindAll( this, "render" );
+            _.bindAll( this, "render", "setText" );
             this.model.on( "change", this.render );
             this.titleEl = this.$el;
+            this.$el.addClass( "itemTitle" );
         },
         updates : {
+            skippedUpdate : function() {
+                this.$el.addClass( "skipped" );
+                this.$el.removeClass( "passed" );
+                this.$el.removeClass( "error" );
+                this.$el.removeClass( "failed" );
+                this.$el.removeClass( "running" );
+            },
             passedUpdate : function() {
                 this.$el.addClass( "passed" );
                 this.$el.removeClass( "failed" );
@@ -25,8 +29,7 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone"], function( $, _,
                 else {
                     this.$el.removeClass( "hidden" );
                 }
-                this.$el.text( fullDescription( this.model.get("spec" ) ) 
-                               + " passed");
+                this.setText( "passed" );
             },        
             failedUpdate : function() {
                 this.$el.addClass( "failed" );
@@ -37,19 +40,29 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone"], function( $, _,
                 var failures = _.filter( r.getItems(), 
                                          function(item) { return !item.passed(); } 
                                        );
-                var text = fullDescription(s) + ": " + failures.length + "/" + r.getItems().length + " failed";                      
-                this.titleEl.text( text );
+                var text = failures.length + "/" + r.getItems().length + " failed";          
+                this.setText( text );
             },
             runningUpdate : function() {
-                this.titleEl.text( fullDescription( this.model.get("spec") ) );
+                this.setText("");
             },
             errorUpdate : function() {
+                this.setText("Error");
                 this.$el.addClass( "error" );
                 this.$el.removeClass( "passed" );
                 this.$el.removeClass( "failed" );
                 this.$el.removeClass( "hidden" );
-                this.titleEl.text( this.titleEl.text() + ": Error" );
             }
+        },
+        setText: function(extraText) {
+            var link = SpecToText.link( this.model.get("spec"), SpecToText.brief( this.model.get("spec") ) );
+            var extra = "";
+            if ( extraText ) {
+                extra = ": " + extraText;
+            }
+            this.titleEl.empty()
+                .append( link )
+                .append( $("<span />", { text : extra } ) );
         },
         render : function() {
             var status = this.model.get("status");
@@ -59,7 +72,7 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone"], function( $, _,
                 update.call( this );
             }
             else {
-                this.titleEl.text( "...loading..." );
+                this.setText( "loading" );
             }
             return this;
         }

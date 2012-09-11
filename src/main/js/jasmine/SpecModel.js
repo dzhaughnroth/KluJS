@@ -1,30 +1,15 @@
 /*global define:false, jasmine:false */
-define( [ "../notJQuery", "../notUnderscore", "../notBackbone"], function( $, _, Backbone ) {
+define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SpecToText" ], function( $, _, Backbone, SpecToText ) {
 
     var Model = Backbone.Model.extend( {
         // spec
         // done
         // status
         briefDescription : function() {
-            var text = "";
-            var spec = this.get("spec");
-            if ( spec ) {
-                text = spec.description;
-            }
-            return text;
+            return SpecToText.brief( this.get("spec") );
         },
         fullDescription : function() {
-            var text = "";
-            var spec = this.get("spec");
-            if ( spec ) {
-                text = spec.description;
-                var parent = spec.suite;
-                while( parent ) {
-                    text = parent.description + " " + text;
-                    parent = parent.parentSuite;
-                }
-            }
-            return text;
+            return SpecToText.full( this.get("spec") );
         },
         initialize : function() {
             _.bindAll( this, "updateStatus", "fullDescription", "briefDescription" );
@@ -40,11 +25,16 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone"], function( $, _,
                 if ( done ) {
                     var r = s.results();
                     if ( r ) {
-                        if ( r.failedCount > 0 ) {
-                            result = "failed";
+                        if ( r.skipped ) {
+                            result = "skipped";
                         }
                         else {
-                            result = "passed";
+                            if ( r.failedCount > 0 ) {
+                                result = "failed";
+                            }
+                            else {
+                                result = "passed";
+                            }
                         }
                     }
                     else {

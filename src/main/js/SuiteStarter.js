@@ -1,6 +1,6 @@
 /*globals define:false, requirejs:false, console:false */
 
-define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuery", "./lib/purl", "require"], function( SuitePage, AutoSuiteFetcher, notKlujs, $, purlPkg, require ) {
+define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuery", "./lib/purl", "require", "./jasmine/SpecToText"], function( SuitePage, AutoSuiteFetcher, notKlujs, $, purlPkg, require, SpecToText ) {
 
 
     var SuiteStarter = function( pageFacade, jasmineImpl, mockFetcher, mockRequireJs ) {
@@ -30,8 +30,20 @@ define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuer
             } );
         };
 
+        this.buildFilter = function( filterParam ) {
+            if ( filterParam ) {
+                var regex = new RegExp( filterParam );
+                var filter = function(x) {                    
+                    var result = regex.test( SpecToText.full(x));
+                    return result;
+                };
+                jasmineImpl.getEnv().specFilter = filter;
+            }
+        };
+
         this.go = function() {
             var suite = self.purl.param("suite");
+            self.buildFilter( self.purl.param("filter"));
             self.suitePage.assembly.name.set( "suiteName", suite );
             self.suitePage.assembly.deadCode.set( "exceptions", self.klujsConfig.deadCode() );
             var targets = self.klujsConfig.targetsForSuite( suite );
@@ -49,7 +61,6 @@ define( [ "./SuitePage", "./autosuite/AutoSuiteFetcher", "./Config", "./notJQuer
                 relSpecs.push( pathToSpec );
             });
             this.runSpecs( relSpecs, self.errorCallback );
-//            self.suitePage.assembly.jasmine.runSpecs( relSpecs, self.errorCallback );
         };        
         this.start = function() { 
             // has to come first. :(

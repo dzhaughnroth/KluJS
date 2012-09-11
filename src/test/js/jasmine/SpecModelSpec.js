@@ -24,6 +24,11 @@ define( [ "jasmine/SpecModel", "./MockJasmine.js" ], function( SpecModel, MockJa
             model.set("done", false );
             model.set("done", true );
             expect( status() ).toBe( "passed" );
+
+            mockSpec.mockResults.skipped = true;
+            model.set("done", false );
+            model.set("done", true );
+            expect( status() ).toBe( "skipped" );
         } );
         it( "Helps with description", function() {
             expect( new SpecModel().briefDescription() ).toBe( "" );

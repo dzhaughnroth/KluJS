@@ -19,14 +19,14 @@ define( [ "jasmine/SpecView", "jasmine/SpecModel", "jasmine/BlinkySpecView", "./
             }
         };
         it( "Initially empty", function() {
-            expect( view.titleEl.text() ).toBe( "...loading..." );
-            expect( view.$el.attr("class") ).toBe( "jasmineSpecView" );
+            expect( view.titleEl.text() ).toBe( ": loading" );
+            expect( view.$el.hasClass( "jasmineSpecView" ) ).toBe( true );
             checkBlinker( "new", "*" );
         } );
         it( "Displays spec description", function() {
             model.set( "spec", mockSpec );
             expect( view.titleEl.text() ).toBe( "spec1" );
-            expect( view.$el.attr("class") ).toBe( "jasmineSpecView" );
+            expect( view.$el.hasClass( "jasmineSpecView" ) ).toBe( true );
             checkBlinker( "running", "-", ["new"] );
         } );
         it( "Displays an error in response to nonsense", function() {
@@ -44,6 +44,13 @@ define( [ "jasmine/SpecView", "jasmine/SpecModel", "jasmine/BlinkySpecView", "./
             expect( view.$el.hasClass( "failed" ) ).toBe( true );
             checkBlinker( "failed", "!", ["running", "new"] );
 
+            mockSpec.mockResults.skipped = true;
+            model.set( "done", false );
+            model.set( "done", true );
+            expect( view.$el.hasClass( "skipped" ) ).toBe( true );
+            checkBlinker( "skipped", ":", [ "passed", "running", "error", "failed"] ); 
+            mockSpec.mockResults.skipped = undefined;
+
             mockSpec.mockResults = mockJasmine.makeMockResults( 0, 0 );
             model.set( "done", false );
             model.set( "done", true );
@@ -56,8 +63,10 @@ define( [ "jasmine/SpecView", "jasmine/SpecModel", "jasmine/BlinkySpecView", "./
             model.set( "done", false );
             model.set( "done", true );
             expect( view.$el.hasClass( "passed" ) ).toBe( true );
-            expect( view.titleEl.text() ).toBe( "spec1 passed" );
+            expect( view.titleEl.text() ).toBe( "spec1: passed" );
             checkBlinker( "passed", ".", ["error", "failed"] ); 
+
+
         } );
         it ( "Autohides when passed, if configured to do so", function() {
             expect( view.autoHide ).toBe( true );

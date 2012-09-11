@@ -2,7 +2,7 @@
 define( [ "../notJQuery", "../notUnderscore", "../notBackbone"], function( $, _, Backbone ) {
 
     var classesToSymbol = {"passed":".", "failed":"!", "error":"?", 
-                           "running":"-", "new":"*" };
+                           "running":"-", "new":"*", "skipped":":" };
     var BlinkySpecView = Backbone.View.extend( {
         tagName : "span",
         className : "specBlinker",
