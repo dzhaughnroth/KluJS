@@ -26,7 +26,7 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "../lib/purl" ],
         var suite = purl.param("suite");
         href += "suite=" + suite + "&";
         href += "filter=" + fullDescription( specOrSuite );
-        var t = text || fullDescription(spec);
+        var t = text || fullDescription(specOrSuite);
 
         return $("<a />", { text: t, 
                             href: href } );

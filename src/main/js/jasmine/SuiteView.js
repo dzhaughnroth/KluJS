@@ -20,9 +20,8 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SpecView", ".
             if ( s ) {
                 self.$el.empty();
                 self.$el.append( self.descriptionDiv );
-                self.descriptionDiv.append(
-                    SpecToText.link( s, s.description );
-                );
+                self.descriptionDiv.text( "" );
+                self.descriptionDiv.append( SpecToText.link( s, s.description ) );
                 $.each( this.model.specModels, function( i, specModel ) {
                     var specView = new SpecView( { model : specModel } );
                     specView.autoHide = this.autoHide;

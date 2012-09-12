@@ -29,9 +29,10 @@ define( [ "jasmine/RunnerModel", "notUnderscore", "./MockJasmine.js", "notJQuery
             expect( model.specMap[aSpec.id].get("spec") ).toBe( aSpec );
         } );
         it( "Has reporter that links jasmine execution to models", function() {               
+            mockJasmine.applyMockResults( mockRunner, 0, 1 );
             var aSpecModel = model.specMap[ aSpec.id ];
             expect( aSpecModel.get("done") ).toBeFalsy();
-            aSpec.mockResults = mockJasmine.makeMockResults( 5, 1 );
+//            aSpec.mockResults = mockJasmine.makeMockResults( 5, 1 );
             model.jasmineReporter.reportSpecResults( aSpec );
             expect( aSpecModel.get("done") ).toBe( true );
             expect( aSpecModel.get("spec").results().failedCount ).toBe( 1 );
@@ -42,12 +43,12 @@ define( [ "jasmine/RunnerModel", "notUnderscore", "./MockJasmine.js", "notJQuery
             expect( mockSuiteModel.get( "done" )).toBe( true );
             
             expect( model.get("done")).toBeFalsy();
-            mockRunner.mockResults = mockJasmine.makeMockResults( 10, 2 );
+//            mockRunner.mockResults = mockJasmine.makeMockResults( 10, 2 );
             model.jasmineReporter.reportRunnerResults( mockRunner );
             expect( model.get("done")).toBe( true );
             expect( model.get("status") ).toBe( "failed" );            
 
-            mockRunner.mockResults = mockJasmine.makeMockResults( 3, 0 );
+            mockJasmine.applyMockResults( mockRunner, 0, 0 );
             model.set("done", false);
             model.set("done", true);
             expect( model.get("status") ).toBe( "passed" );            

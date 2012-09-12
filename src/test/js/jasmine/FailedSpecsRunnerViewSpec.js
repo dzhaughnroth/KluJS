@@ -14,13 +14,14 @@ define( [ "jasmine/FailedSpecsRunnerView", "jasmine/RunnerModel", "notUnderscore
             expect( view.$el.children().length ).toBe( 0 );
             model.set("runner", mockRunner );
             expect( view.$el.children().length ).toBe( 0 );
-            mockRunner.mockResults = mockJasmine.makeMockResults( 10, 0 );
+            mockJasmine.applyMockResults( mockRunner, 0, 0);
             model.set("done", true );
             expect( view.$el.children().length ).toBe( 0 );
         } );
         it ( "Shows failures, hides passed and skipped", function() {            
             model.set("runner", mockRunner );            
-            mockRunner.mockResults = mockJasmine.makeMockResults( 10, 2 );
+            mockJasmine.applyMockResults( mockRunner, 0, 1);
+//            mockRunner.mockResults = mockJasmine.makeMockResults( 10, 2 );
             mockRunner.mockSuites[0].mockSpecs[0].mockResults = mockJasmine.makeMockResults( 2, 1 );
             mockRunner.mockSuites[0].mockSpecs[0].mockResults.skipped = true;
             mockRunner.mockSuites[0].mockSuites[0].mockSpecs[0].mockResults = mockJasmine.makeMockResults( 5, 2 );

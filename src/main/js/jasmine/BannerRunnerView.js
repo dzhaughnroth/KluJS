@@ -31,17 +31,25 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "../widgets/Chec
                 var text = "Jasmine: Running " + count + " specs";
                 if ( this.model.get("done" ) ) {
                     this.$el.removeClass("running");
-                    var results = runner.results();
-                    if ( results.failedCount > 0 ) {
+                    var results = this.model.getCounts();
+                    var runCount = results.totalCount - results.skippedCount;
+                     if ( results.failedCount > 0 ) {
                         text = "Jasmine: " + results.failedCount + " of " 
-                            + count + " specs failed";
-                        this.$el.addClass( "failed" );
+                            + runCount + " specs failed";
+                         this.$el.addClass( "failed" );
                         this.$el.removeClass( "passed" );
                     }
                     else {
-                        text = "Jasmine: All " + count + " specs passed";
+                        text = "Jasmine: " + runCount + " specs passed";
                         this.$el.addClass( "passed" );
                         this.$el.removeClass( "failed" );
+                    }
+                    if ( results.skippedCount !== 0 ) {
+                        text += " (" + results.skippedCount + " skipped)";
+                        this.$el.addClass( "hasSkips" );
+                    }
+                    else {
+                        this.$el.removeClass( "hasSkips" );
                     }
                 }
                 this.textEl.text( text );

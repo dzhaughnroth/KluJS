@@ -38,7 +38,7 @@ define( [ "suite/SuiteAssembly", "../jasmine/MockJasmine.js" ], function(SuiteAs
         });
         describe( "Updates lint and coverage models", function() {
             it( "Computes coverage", function() {
-                mockRunner.mockResults = mockJasmine.makeMockResults( 10, 2 );
+                mockJasmine.applyMockResults( mockRunner, 0, 2 );
                 topic.runnerModel.jasmineReporter.reportRunnerResults( );                
                 expect( topic.coverage.calculator ).toBeDefined();
                 expect( lastMsg ).toBe( "finished" );

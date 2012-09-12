@@ -14,16 +14,26 @@ define( [ "jasmine/BannerRunnerView", "jasmine/RunnerModel", "notUnderscore", "n
             expect( view.$el.hasClass( "running" ) ).toBe( true );
             expect( view.textEl.text() ).toBe( "Jasmine: Running 3 specs" );
 
-            mockRunner.mockResults = mockJasmine.makeMockResults( 10, 2 );
+            mockJasmine.applyMockResults( mockRunner, 1, 1 );
+
             model.set("done", true );
             expect( view.$el.hasClass( "failed" ) ).toBe( true );
-            expect( view.textEl.text() ).toBe( "Jasmine: 2 of 3 specs failed" );
+            expect( view.textEl.text() ).toBe( "Jasmine: 1 of 2 specs failed (1 skipped)" );
 
-            mockRunner.mockResults = mockJasmine.makeMockResults( 10, 0 );
+            mockJasmine.applyMockResults( mockRunner, 0, 0 );
             model.set("done", false );
             model.set("done", true );
             expect( view.$el.hasClass( "passed" ) ).toBe( true );
-            expect( view.textEl.text() ).toBe( "Jasmine: All 3 specs passed" );
+            expect( view.textEl.text() ).toBe( "Jasmine: 3 specs passed" );
+            expect( view.$el.hasClass( "hasSkips" ) ).toBe( false );
+
+            mockJasmine.applyMockResults( mockRunner, 1, 0 );
+            model.set("done", false );
+            model.set("done", true );
+            expect( view.$el.hasClass( "passed" ) ).toBe( true );
+            expect( view.$el.hasClass( "hasSkips" ) ).toBe( true );
+            expect( view.textEl.text() ).toBe( "Jasmine: 2 specs passed (1 skipped)" );
+
         } );
     } );
 

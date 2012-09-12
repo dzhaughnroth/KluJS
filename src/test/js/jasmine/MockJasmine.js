@@ -1,5 +1,5 @@
 /*global define:false, describe:false, it:false, expect:false, runs:false, waitsFor:false, waits:false */
-define( [ ], function( ) {
+define( [ "notJQuery" ], function( $ ) {
 
     var MockJasmine = function() {
         var id = 0;
@@ -60,8 +60,34 @@ define( [ ], function( ) {
                 totalCount : total,
                 failedCount : failed,
                 passedCount : total - failed,
-                getItems : function() { return items; }
+                getItems : function() { return items; },
+                passed : function() {
+                    throw "Who asked?";
+                }
             };
+        };
+
+        var applyMockResults = function( runner, skips, fails ) {
+            var skipResult = function() { 
+                var result = makeMockResults( 0, 0 );
+                result.skipped = true;
+                return result;
+            };
+            var n = 0;
+            $.each( runner.mockSuites, function(i, mockSuite) {
+                $.each( mockSuite.mockSpecs, function(j, mockSpec) {
+                    if ( n < skips ) {
+                        mockSpec.mockResults = skipResult();
+                    }
+                    else {
+                        mockSpec.mockResults = makeMockResults( 3, 
+                                                               n < skips+fails ? 1 : 0 );
+                    }
+                    ++n;
+                } );
+                                                          
+            } );
+            
         };
         
         var simpleSuite = function() {
@@ -117,6 +143,7 @@ define( [ ], function( ) {
         this.makeMockSpec = makeMockSpec;
         this.makeMockResults = makeMockResults;
         this.mockImpl = new MockImpl();
+        this.applyMockResults = applyMockResults;
 
     };
     

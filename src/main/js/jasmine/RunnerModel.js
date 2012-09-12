@@ -48,18 +48,41 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SuiteModel"],
             };
             this.on( "change:runner", computeChildren );
             this.on( "change:done", function() {
-                var runner = this.get("runner");
+                // FIXME maybe skips?
                 var status = "passed";
-                if ( runner.results().failedCount > 0 ) {
+                var counts = self.getCounts();
+                if ( counts && counts.failedCount > 0 ) {
                     status = "failed";
                 }
                 this.set("status", status);
             } );
+            _.bindAll( this, "getCounts" );
         },
         createSuiteModel : function( suite ) {
             var result = new SuiteModel();
             result.set( "suite", suite );
             this.set("status", "running");
+            return result;
+        },
+        getCounts : function() {
+            var result;
+            if ( this.get("done") ) {
+                result = { failedCount: 0, passedCount: 0, totalCount:0, skippedCount:0 };
+                $.each( this.specMap, function(id, specModel) {
+                    ++result.totalCount;
+                    var spec = specModel.get("spec");
+                    var results = spec.results();
+                    if ( results.skipped ) {
+                        ++result.skippedCount;
+                    }
+                    else if ( results.failedCount === 0 ) {
+                        ++result.passedCount;
+                    }
+                    else {
+                        ++result.failedCount;
+                    }                   
+                } );
+            }
             return result;
         }
 

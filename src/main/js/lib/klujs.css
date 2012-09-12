@@ -47,8 +47,13 @@ body {
     color: #1139B0;
 }
 
-.itemTitle.skipped, a.itemTitle.skipped a {
+.itemTitle.skipped, .itemTitle.skipped a {
     color: #888888;
+}
+
+.jasmineSuiteView a { 
+    text-decoration: none;
+    color: black;
 }
 
 .itemDetail {
