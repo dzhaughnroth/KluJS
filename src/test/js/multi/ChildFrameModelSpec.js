@@ -28,6 +28,9 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
                                     return mockStatus === "failed" 
                                         || mockStatus === "passed";
                                 }
+                            },
+                            getCounts : function() {
+                                return counts;
                             }
                         },
                         goalFailureCount : function() {

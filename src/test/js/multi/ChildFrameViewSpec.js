@@ -44,7 +44,7 @@ define( [ "multi/ChildFrameView", "notJQuery" ], function( ChildFrameView, $ ) {
             mockVals.status = "failed";
             mockVals.results = { 
                 failedCount : 3,
-                count : 7,
+                totalCount : 7,
                 passedCount : 4
             };
             mockVals.deadCodeResult = { dead: [], undead: [], permitted:[] };

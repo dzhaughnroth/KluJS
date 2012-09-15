@@ -10,6 +10,7 @@ define( [ "../notBackbone", "../notUnderscore", "../notJQuery" ], function( Back
             var self = this;
             $("<div />", {text:"Dead Code"} )
                 .addClass( "deadCodeBanner" )
+                .addClass( "banner" )
                 .appendTo( self.$el );
             $("<div />", {text:"Pending..."} )
                 .addClass( "deadCodeReport" )

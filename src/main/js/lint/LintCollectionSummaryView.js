@@ -58,6 +58,7 @@ define( ["../notBackbone", "../notUnderscore", "../notJQuery", "../widgets/Check
         showGlobalsModel: new Checkbox.Model( {label: "Show some globals" } ),
         initialize : function() {
             _.bindAll(this, 'render' );
+            this.$el.addClass("banner");
             this.model.on('add', this.render);
             this.model.on('change', this.render );
 

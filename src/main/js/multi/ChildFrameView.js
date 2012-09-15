@@ -34,13 +34,13 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
                 text = "...Running...";
             }
             else {
-                var results = model.get("results" );
+               var results = model.get("results");
                 if ( results.failedCount > 0 ) {
-                    text = "Failed " + results.failedCount + " of " + results.count + " specs";
+                    text = "Failed " + results.failedCount + " of " + results.totalCount + " specs";
                     resultCell.addClass( failClass );
                 }
                 else {
-                    text = "Passed all " +results.totalCount + " specs";
+                    text = "Passed all " + results.totalCount + " specs";
                     resultCell.addClass( okClass );
                 }
             }

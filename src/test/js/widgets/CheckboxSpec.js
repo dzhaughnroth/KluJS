@@ -49,5 +49,6 @@ define( [ "widgets/Checkbox" ], function( Checkbox ) {
             checkSame();
             expect( model.get("checked") ).toBe( true );
         } );
+
     } );
 } );

@@ -1,6 +1,20 @@
 /*global define:false, jasmine:false */
 define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceView", "./SpecToText" ], function( $, _, Backbone, StackTraceView, SpecToText ) {
 
+    var allLinks = function( spec ) {
+        var result = [];
+        if ( spec ) {
+            result.unshift( SpecToText.link( spec, spec.description ) );
+            var parent = spec.suite;
+            while( parent ) {
+                result.unshift( SpecToText.link( parent, parent.description  ) );
+                parent = parent.suite;
+            }
+        }
+        return result;
+    };
+
+
     var View = Backbone.View.extend( {
         tagName: "div",
         className : "jasmineFailedSpecView",
@@ -61,10 +75,14 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceVie
             
         },
         setText : function( extra ) {
+            var self = this;
             var spec = this.model.get("spec");
-            this.titleEl.empty()
-                .append( SpecToText.link( spec ) )
-                .append( $("<span />", { text: extra } ) );
+            var links = allLinks( spec );
+            this.titleEl.empty();
+            $.each( links, function( i, item ) {
+                item.appendTo( self.titleEl );
+            } );
+            self.titleEl.append( $("<span />", { text: extra } ) );
         },
         passedUpdate : function() {
             this.$el.addClass( "passed" );

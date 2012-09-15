@@ -52,7 +52,7 @@ define( [ "multi/ChildFrameCollection", "notJQuery", "notUnderscore" ], function
         it( "Let ChildFrameManagerViews update themselves", function() {
             var found = tableView.$el.find( "tbody tr" );
             expect( $(found[0]).children(":nth-child(2)").text() ).toBe( "...Running..." );
-            model.at( 0 ).set( "results", { failedCount: 3, count: 5, passedCount: 2 } );
+            model.at( 0 ).set( "results", { failedCount: 3, totalCount: 5, passedCount: 2 } );
             model.at( 0 ).set( "status", "failed" );
             model.at( 0 ).set( "coverageGoalFailures", 173 );
             expect( model.isDone() ).toBe( false );

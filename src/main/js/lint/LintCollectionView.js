@@ -1,6 +1,5 @@
 /*global define:false, jasmine:false */
 define( ["../notJQuery", "../notBackbone", "../notUnderscore", "./LintView", "./LintCollectionSummaryView", "./GlobalVariableView" ], function( $, Backbone, _, LintView, LintCollectionSummaryView, GlobalVariableView ) {
-
     var LintCollectionView = Backbone.View.extend( {
         tagName:"div",
         className:"lintCollectionView",

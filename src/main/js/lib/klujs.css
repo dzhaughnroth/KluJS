@@ -1,63 +1,92 @@
 /* Correction for update to jasmine 1.2.0*/
 body { 
   background-color: white;
-//  font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
-//  line-height: 14px; 
-  font-size: 14px; 
+//  font-size: 14px; 
   font-family: Monaco, "Lucida Console", monospace; 
   color: #333333; 
 }
 
-/*JSLint */
+
 .hidden {
   display: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Top of page */
+
+.klujsLink {
+    font-size: 2em;
+    margin: 0 1em 0 0;
+}
+
+.suiteLink {
+    font-size: 2em;
+    margin: 0 1em 0 0; 
+}
+
+.nocovLink {
+
+}
+
+/* Styles for sections in the suite and multi view */
+
+.jasmineBlinkyView, .jasmineFailedSpecsRunnerView, .jasmineTreeView,
+.lintGlobalVariableReport, .lintItem,
+.coverageDataView table {
+    margin-left: 1em;
 }
 
 .banner {
     line-height: 28px;
     padding: 0px 9px 0px 9px;
-    margin: 0 0 14px 0;
+    margin: 14px 0 7px 0px;
     color: white;
     background-color: #AAAAAA
 }
 
 .banner.failed {
-    background-color:#B03911;
+    background-color:#BB3311;
 }
 
 .banner.passed {
-    background-color:#5E7D00;
+    background-color:#557700;
+}
+
+.banner.hasSkips.passed {
+    background-color:#DDAA00;
+}
+
+.banner span {
+    margin: 0 1em 0 0;
 }
 
 .itemTitle {
-    padding : 0 0 0 14px;
+    margin-left: 1em;
     color: #AAAAAA;
-    background-color: whitew
+    background-color: white;
 }
 
 .itemTitle.failed, .itemTitle.failed a {
-    color: #B03911;
+    color: #BB4411;
 }
 
 .itemTitle.passed, .itemTitle.passed a {
-    color: #5E7D00;
+    color: #557700;
 }
 
 .itemTitle.running, .itemTitle.running a {
-    color: #1139B0;
+    color: #1144AA;
 }
 
 .itemTitle.skipped, .itemTitle.skipped a {
     color: #888888;
 }
 
-.jasmineSuiteView a { 
-    text-decoration: none;
-    color: black;
-}
-
 .itemDetail {
-    font-size : .9em;
+    font-size : .8em;
     margin-left : 1em;    
 }
 
@@ -66,87 +95,93 @@ body {
     margin-top : 0em;
 }
 
-.lintCollectionView {
-  margin: 14px 0 0 0;
-  color: #303;
-}
 
-.lintCollectionBanner {
-    line-height: 28px;
-    padding: 0px 9px 0px 9px;
-    margin: 0 0 14px 0;
-    color: white;
-}
-
-.lintCollectionBanner .title {
-//  font-size: 1.2em;  
-//  text-decoration: underline;
-}
-
-.lintCollectionBanner.failed {
-    background-color:#B03911
-}
-
-.lintCollectionBanner.passed {
-    background-color:#5E7D00;
-}
-
-.lintCollectionBanner.running {
-    background-color:#333333;
-}
-
-.lintItem {
-    padding : 0 0 0 14px;
-}
-
-.lintItem.failed {
-    color: #B03911;
-}
-
-.lintItem.passed {
-    color: #5E7D00;
-}
-
-.lintItem.running {
-    color: #AAAAAA;
-}
-
-.lintDetail {
+.jasmineSuiteView a { 
     color: black;
-    font-size: .8em;
-    padding: 0 0 0 14;
 }
 
-.coverageDataView {
-    margin: 14px 0 0 0;
+.jasmineSpecView .jasmineSuiteView{
+    margin-left: 1em 0 3em;   
+}
+
+.jasmineSpecView { 
+    color:blue;
+}
+
+.jasmineSpecView.passed { 
+    color:#557700;
+}
+
+.jasmineSpecView.failed { 
+    color:#BB3311;
 }
 
 .coverageDataView table {
     font-size: .9em;
 }
 
-.coverageBanner {
-  padding: 0px 9px 0px 9px;
-  margin: 0 0 14px 0;
-  line-height: 28px;
-//  text-decoration: underline;
-  background-color: #555555;
-  color: white;
+.jasmineBlinkyViewList { 
+    display:inline;
 }
 
-#HTMLReporter.minimized .banner {
-    display: none;
-}
-#HTMLReporter.minimized .symbolSummary {
-    display: none;
-}
-#HTMLReporter.minimized .results {
-    display: none;
+.jasmineBlinkyViewName {
+    display:inline;
+    margin-left: 1em;
 }
 
-#HTMLReporter.minimized .resultsMenu {
-    display: none;
+.specBlinker {
+    color:blue;    
 }
+
+.specBlinker:hover {
+    background-color : #AAAAAA;
+}
+
+.specBlinker.passed {
+    color:#5577D00;
+}
+
+.specBlinker.failed {
+    color:#BB3311;
+}
+
+.jasmineFailedSpecView a {
+    color: black;
+}
+
+.specViewTitle {
+    color:#BB3311;
+}
+
+.klujsTraceLine {
+    color:#AAAAAA;
+}
+
+div.coverageGoalFailed {
+    background-color:#BB3311;
+}
+
+div.allCoverageGoalsPassed {
+    background-color: #557700;
+}
+
+.dead {
+    color:#BB3311;
+}
+
+.undead {
+    color:#333333;
+}
+
+.permitted {
+    color:#557700;
+}
+
+.coverageGoalFailed {
+    background-color:#FFDDDD;
+}
+
+/* Below, stuff for the multisuite page */
 
 .childIFrameContainer {
     position:absolute;
@@ -185,140 +220,10 @@ body {
     color:white;
 }
 
-.coverageGoalFailed {
-    background-color:#FFDCDA;
-}
-
 .failedCell {
-    background-color:#FFDCDA;
+    background-color:#FFDDDD;
 }
 
 .passedCell {
-    background-color:#DCFFDA;
-}
-
-div.coverageGoalFailed {
-    background-color:#B03911;
-}
-
-div.allCoverageGoalsPassed {
-    background-color: #5E7D00;
-}
-
-.deadCodeBanner {
-  padding: 0px 9px 0px 9px;
-  margin: 0 0 14px 0;
-  line-height: 28px;
-//  text-decoration: underline;
-  background-color: #555555;
-  color: white;
-}
-
-.deadCodeBanner.failed {
-    background-color:#B03911;
-}
-
-.deadCodeBanner.passed {
-    background-color:#5E7D00;
-}
-
-li.dead {
-    color:#B03911;
-}
-
-li.undead {
-    color:#333333;
-}
-
-li.permitted {
-    color:#5E7D00;
-}
-
-a.klujsLink {
-    font-size : 2em;
-    margin: 0 1em 0 0;
-}
-
-a.suiteLink {
-    font-size : 2em;
-    margin: 0 1em 0 0; 
-}
-
-a.nocovLink {
-
-}
-
-.jasmineSpecView {
-    margin: 0 1em 0 1em;   
-}
-
-.jasmineSpecView { 
-    color:blue;
-}
-
-.jasmineSpecView.passed { 
-    color:#5E7D00;
-}
-
-.jasmineSpecView.failed { 
-    color:#B03911;
-}
-
-.jasmineSuiteView {
-    margin: 0 1em 0 1em;
-}
-
-
-//div.jasmineBlinkyView {
-//    display:block;
-//    height : 1px;
-//}
-
-.jasmineBlinkyViewList { 
-    display:inline;
-}
-.jasmineBlinkyViewName {
-    display:inline;
-    margin-left : 1em;
-}
-
-.jasmineBlinkyView { 
-    margin-left : 1em;
-//    float:none;
-}
-
-.specBlinker {
-    color:blue;    
-}
-
-.specBlinker:hover {
-    background-color : #AAAAAA;//gray;
-}
-
-.specBlinker.passed {
-    color:#5E7D00;
-}
-
-.specBlinker.failed {
-    color:#B03911;
-}
-
-//.jasmineBannerView > span {
-//    margin-left : 1em;
-//}
-
-//.jasmineFailedSpecView {
-//    margin-left: 1em;
-//}
-
-.detailItem {
-    margin-left: 1em;
-}
-
-.specViewTitle {
-    color:#B03911;
-}
-
-.klujsTraceLine {
-    color:#AAAAAA;
+    background-color:#DDFFDD;
 }

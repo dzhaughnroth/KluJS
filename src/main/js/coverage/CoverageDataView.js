@@ -64,12 +64,13 @@ define( [ "../goals/CoverageGoalInterpreter", "../notBackbone", "../notUnderscor
             this.$el.empty();
             var banner = $( "<div />" )
                     .addClass( "coverageBanner" )
+                    .addClass( "banner" )
                     .appendTo( this.$el );
             $("<span />", { text: this.options.label } )
                 .addClass( "coverageTitle" )
                 .appendTo( banner );
-            $("<button />", {text:"node-coverage", disabled:true} )
-                .appendTo( banner );
+//            $("<button />", {text:"node-coverage", disabled:true} )
+//                .appendTo( banner );
             if( this.model.get("noData") ) {
                 this.$el.append( $( "<div />", { text: "No coverage data" } )
                                  .addClass( "coverageStatusMessage" )  );

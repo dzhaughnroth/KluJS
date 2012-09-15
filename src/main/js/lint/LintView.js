@@ -46,6 +46,7 @@ define( ["../notBackbone", "../notUnderscore", "../notJQuery", "../lib/text!./li
         template: _.template( lintTemplate),
         initialize : function() {
             _.bindAll(this, 'render', 'adjustClass');
+            this.$el.addClass( "itemTitle" );
             this.model.on('change', this.render);
         },
         events: {
