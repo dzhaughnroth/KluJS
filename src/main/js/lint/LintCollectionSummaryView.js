@@ -46,7 +46,7 @@ define( ["../notBackbone", "../notUnderscore", "../notJQuery", "../widgets/Check
     var TemplateText = "<span class='title'>JSLint:</span> <%= issueCount %> issue(s) in "
             + "<%= failed %> files out of <%= length %>. "
             + "<% if ( typeof( found ) !== 'undefined' ) { %>"
-            + "<span title='<%= filterTooltip %>'>(<%= found.filtered.length %> filtered) </span>"
+            + "<span title='<%= filterTooltip %>'>(<%= found.filtered.length %> filtered)</span>"
             + "<% }; %>";
 
     var View = Backbone.View.extend( {

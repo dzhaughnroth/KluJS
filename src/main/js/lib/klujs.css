@@ -1,7 +1,7 @@
 /* Correction for update to jasmine 1.2.0*/
 body { 
   background-color: white;
-//  font-size: 14px; 
+  font-size: 95%;
   font-family: Monaco, "Lucida Console", monospace; 
   color: #333333; 
 }
@@ -59,8 +59,12 @@ a {
     background-color:#DDAA00;
 }
 
-.banner span {
-    margin: 0 1em 0 0;
+//.banner input {
+//    margin-left: 1em;
+//}
+
+.banner > span {
+    margin-right: 1em;
 }
 
 .itemTitle {
