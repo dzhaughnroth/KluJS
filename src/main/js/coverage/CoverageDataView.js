@@ -4,7 +4,7 @@ define( [ "../goals/CoverageGoalInterpreter", "../notBackbone", "../notUnderscor
         // Hack to enable passing of rich data to datatable plugin
         // Issue is fnRender overwrites values sent to fnCellCreate,
         // and fnCellCreate only gets row values, not data values.
-        // see buildData below for why it is 8 and not something else.
+        // see buildTableData below for why it is 8 and not something else.
         return row[8]; 
     };
 

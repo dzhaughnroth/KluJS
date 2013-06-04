@@ -1,3 +1,5 @@
+BUG : dead code needs to check for new files; doesn't seem to.
+
 LATER: 
 
 Manage jslint better so no possible global vraiable name

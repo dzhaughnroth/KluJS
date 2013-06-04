@@ -4,7 +4,7 @@
     var config = klujs;
 
     var setIfBlank = function( obj, name, value ) {
-        if ( typeof( obj[name] ) === "undefined" ) {
+        if ( typeof( obj[name] ) === "undefined" ) {            
             obj[name] = value;
         }
         return obj;
@@ -25,7 +25,6 @@
     config.mainPath = config.main;
     setIfBlank( config, "test", config.src + "/test/js" );
 
-    
     setIfBlank( config, "require", {} );
     setIfBlank( config, "requireHome", config.mainPath );
     setIfBlank( config, "libDirs", 
