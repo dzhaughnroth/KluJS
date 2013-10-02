@@ -1,5 +1,5 @@
 /*global define:false, window:false */
-define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/CoverageDataView", "../deadcode/DeadCodeView", "../notBackbone", "../notJQuery", "../notUnderscore", "require" ], function( ChildFrameCollection, LintCollectionView, CoverageDataView, DeadCodeView, Backbone, $, _, req ) {
+define( [ "./FailureDetailsView", "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/CoverageDataView", "../deadcode/DeadCodeView", "../notBackbone", "../notJQuery", "../notUnderscore", "require" ], function( FailureDetailsView, ChildFrameCollection, LintCollectionView, CoverageDataView, DeadCodeView, Backbone, $, _, req ) {
 
     var linkToCss = function( name ) {
         return $("<link />")
@@ -34,6 +34,7 @@ define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/C
                     model:model.coverageDataModel,
                     disableGoals:true
                 } ).render();
+		var failureDetailsView = new FailureDetailsView( { model : model.childFrames } ).render();
                 var titleDiv = $("<div />" )
                         .append( $( "<a />", { text:"KluJS: All Suites",
                                                title: "Run all suites",
@@ -47,8 +48,11 @@ define( [ "./ChildFrameCollection", "../lint/LintCollectionView", "../coverage/C
                 this.bodyElement.append( view.$el );
                 this.bodyElement.append( lintView.$el );
                 this.bodyElement.append( deadCodeView.$el );
+
                 this.bodyElement.append( coverageView.$el );
                 this.bodyElement.append( $("<div />", {text:"Started at " + new Date() }));
+                this.bodyElement.append( failureDetailsView.$el );
+
                 this.renderedOnce = true;
             }
             return this;

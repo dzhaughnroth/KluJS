@@ -41,7 +41,7 @@ var results = function( ) {
             issues:klujsPage.lintModel.issueCount(),
             failed:klujsPage.lintModel.failed()
         };
-
+	result.failedSpecDetails = klujsPage.childFrames.getFailedSpecDetails()
         return result;
     } );
     return jsResult;
@@ -69,7 +69,8 @@ var summary = function(res) {
             if ( suite.deadCodeFailures > 0 ) {
                 summary.deadCodeFailed.push( i );
             }
-        }       
+
+        }
     }
     summary.allTestsPassed = summary.suitesFailed.length === 0;
     summary.allCoverageOk = summary.suiteCoverageFailed.length === 0;

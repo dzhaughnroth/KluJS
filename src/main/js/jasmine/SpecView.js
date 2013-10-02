@@ -35,12 +35,8 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SpecToText"],
                 this.$el.addClass( "failed" );
                 this.$el.removeClass( "passed" );
                 this.$el.removeClass( "hidden" );
-                var s = this.model.get("spec");
-                var r = s.results();
-                var failures = _.filter( r.getItems(), 
-                                         function(item) { return !item.passed(); } 
-                                       );
-                var text = failures.length + "/" + r.getItems().length + " failed";          
+                var r = this.model.getResults();
+                var text = r.failedCount + "/" + r.details.length + " failed";          
                 this.setText( text );
             },
             runningUpdate : function() {

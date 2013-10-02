@@ -34,7 +34,25 @@ define( ["./ChildFrameModel", "./ChildFrameView", "../notBackbone", "../notJQuer
                 };
             } );
             return result;
-        }
+        },
+	getSpecDetails : function() {
+            var result = {};
+            this.forEach( function( childFrame ) {
+		result[childFrame.get("suite")] = childFrame.getSpecDetails();
+	    } );
+	    return result;
+	},
+	getFailedSpecDetails : function() {
+	    var result = {};
+	    this.forEach( function( childFrame ) {
+		var failures = {};
+		_.each( childFrame.getFailedSpecDetails(), function( specDetail, id ) {
+		    failures[id] = specDetail;
+		} );
+		result[ childFrame.get("suite") ] = failures;
+	    } );
+	    return result;
+	}
     } );
 
     var TableView = Backbone.View.extend( {

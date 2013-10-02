@@ -42,20 +42,19 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceVie
         detailList : function( results ) {
             var self = this;
             var list = $("<div />").addClass("specDetailList");
-            $.each( results.getItems(), function( i, item ) {
+            $.each( results.details, function( i, item ) {
                 var li = $("<div />", { } )
                         .addClass( "detailItem" )
                         .appendTo( list );
-                li.addClass( item.passed() ? "passed" : "failed" );
-                var span = $("<span />", { text: (i+1) + ": " + item.toString() } )
+                li.addClass( item.passed ? "passed" : "failed" );
+                var span = $("<span />", { text: (i+1) + ": " + item.text } )
                         .addClass( "detailHeadline" )                    
-                        .appendTo( li );
-                
-                if ( item.passed() && ! self._showPassed ) {
+                        .appendTo( li );              
+                if ( item.passed && ! self._showPassed ) {
                     li.addClass( "hidden" );
                 }
-                if ( item.trace ) {
-                    var traceView = new StackTraceView( { model: item.trace.stack } );
+                if ( item.stackTrace ) {
+                    var traceView = new StackTraceView( { model: item.stackTrace } );
                     li.append( traceView.render().$el );
                     span.click( function() { traceView.toggleShowFullTrace(); } );
                 }
@@ -88,7 +87,7 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceVie
             this.$el.addClass( "passed" );
             this.$el.removeClass( "failed" );
             this.setText(": passed" );          
-            var results = this.model.get("spec").results();
+            var results = this.model.getResults();
             this.detailEl.empty();
             this.detailEl.append( this.detailList( results ) );
         },        
@@ -97,16 +96,13 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./StackTraceVie
             this.$el.removeClass( "passed" );
             this.$el.removeClass( "hidden" );
             this.detailEl.removeClass( "hidden" );
-            var s = this.model.get("spec");
-            var r = s.results();
-            var failures = _.filter( r.getItems(), 
-                                     function(item) { return !item.passed(); } 
-                                   );
+            var results = this.model.getResults();
+//            var failures = _.filter( results, 
+//                                     function(item) { return ! item.passed; } 
+//                                   );
             var text = ": " //this.model.fullDescription() + ": " 
-                    + failures.length + "/" + r.getItems().length + " failed";    
+                    + results.failedCount + "/" + results.details.length + " failed";    
             this.setText( text );
-//            this.titleEl.text( text );
-            var results = this.model.get("spec").results();
             this.detailEl.empty();
             this.detailEl.append( this.detailList( results ) );
         },

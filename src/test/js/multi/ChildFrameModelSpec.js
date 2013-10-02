@@ -12,6 +12,7 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
         };
         var mockValues = [];
         var mockDead = [];
+
         var mockTopic = function() {
             topic.plainFrame = {
                 contentWindow : {
@@ -31,7 +32,10 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
                             },
                             getCounts : function() {
                                 return counts;
-                            }
+                            },
+			    getSpecDetails : function() {
+				return { Goozle : "GoozleGoo" };
+			    }
                         },
                         goalFailureCount : function() {
                             return 171;
@@ -75,7 +79,6 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
             topic.check();
             expect( topic.get("status" ) ).toBe( "running" );
         } );
-        
         it( "Should be able to report pass/fail counts after checking", function() {
             mockTopic();
             mockStatus = "failed";
@@ -104,8 +107,9 @@ define( [ "multi/ChildFrameModel" ], function( ChildFrameModel ) {
             expect( topic.get("status") ).toBe( "error" );
             expect( topic.get("error") ).toBe( theError );
         } );
-
-
+	it( "Provides details details", function() {
+	    expect( topic.getSpecDetails() ).toEqual( { Goozle : "GoozleGoo" } );
+	});
     } );
 
 

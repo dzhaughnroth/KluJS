@@ -56,6 +56,7 @@ define( [ "jasmine/FailedSpecView", "jasmine/SpecModel", "./MockJasmine.js", "no
             expect( view.detailEl.find( ".detailItem.hidden" ).length ).toBe( 8 );
         } );
         it( "Wires a click event", function() {
+            expect( view.detailEl.find( ".klujsTraceLine" ).length ).toBe( 5 );
             expect( view.detailEl.find( ".klujsTraceLine.hidden" ).length ).toBe( 5 );
             view.$el.find( ".detailHeadline" ).click();
             expect( view.detailEl.find( ".klujsTraceLine.hidden" ).length ).toBe( 0 );

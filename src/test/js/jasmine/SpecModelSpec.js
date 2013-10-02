@@ -9,21 +9,41 @@ define( [ "jasmine/SpecModel", "./MockJasmine.js" ], function( SpecModel, MockJa
         var status = function() { return model.get("status"); };
         it( "Computes status", function() {
             expect( status() ).toBe( "new" );
+	    expect( model.getResults() ).toBeUndefined(); 
             model.set("spec", mockSpec );
             expect( status() ).toBe( "running" );
 
             model.set("done", true );
             expect( status() ).toBe( "error" );
 
-            mockSpec.mockResults = mockJasmine.makeMockResults( 5, 2 );
+	    mockSpec.mockResults = mockJasmine.makeMockResults( 3,2 );
             model.set("done", false );
             model.set("done", true );
             expect( status() ).toBe( "failed" );
-
+	    var modelResults = model.getResults().details;
+	    expect( modelResults.length ).toBe( 3 );
+	    expect( modelResults[0] ).toEqual( { 
+		index : 1, 
+		text : "Fail message 0",
+		passed : false
+	    } );
+	    expect( modelResults[1] ).toEqual( {
+		index : 2, 
+		passed : false,
+		stackTrace : "Foo\nBar:85:86\n/KluJS/Stuff:10:23\nBaz:9:28",
+		text : "Fail message 1"
+	    } );
+	    expect( modelResults[2] ).toEqual( { 
+		index : 3, 
+		text : "Passed.",
+		passed : true
+	    } );
+	    
             mockSpec.mockResults = mockJasmine.makeMockResults( 5, 0 );
             model.set("done", false );
             model.set("done", true );
             expect( status() ).toBe( "passed" );
+	    expect( model.getResults().details.length ).toBe( 5 );
 
             mockSpec.mockResults.skipped = true;
             model.set("done", false );

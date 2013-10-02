@@ -25,6 +25,13 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SuiteModel"],
         };
     };
 
+    var noFilter = function() { 
+	return true; 
+    };
+    var failedFilter = function(specResult) { 
+	return specResult.failedCount > 0;
+    };
+
     var Model;
     Model = Backbone.Model.extend( {
         // runner
@@ -64,14 +71,30 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SuiteModel"],
             this.set("status", "running");
             return result;
         },
+	getSpecDetails : function( optionalFilter ) {
+	    var filter = optionalFilter || noFilter;
+	    var result = {};
+	    _.each( this.specMap, function( specModel, id ) {
+		var results = specModel.getResults();
+		if ( filter( results ) ) {
+		    result[id] = results;
+		    result[id].title = specModel.fullDescription();
+		}
+	    } );
+	    return result;
+	},
+	getFailedSpecDetails : function() {
+	    return this.getSpecDetails( failedFilter );
+	},
         getCounts : function() {
             var result;
             if ( this.get("done") ) {
                 result = { failedCount: 0, passedCount: 0, totalCount:0, skippedCount:0 };
                 $.each( this.specMap, function(id, specModel) {
                     ++result.totalCount;
-                    var spec = specModel.get("spec");
-                    var results = spec.results();
+//                   var spec = specModel.get("spec");
+//                   var results = spec.results();
+		    var results = specModel.getResults();
                     if ( results.skipped ) {
                         ++result.skippedCount;
                     }
@@ -80,7 +103,7 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone", "./SuiteModel"],
                     }
                     else {
                         ++result.failedCount;
-                    }                   
+                    }
                 } );
             }
             return result;

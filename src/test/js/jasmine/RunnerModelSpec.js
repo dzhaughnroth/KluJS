@@ -27,35 +27,60 @@ define( [ "jasmine/RunnerModel", "notUnderscore", "./MockJasmine.js", "notJQuery
             expect( _.keys( model.suiteMap ) ).toEqual( ['4', '5'] );
             expect( _.keys( model.specMap ) ).toEqual( ['1', '2', '3'] );
             expect( model.specMap[aSpec.id].get("spec") ).toBe( aSpec );
+		
         } );
-        it( "Has reporter that links jasmine execution to models", function() {               
-            mockJasmine.applyMockResults( mockRunner, 0, 1 );
-            var aSpecModel = model.specMap[ aSpec.id ];
-            expect( aSpecModel.get("done") ).toBeFalsy();
-//            aSpec.mockResults = mockJasmine.makeMockResults( 5, 1 );
-            model.jasmineReporter.reportSpecResults( aSpec );
-            expect( aSpecModel.get("done") ).toBe( true );
-            expect( aSpecModel.get("spec").results().failedCount ).toBe( 1 );
+        it( "Follows jasmine execution via Reporter API", function() {
+	    mockJasmine.applyMockResults( mockRunner, 0, 1 );
+	    var aSpecModel = model.specMap[ aSpec.id ];
+	    expect( aSpecModel.get("done") ).toBeFalsy();
+	    model.jasmineReporter.reportSpecResults( aSpec );
+	    expect( aSpecModel.get("done") ).toBe( true );
+	    expect( aSpecModel.get("spec").results().failedCount ).toBe( 1 );
+	    expect( aSpecModel.getResults().failedCount ).toBe( 1 );
+	    
+	    var mockSuiteModel = model.suiteMap[ mockSuite.id ];
+	    expect( mockSuiteModel.get("done") ).toBeFalsy();
+	    model.jasmineReporter.reportSuiteResults( mockSuite );
+	    expect( mockSuiteModel.get( "done" )).toBe( true );
+	    
+	    expect( model.get("done")).toBeFalsy();
+	    
+	    _.each( model.specMap, function( specModel, id ) {
+		specModel.set( "done", true );
+	    } );
+	    
+	    model.jasmineReporter.reportRunnerResults( mockRunner );
+	    expect( model.get("done")).toBe( true );
+	    
+	    expect( model.get("status") ).toBe( "failed" );
 
-            var mockSuiteModel = model.suiteMap[ mockSuite.id ];
-            expect( mockSuiteModel.get("done") ).toBeFalsy();
-            model.jasmineReporter.reportSuiteResults( mockSuite );
-            expect( mockSuiteModel.get( "done" )).toBe( true );
-            
-            expect( model.get("done")).toBeFalsy();
-//            mockRunner.mockResults = mockJasmine.makeMockResults( 10, 2 );
-            model.jasmineReporter.reportRunnerResults( mockRunner );
-            expect( model.get("done")).toBe( true );
-            expect( model.get("status") ).toBe( "failed" );            
+	    var specDetails = model.getSpecDetails();
+	    expect( specDetails[1].title ).toBe( "spec1" );
+	    expect( specDetails[1].details[0].text ).toBe( "Fail message 0" );
+	    expect( specDetails[2].details[0].text ).toBe( "Passed." );
+	    console.log( [ "Spec details", model.getSpecDetails() ] );
 
-            mockJasmine.applyMockResults( mockRunner, 0, 0 );
+	    var failDetails = model.getFailedSpecDetails();
+	    console.log( [ "Fail details", model.getFailedSpecDetails() ] );
+	    expect( failDetails[1]).toEqual( specDetails[1] );
+	    expect( failDetails[2] ).toBeUndefined();
+	    mockJasmine.applyMockResults( mockRunner, 0, 0 );	    
+	    _.each( model.specMap, function( specModel, id ) {
+		specModel.set( "done", false );
+		specModel.set( "done", true );
+	    } );
+
             model.set("done", false);
             model.set("done", true);
             expect( model.get("status") ).toBe( "passed" );            
 
-
-
             model.jasmineReporter.log( "foo" );
         } );
+	it( "Provides details of spec results when done", function() {
+	    var specDetails = model.getSpecDetails();
+	    expect( specDetails[2].details[0].text ).toBe( "Passed." );
+
+
+	} );
      } );
 } );

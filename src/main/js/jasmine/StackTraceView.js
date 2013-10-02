@@ -29,15 +29,15 @@ define( [ "../notJQuery", "../notUnderscore", "../notBackbone"], function( $, _,
                 $.each( lines, function( i, line ) {
                     if ( i > 0 ) {
                         var li = $("<li />", { text:line } ).appendTo( ul );
-                        if ( klujsRegex.test( line ) ){
+                        if ( klujsRegex.test( line ) ) {
                             li.addClass( "klujsTraceLine" );
                             if ( ! self._showFull ) {
                                 li.addClass("hidden");
                             }
                         }
                     }
-                } );                
-            }            
+                } );
+            }
             return this;
         }
 

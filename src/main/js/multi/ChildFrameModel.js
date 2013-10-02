@@ -30,15 +30,36 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
                 self.set( "loaded", true );
             };
         },
-        check : function() {
+	getSpecDetails : function( ) {
+	    var assembly = this.assemblyOk();
+	    if( assembly ) {
+		return assembly.runnerModel.getSpecDetails();
+	    }
+	    return null;
+	},
+	getFailedSpecDetails : function( ) {
+	    var assembly = this.assemblyOk();
+	    if( assembly ) {
+		return assembly.runnerModel.getFailedSpecDetails();
+	    }
+	    return null;
+	},
+	assemblyOk : function() {
             var cWin = this.plainFrame.contentWindow;
             if ( cWin && cWin.klujsAssembly ) {
-                if ( cWin.klujsAssembly.error ) {
+		return cWin.klujsAssembly;
+	    }
+	    return null;
+	},
+        check : function() {
+            var assembly = this.assemblyOk();
+            if ( assembly ) {
+                if ( assembly.error ) {
                     this.set( "status", ERROR );
-                    this.set( "error", cWin.klujsAssembly.error );
+                    this.set( "error", assembly.error );
                 }
-                else if ( cWin.klujsAssembly.runnerModel.get("done") ) {
-                    var jasRunner = cWin.klujsAssembly.runnerModel;//.get( "runner" );
+                else if ( assembly.runnerModel.get("done") ) {
+                    var jasRunner = assembly.runnerModel;//.get( "runner" );
                     var result = jasRunner.getCounts();//results();
                     this.set("results", result );
                     if ( result.failedCount > 0 ) {
@@ -47,9 +68,9 @@ define( ["../notBackbone", "../notJQuery", "../notUnderscore"], function(Backbon
                     else {
                         this.set( "status", PASSED);
                     }
-                    var goalFailures = cWin.klujsAssembly.goalFailureCount();
+                    var goalFailures = assembly.goalFailureCount();
                     this.set( "coverageGoalFailures", goalFailures );
-                    var deadCodeResult = cWin.klujsAssembly.deadCode.get("deadCode");
+                    var deadCodeResult = assembly.deadCode.get("deadCode");
                     this.set( "deadCodeResult", deadCodeResult );
                 }
                 else {
