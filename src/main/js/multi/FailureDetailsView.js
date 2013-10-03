@@ -12,7 +12,7 @@ define( [ "../notBackbone", "../notJQuery", "../notUnderscore"], function( Backb
             var model = this.model;
 	    if ( model.isDone() ) {
 		this.$el.empty();
-		this.$el.append( "Failure DetailS!" );
+		this.$el.append( "Failure Details:" );
 		this.$el.append( $("<pre />", { text : JSON.stringify( this.model.getFailedSpecDetails(), 0, 2 ) } ) );
 	    }
 	    else {
